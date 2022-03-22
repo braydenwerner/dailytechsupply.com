@@ -11,7 +11,14 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <div>Sup</div>
+        <iframe
+          style={{ width: '120px', height: '240px' }}
+          marginWidth={0}
+          marginHeight={0}
+          scrolling="no"
+          frameBorder="0"
+          src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=dailytechsupp-20&language=en_US&marketplace=amazon&region=US&placement=B08SPXYND4&asins=B08SPXYND4&linkId=595f5046c54556d12989850b7c42fa62&show_border=true&link_opens_in_new_window=true"
+        ></iframe>
       </main>
     </div>
   )

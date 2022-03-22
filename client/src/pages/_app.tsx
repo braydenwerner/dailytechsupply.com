@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Wern Template</title>
+        <title>DailyTechSupply</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
