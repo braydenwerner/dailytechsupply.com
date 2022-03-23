@@ -1,7 +1,7 @@
 import { Resolver, Query } from 'type-graphql'
 // import { Query, Resolver, ObjectType, Field, Ctx } from 'type-graphql'
 
-import { UserAccount } from '../Entities'
+import { User } from '../Entities'
 // import { MyContext } from 'src/types'
 // import { FieldError } from './FieldError'
 
@@ -19,7 +19,7 @@ import { UserAccount } from '../Entities'
 
 @Resolver()
 export class UserResolver {
-  @Query(() => UserAccount, { nullable: true }) getUser() {
+  @Query(() => User, { nullable: true }) getUser() {
     return null
   }
 }

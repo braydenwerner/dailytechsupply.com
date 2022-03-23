@@ -10,7 +10,7 @@ import {
 
 @ObjectType()
 @Entity()
-export class UserAccount extends BaseEntity {
+export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number
@@ -21,11 +21,11 @@ export class UserAccount extends BaseEntity {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  firstName: string
+  first_name: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  lastName: string
+  last_name: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -37,13 +37,13 @@ export class UserAccount extends BaseEntity {
 
   @Field(() => String, { nullable: true })
   @CreateDateColumn()
-  lastLoggedIn: Date
+  last_logged_in: Date
 
   @Field(() => String)
   @CreateDateColumn()
-  createdAt: Date
+  created_at: Date
 
   @Field(() => String)
   @UpdateDateColumn()
-  updatedAt: Date
+  updated_at: Date
 }
