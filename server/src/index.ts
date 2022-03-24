@@ -8,7 +8,7 @@ import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import { createConnection } from 'typeorm'
 
-import { User } from './Entities'
+import { User, Item, Printer3d } from './Entities'
 import { UserResolver } from './Resolvers'
 
 const main = async () => {
@@ -17,7 +17,7 @@ const main = async () => {
     url: process.env.DATABASE_URL,
     logging: true,
     synchronize: true,
-    entities: [User],
+    entities: [User, Item, Printer3d],
     migrations: [path.join(__dirname, './migrations/*')],
     ssl: {
       rejectUnauthorized: false,

@@ -10,7 +10,7 @@ import {
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Item extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number
