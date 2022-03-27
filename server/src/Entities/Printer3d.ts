@@ -1,5 +1,13 @@
 import { Field, Float, ObjectType } from 'type-graphql'
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  UpdateDateColumn,
+} from 'typeorm'
 
 import { Item } from './index'
 
@@ -54,4 +62,12 @@ export class Printer3d extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   compatible_material: string
+
+  @Field(() => String)
+  @CreateDateColumn()
+  created_at: Date
+
+  @Field(() => String)
+  @UpdateDateColumn()
+  updated_at: Date
 }

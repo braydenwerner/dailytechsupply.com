@@ -1,12 +1,5 @@
 import { Field, Float, ObjectType } from 'type-graphql'
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @ObjectType()
 @Entity()
@@ -50,12 +43,4 @@ export class Item extends BaseEntity {
   @Field({ defaultValue: false })
   @Column({ default: false })
   is_affiliate: boolean
-
-  @Field(() => String)
-  @CreateDateColumn()
-  created_at: Date
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updated_at: Date
 }
