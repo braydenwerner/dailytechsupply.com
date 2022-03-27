@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, Float, ObjectType } from 'type-graphql'
 import {
   BaseEntity,
   Column,
@@ -19,16 +19,16 @@ export class Item extends BaseEntity {
   @Column()
   title: string
 
-  @Field({ nullable: true })
+  @Field()
   @Column({ nullable: true })
   description: string
 
-  @Field()
-  @Column()
+  @Field(() => Float)
+  @Column({ type: 'float' })
   price: number
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field(() => Float)
+  @Column({ nullable: true, type: 'float' })
   rating: number
 
   @Field({ nullable: true })
@@ -41,15 +41,15 @@ export class Item extends BaseEntity {
 
   @Field()
   @Column()
-  URL: string
+  url: string
 
   @Field()
   @Column()
-  image_URL: string
+  image_url: string
 
   @Field({ defaultValue: false })
   @Column({ default: false })
-  isAffiliate: boolean
+  is_affiliate: boolean
 
   @Field(() => String)
   @CreateDateColumn()

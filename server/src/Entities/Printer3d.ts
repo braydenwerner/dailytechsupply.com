@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, Float, ObjectType } from 'type-graphql'
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 
 import { Item } from './index'
@@ -11,27 +11,47 @@ export class Printer3d extends BaseEntity {
   @JoinColumn({ name: 'id' })
   item_id!: Item
 
-  @Field()
-  @Column()
+  @Field(() => Float, { nullable: true })
+  @Column({ nullable: true, type: 'float' })
   x_axis: number
 
-  @Field()
-  @Column()
+  @Field(() => Float, { nullable: true })
+  @Column({ nullable: true, type: 'float' })
   y_axis: number
 
-  @Field()
-  @Column()
+  @Field(() => Float, { nullable: true })
+  @Column({ nullable: true, type: 'float' })
   z_axis: number
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   auto_leveling: boolean
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   resume_printing: boolean
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   removeable_build_surface: boolean
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  material: string
+
+  @Field(() => Float)
+  @Column({ nullable: true, type: 'float' })
+  weight: number
+
+  @Field(() => Float)
+  @Column({ nullable: true, type: 'float' })
+  voltage: number
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  wattage: number
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  compatible_material: string
 }
