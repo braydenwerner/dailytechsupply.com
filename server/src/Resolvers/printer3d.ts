@@ -30,4 +30,16 @@ export class Printer3dResolver {
 
     return data
   }
+
+  @Query(() => [Printer3d], { nullable: true })
+  async getAll3dPrinters() {
+    const data = await Printer3d.find({
+      order: {
+        created_at: 'DESC',
+      },
+      relations: ['item_id'],
+    })
+
+    return data
+  }
 }

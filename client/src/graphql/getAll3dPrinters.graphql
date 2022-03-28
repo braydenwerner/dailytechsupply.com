@@ -1,0 +1,28 @@
+query getAll3dPrinters {
+  getAll3dPrinters {
+    item_id {
+      title
+      description
+      price
+      rating
+      manufacturer
+      sold_by
+      url
+      image_url
+      is_affiliate
+    }
+    x_axis
+    y_axis
+    z_axis
+    auto_leveling
+    resume_printing
+    removeable_build_surface
+    material
+    weight
+    voltage
+    wattage
+    compatible_material
+    created_at
+    updated_at
+  }
+}
