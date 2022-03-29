@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   OneToOne,
   UpdateDateColumn,
@@ -18,6 +19,11 @@ export class Printer3d extends BaseEntity {
   @OneToOne(() => Item, (item) => item.id, { primary: true })
   @JoinColumn({ name: 'id' })
   item_id!: Item
+
+  @Field()
+  @Column()
+  @Generated('uuid')
+  uuid: string
 
   @Field(() => Float, { nullable: true })
   @Column({ nullable: true, type: 'float' })
