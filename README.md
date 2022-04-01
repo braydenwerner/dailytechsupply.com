@@ -7,10 +7,12 @@ TODO
 do pagination
 will have to pass filters into the getItems query
 sample input:
+
 {
-	maxPrice: 50,
-	pageSize: 25,
-	page: 2,
+...,
+maxPrice: 50,
+pageSize: 25,
+page: 2,
 }
 
 when doing sliders/fast input searches on the frontend, do a throttle to only search and update page once slider/other input is done moving
