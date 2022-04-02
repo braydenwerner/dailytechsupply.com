@@ -3,6 +3,18 @@ import { Field, InputType } from 'type-graphql'
 @InputType()
 export class GetPrinter3dInput {
   @Field({ nullable: true })
+  minPrice: number
+
+  @Field({ nullable: true })
+  maxPrice: number
+
+  @Field({ nullable: true })
+  minRating: number
+
+  @Field({ nullable: true })
+  manufacturer: string
+
+  @Field({ nullable: true })
   minX: number
 
   @Field({ nullable: true })
