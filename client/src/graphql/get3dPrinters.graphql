@@ -1,5 +1,5 @@
-query getAll3dPrinters {
-  getAll3dPrinters {
+query get3dPrinters($data: GetPrinter3dInput!) {
+  get3dPrinters(data: $data) {
     item_id {
       title
       description
@@ -11,6 +11,7 @@ query getAll3dPrinters {
       image_url
       is_affiliate
     }
+    uuid
     x_axis
     y_axis
     z_axis

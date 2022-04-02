@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "start": "next start",
+    "dev": "next dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gen": "graphql-codegen --config codegen.yml"
