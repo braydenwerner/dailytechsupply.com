@@ -2,7 +2,7 @@ import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
 
-import { client } from '../util/createApolloClient'
+import { client } from '../utils/createApolloClient'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

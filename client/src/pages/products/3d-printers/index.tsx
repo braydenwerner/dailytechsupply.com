@@ -1,8 +1,10 @@
 import { NextPage } from 'next'
 import { gql } from '@apollo/client'
-import { client } from '../../../util/createApolloClient'
+import { client } from '../../../utils/createApolloClient'
 import { GetPrinter3dInput } from '../../../generated/graphql'
 import { useRouter } from 'next/router'
+import { printer3dProperties } from '../../../constants/constants'
+import { validateQueryParams } from '../../../utils/utils'
 interface Printer3dPageProps {
   printers?: GetPrinter3dInput[]
 }
@@ -24,14 +26,10 @@ const Printer3dPage: NextPage<Printer3dPageProps> = (printers) => {
 //  Data is not changing very much, will be best to use getStaticProps with a revalidation
 //  However, we can't use getStaticProps because we need to have access to query string in URL to filter data
 Printer3dPage.getInitialProps = async (context) => {
-  console.log(context)
-  //  can't use graphql code gen hooks outside of component
+  //  generate query param object
   let res = await client.query({
     variables: {
-      data: {
-        pageSize: 2,
-        pageNumber: 1,
-      },
+      data: validateQueryParams(context.query, printer3dProperties),
     },
     query: gql`
       query get3dPrinters($data: GetPrinter3dInput!) {
@@ -66,11 +64,7 @@ Printer3dPage.getInitialProps = async (context) => {
     `,
   })
 
-  if (!res?.data?.get3dPrinters) return { notFound: true }
-
-  const printers = res.data.get3dPrinters
-
-  return { printers }
+  return { printers: res.data.get3dPrinters }
 }
 
 export default Printer3dPage
