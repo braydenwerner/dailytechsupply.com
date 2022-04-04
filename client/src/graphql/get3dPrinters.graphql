@@ -1,5 +1,5 @@
 query get3dPrinters($data: GetPrinter3dInput!) {
-  get3dPrinters(data: $data) {
+  get3dPrinters(input: $data) {
     item_id {
       title
       description
@@ -11,7 +11,6 @@ query get3dPrinters($data: GetPrinter3dInput!) {
       image_url
       is_affiliate
     }
-    uuid
     x_axis
     y_axis
     z_axis
@@ -23,7 +22,5 @@ query get3dPrinters($data: GetPrinter3dInput!) {
     voltage
     wattage
     compatible_material
-    created_at
-    updated_at
   }
 }

@@ -44,7 +44,7 @@ export type Item = {
   __typename?: 'Item';
   id: Scalars['Float'];
   title: Scalars['String'];
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   rating: Scalars['Float'];
   manufacturer?: Maybe<Scalars['String']>;
@@ -65,8 +65,8 @@ export type Printer3d = {
   resume_printing?: Maybe<Scalars['Boolean']>;
   removeable_build_surface?: Maybe<Scalars['Boolean']>;
   material?: Maybe<Scalars['String']>;
-  weight: Scalars['Float'];
-  voltage: Scalars['Float'];
+  weight?: Maybe<Scalars['Float']>;
+  voltage?: Maybe<Scalars['Float']>;
   wattage?: Maybe<Scalars['Float']>;
   compatible_material?: Maybe<Scalars['String']>;
   created_at: Scalars['String'];
@@ -87,7 +87,7 @@ export type QueryGet3dPrinterArgs = {
 
 
 export type QueryGet3dPrintersArgs = {
-  data: GetPrinter3dInput;
+  input: GetPrinter3dInput;
 };
 
 export type User = {
@@ -112,7 +112,7 @@ export type Get3dPrintersQuery = (
   { __typename?: 'Query' }
   & { get3dPrinters?: Maybe<Array<(
     { __typename?: 'Printer3d' }
-    & Pick<Printer3d, 'uuid' | 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material' | 'created_at' | 'updated_at'>
+    & Pick<Printer3d, 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material'>
     & { item_id: (
       { __typename?: 'Item' }
       & Pick<Item, 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'is_affiliate'>
@@ -123,7 +123,7 @@ export type Get3dPrintersQuery = (
 
 export const Get3dPrintersDocument = gql`
     query get3dPrinters($data: GetPrinter3dInput!) {
-  get3dPrinters(data: $data) {
+  get3dPrinters(input: $data) {
     item_id {
       title
       description
@@ -135,7 +135,6 @@ export const Get3dPrintersDocument = gql`
       image_url
       is_affiliate
     }
-    uuid
     x_axis
     y_axis
     z_axis
@@ -147,8 +146,6 @@ export const Get3dPrintersDocument = gql`
     voltage
     wattage
     compatible_material
-    created_at
-    updated_at
   }
 }
     `;

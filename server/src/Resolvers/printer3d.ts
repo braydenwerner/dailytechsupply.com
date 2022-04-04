@@ -17,98 +17,97 @@ export class Printer3dResolver {
   }
 
   @Query(() => [Printer3d], { nullable: true })
-  async get3dPrinters(@Arg('data') d: GetPrinter3dInput) {
+  async get3dPrinters(@Arg('input') q: GetPrinter3dInput) {
     const query = await createQueryBuilder('Printer3d')
 
     //  3d Printer queries
-    if (d.minX && d.maxX)
+    if (q.minX && q.maxX)
       query.where('Printer3d.x_axis >= :minX AND Printer3d.x_axis <= :maxX', {
-        minX: d.minX,
-        maxX: d.maxX,
+        minX: q.minX,
+        maxX: q.maxX,
       })
-    if (d.minY && d.maxY)
+    if (q.minY && q.maxY)
       query.andWhere(
         'Printer3d.y_axis >= :minY AND Printer3d.y_axis <= :maxY',
         {
-          minY: d.minY,
-          maxY: d.maxY,
+          minY: q.minY,
+          maxY: q.maxY,
         }
       )
-    if (d.minZ && d.maxZ)
+    if (q.minZ && q.maxZ)
       query.andWhere(
         'Printer3d.z_axis >= :minZ AND Printer3d.z_axis <= :maxZ',
         {
-          minZ: d.minZ,
-          maxZ: d.maxZ,
+          minZ: q.minZ,
+          maxZ: q.maxZ,
         }
       )
-    if (d.autoLeveling)
+    if (q.autoLeveling)
       query.andWhere('Printer3d.auto_leveling = :autoLeveling', {
-        autoLeveling: d.autoLeveling,
+        autoLeveling: q.autoLeveling,
       })
-    if (d.resumePrinting)
+    if (q.resumePrinting)
       query.andWhere('Printer3d.resume_printing = :resumePrinting', {
-        resumePrinting: d.resumePrinting,
+        resumePrinting: q.resumePrinting,
       })
-    if (d.removeableBuildSurface)
+    if (q.removeableBuildSurface)
       query.andWhere(
         'Printer3d.removeable_build_surface = :removeableBuildSurface',
         {
-          removeableBuildSurface: d.removeableBuildSurface,
+          removeableBuildSurface: q.removeableBuildSurface,
         }
       )
-    if (d.material)
+    if (q.material)
       query.andWhere('Printer3d.material = :material', {
-        removeableBuildSurface: d.removeableBuildSurface,
+        material: q.material,
       })
-    if (d.minWeight && d.maxWeight)
+    if (q.minWeight && q.maxWeight)
       query.andWhere(
         'Printer3d.weight >= :minWeight AND Printer3d.weight <= :maxWeight',
         {
-          minWeight: d.minWeight,
-          maxWeight: d.maxWeight,
+          minWeight: q.minWeight,
+          maxWeight: q.maxWeight,
         }
       )
-    if (d.minVoltage && d.maxVoltage)
+    if (q.minVoltage && q.maxVoltage)
       query.andWhere(
         'Printer3d.voltage >= :minVoltage AND Printer3d.voltage <= :maxVoltage',
         {
-          minVoltage: d.minVoltage,
-          maxVoltage: d.maxVoltage,
+          minVoltage: q.minVoltage,
+          maxVoltage: q.maxVoltage,
         }
       )
-    if (d.minWattage && d.maxWattage)
+    if (q.minWattage && q.maxWattage)
       query.andWhere(
         'Printer3d.wattage >= :minWattage AND Printer3d.wattage <= :maxWattage',
         {
-          minWattage: d.minWattage,
-          maxWattage: d.maxWattage,
+          minWattage: q.minWattage,
+          maxWattage: q.maxWattage,
         }
       )
-    if (d.compatibleMaterial)
+    if (q.compatibleMaterial)
       query.andWhere('Printer3d.compatible_material = :compatibleMaterial', {
-        compatibleMaterial: d.compatibleMaterial,
+        compatibleMaterial: q.compatibleMaterial,
       })
 
     query.innerJoinAndSelect('Printer3d.item_id', 'Item')
 
     //  Item queries
-    if (d.minPrice && d.maxPrice)
+    if (q.minPrice && q.maxPrice)
       query.andWhere('Item.price >= :minPrice AND Item.price <= :maxPrice', {
-        minPrice: d.minPrice,
-        maxPrice: d.maxPrice,
+        minPrice: q.minPrice,
+        maxPrice: q.maxPrice,
       })
-    if (d.minRating)
-      query.andWhere('Item.rating >= :minRating', { minRating: d.minRating })
-    if (d.manufacturer)
+    if (q.minRating)
+      query.andWhere('Item.rating >= :minRating', { minRating: q.minRating })
+    if (q.manufacturer)
       query.andWhere('Item.manufacturer = :manufacturer', {
-        manufacturer: d.manufacturer,
+        manufacturer: q.manufacturer,
       })
 
     query.orderBy('Printer3d.created_at', 'DESC')
-    console.log('skipping: ' + d.pageSize * (d.pageNumber - 1))
-    query.skip(d.pageSize * (d.pageNumber - 1))
-    query.take(d.pageSize)
+    query.skip(q.pageSize * (q.pageNumber - 1))
+    query.take(q.pageSize)
 
     const data = query.getMany()
 
