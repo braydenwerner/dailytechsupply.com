@@ -10,15 +10,13 @@ export const validateQueryParams = (query: any, itemProperties: any) => {
 
     if (key in itemProperties) {
       //  check that types also match
-      if (typeof itemProperties[key] == 'number') {
+      if (typeof itemProperties[key] === 'number') {
         if (!isNumeric(value)) continue
 
         data[key] = parseFloat(value)
-      } else if (typeof itemProperties[key] == 'boolean') {
-        if (value !== 'true' || value !== 'false') continue
-
-        data[key] = value === 'true' ? true : false
-      } else if (typeof itemProperties[key] == 'string') {
+      } else if (typeof itemProperties[key] === 'boolean') {
+        data[key] = value === 'true'
+      } else if (typeof itemProperties[key] === 'string') {
         data[key] = value
       }
     }
