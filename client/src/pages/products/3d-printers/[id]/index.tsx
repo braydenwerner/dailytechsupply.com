@@ -15,9 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const data: Printer3d[] = res.data?.get3dPrinters
   let uuids: string[] = []
-  if (data) {
-    uuids = data.map((printer) => printer.uuid)
-  }
+  if (data) uuids = data.map((printer) => printer.uuid)
 
   const paths = uuids.map((uuid) => {
     return {

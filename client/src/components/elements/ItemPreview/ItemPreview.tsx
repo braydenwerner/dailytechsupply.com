@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { Printer3d } from '../../../generated/graphql'
 
@@ -7,6 +8,8 @@ interface ItemPreviewProps {
 }
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
+  const router = useRouter()
+
   const renderTags = () => {
     const tags: ReactJSXElement[] = []
 
@@ -19,7 +22,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
         item[key as key]
       ) {
         tags.push(
-          <div>
+          <div key={i}>
             {key}: {item[key as key]?.toString()}
           </div>
         )
@@ -29,8 +32,13 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
     return tags
   }
 
+  console.log(item)
   return (
-    <div>
+    <div
+      onClick={() =>
+        router.push({ pathname: `/products/3d-printers/${item.uuid}` })
+      }
+    >
       <div>{item.item_id.title}</div>
       <div>{item.item_id.description}</div>
       <div>{item.item_id.manufacturer}</div>

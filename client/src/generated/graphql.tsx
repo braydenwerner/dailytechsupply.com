@@ -142,7 +142,7 @@ export type Get3dPrintersQuery = (
   { __typename?: 'Query' }
   & { get3dPrinters?: Maybe<Array<(
     { __typename?: 'Printer3d' }
-    & Pick<Printer3d, 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material'>
+    & Pick<Printer3d, 'uuid' | 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material'>
     & { item_id: (
       { __typename?: 'Item' }
       & Pick<Item, 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'is_affiliate'>
@@ -256,6 +256,7 @@ export const Get3dPrintersDocument = gql`
       image_url
       is_affiliate
     }
+    uuid
     x_axis
     y_axis
     z_axis
