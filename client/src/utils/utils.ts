@@ -27,7 +27,6 @@ export const validateQueryParams = (query: any, itemProperties: any) => {
   if (!('pageSize' in data)) data.pageSize = defaultItemPageSize
   if (!('pageNumber' in data)) data.pageNumber = defaultItemPageNumber
 
-  console.log(data)
   return data
 }
 

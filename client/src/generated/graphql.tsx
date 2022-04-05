@@ -104,7 +104,7 @@ export type User = {
 };
 
 export type Get3dPrintersQueryVariables = Exact<{
-  data: GetPrinter3dInput;
+  input: GetPrinter3dInput;
 }>;
 
 
@@ -122,8 +122,8 @@ export type Get3dPrintersQuery = (
 
 
 export const Get3dPrintersDocument = gql`
-    query get3dPrinters($data: GetPrinter3dInput!) {
-  get3dPrinters(input: $data) {
+    query get3dPrinters($input: GetPrinter3dInput!) {
+  get3dPrinters(input: $input) {
     item_id {
       title
       description
@@ -162,7 +162,7 @@ export const Get3dPrintersDocument = gql`
  * @example
  * const { data, loading, error } = useGet3dPrintersQuery({
  *   variables: {
- *      data: // value for 'data'
+ *      input: // value for 'input'
  *   },
  * });
  */

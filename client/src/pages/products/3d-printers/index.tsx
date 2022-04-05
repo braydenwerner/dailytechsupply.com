@@ -15,6 +15,7 @@ import { ItemList, Printer3dSearch } from '../../../components/modules'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   //  generate query param object
   const input = validateQueryParams(context.query, printer3dProperties)
+  console.log(input)
   let res = await client.query({
     variables: { input },
     query: Get3dPrintersDocument,

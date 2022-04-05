@@ -21,12 +21,12 @@ export class Printer3dResolver {
     const query = await createQueryBuilder('Printer3d')
 
     //  3d Printer queries
-    if (q.minX && q.maxX)
+    if (q.minX !== undefined && q.maxX !== undefined)
       query.where('Printer3d.x_axis >= :minX AND Printer3d.x_axis <= :maxX', {
         minX: q.minX,
         maxX: q.maxX,
       })
-    if (q.minY && q.maxY)
+    if (q.minY !== undefined && q.maxY !== undefined)
       query.andWhere(
         'Printer3d.y_axis >= :minY AND Printer3d.y_axis <= :maxY',
         {
@@ -34,7 +34,7 @@ export class Printer3dResolver {
           maxY: q.maxY,
         }
       )
-    if (q.minZ && q.maxZ)
+    if (q.minZ !== undefined && q.maxZ !== undefined)
       query.andWhere(
         'Printer3d.z_axis >= :minZ AND Printer3d.z_axis <= :maxZ',
         {
@@ -61,7 +61,7 @@ export class Printer3dResolver {
       query.andWhere('Printer3d.material = :material', {
         material: q.material,
       })
-    if (q.minWeight && q.maxWeight)
+    if (q.minWeight !== undefined && q.maxWeight !== undefined)
       query.andWhere(
         'Printer3d.weight >= :minWeight AND Printer3d.weight <= :maxWeight',
         {
@@ -69,7 +69,7 @@ export class Printer3dResolver {
           maxWeight: q.maxWeight,
         }
       )
-    if (q.minVoltage && q.maxVoltage)
+    if (q.minVoltage !== undefined && q.maxVoltage !== undefined)
       query.andWhere(
         'Printer3d.voltage >= :minVoltage AND Printer3d.voltage <= :maxVoltage',
         {
@@ -77,7 +77,7 @@ export class Printer3dResolver {
           maxVoltage: q.maxVoltage,
         }
       )
-    if (q.minWattage && q.maxWattage)
+    if (q.minWattage !== undefined && q.maxWattage !== undefined)
       query.andWhere(
         'Printer3d.wattage >= :minWattage AND Printer3d.wattage <= :maxWattage',
         {
@@ -93,12 +93,12 @@ export class Printer3dResolver {
     query.innerJoinAndSelect('Printer3d.item_id', 'Item')
 
     //  Item queries
-    if (q.minPrice && q.maxPrice)
+    if (q.minPrice !== undefined && q.maxPrice !== undefined)
       query.andWhere('Item.price >= :minPrice AND Item.price <= :maxPrice', {
         minPrice: q.minPrice,
         maxPrice: q.maxPrice,
       })
-    if (q.minRating)
+    if (q.minRating !== undefined)
       query.andWhere('Item.rating >= :minRating', { minRating: q.minRating })
     if (q.manufacturer)
       query.andWhere('Item.manufacturer = :manufacturer', {

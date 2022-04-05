@@ -7,7 +7,6 @@ interface ItemListProps {
 }
 
 export const ItemList: React.FC<ItemListProps> = ({ itemsData }) => {
-  console.log(itemsData)
   return (
     <div>
       {itemsData &&

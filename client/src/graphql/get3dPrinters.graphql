@@ -1,5 +1,5 @@
-query get3dPrinters($data: GetPrinter3dInput!) {
-  get3dPrinters(input: $data) {
+query get3dPrinters($input: GetPrinter3dInput!) {
+  get3dPrinters(input: $input) {
     item_id {
       title
       description
