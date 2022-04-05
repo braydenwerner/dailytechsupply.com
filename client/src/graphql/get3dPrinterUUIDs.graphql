@@ -1,0 +1,5 @@
+query get3dPrinterIds($input: GetPrinter3dInput) {
+  get3dPrinters(input: $input) {
+    uuid
+  }
+}

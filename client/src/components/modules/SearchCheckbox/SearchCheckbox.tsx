@@ -17,7 +17,6 @@ export const SearchCheckbox: React.FC<SearchCheckboxProps> = ({
   const router = useRouter()
 
   const handleCheckboxSubmit = (value: boolean) => {
-    console.log(value)
     if (value === defaultValue) {
       delete router.query[fieldName]
       router.push({

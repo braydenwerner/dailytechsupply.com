@@ -17,17 +17,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const input = validateQueryParams(context.query, printer3dProperties)
 
   console.log(input)
-  let res = await client.query({
-    variables: { input },
+  const res = await client.query({
     query: Get3dPrintersDocument,
+    variables: { input },
   })
 
-  if (!res?.data?.get3dPrinters) return { notFound: true }
+  if (!res.data?.get3dPrinters) return { notFound: true }
 
   return { props: { printers: res.data.get3dPrinters, input } }
 }
 interface Printer3dPageProps {
-  printers?: Printer3d[]
+  printers: Printer3d[]
   input: GetPrinter3dInput
 }
 const Printer3dPage: NextPage<Printer3dPageProps> = ({ printers, input }) => {

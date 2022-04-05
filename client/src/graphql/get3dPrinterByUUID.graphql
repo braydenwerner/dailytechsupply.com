@@ -1,5 +1,5 @@
-query get3dPrinters($input: GetPrinter3dInput) {
-  get3dPrinters(input: $input) {
+query get3dPrinterByUUID($uuid: String!) {
+  get3dPrinterByUUID(uuid: $uuid) {
     item_id {
       title
       description

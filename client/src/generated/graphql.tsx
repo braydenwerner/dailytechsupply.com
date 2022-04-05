@@ -76,18 +76,18 @@ export type Printer3d = {
 export type Query = {
   __typename?: 'Query';
   getUser?: Maybe<User>;
-  get3dPrinter?: Maybe<Printer3d>;
+  get3dPrinterByUUID?: Maybe<Printer3d>;
   get3dPrinters?: Maybe<Array<Printer3d>>;
 };
 
 
-export type QueryGet3dPrinterArgs = {
-  id: Scalars['Float'];
+export type QueryGet3dPrinterByUuidArgs = {
+  uuid: Scalars['String'];
 };
 
 
 export type QueryGet3dPrintersArgs = {
-  input: GetPrinter3dInput;
+  input?: Maybe<GetPrinter3dInput>;
 };
 
 export type User = {
@@ -103,8 +103,38 @@ export type User = {
   updated_at: Scalars['String'];
 };
 
+export type Get3dPrinterByUuidQueryVariables = Exact<{
+  uuid: Scalars['String'];
+}>;
+
+
+export type Get3dPrinterByUuidQuery = (
+  { __typename?: 'Query' }
+  & { get3dPrinterByUUID?: Maybe<(
+    { __typename?: 'Printer3d' }
+    & Pick<Printer3d, 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material'>
+    & { item_id: (
+      { __typename?: 'Item' }
+      & Pick<Item, 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'is_affiliate'>
+    ) }
+  )> }
+);
+
+export type Get3dPrinterIdsQueryVariables = Exact<{
+  input?: Maybe<GetPrinter3dInput>;
+}>;
+
+
+export type Get3dPrinterIdsQuery = (
+  { __typename?: 'Query' }
+  & { get3dPrinters?: Maybe<Array<(
+    { __typename?: 'Printer3d' }
+    & Pick<Printer3d, 'uuid'>
+  )>> }
+);
+
 export type Get3dPrintersQueryVariables = Exact<{
-  input: GetPrinter3dInput;
+  input?: Maybe<GetPrinter3dInput>;
 }>;
 
 
@@ -121,8 +151,99 @@ export type Get3dPrintersQuery = (
 );
 
 
+export const Get3dPrinterByUuidDocument = gql`
+    query get3dPrinterByUUID($uuid: String!) {
+  get3dPrinterByUUID(uuid: $uuid) {
+    item_id {
+      title
+      description
+      price
+      rating
+      manufacturer
+      sold_by
+      url
+      image_url
+      is_affiliate
+    }
+    x_axis
+    y_axis
+    z_axis
+    auto_leveling
+    resume_printing
+    removeable_build_surface
+    material
+    weight
+    voltage
+    wattage
+    compatible_material
+  }
+}
+    `;
+
+/**
+ * __useGet3dPrinterByUuidQuery__
+ *
+ * To run a query within a React component, call `useGet3dPrinterByUuidQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGet3dPrinterByUuidQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGet3dPrinterByUuidQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGet3dPrinterByUuidQuery(baseOptions: Apollo.QueryHookOptions<Get3dPrinterByUuidQuery, Get3dPrinterByUuidQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Get3dPrinterByUuidQuery, Get3dPrinterByUuidQueryVariables>(Get3dPrinterByUuidDocument, options);
+      }
+export function useGet3dPrinterByUuidLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get3dPrinterByUuidQuery, Get3dPrinterByUuidQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Get3dPrinterByUuidQuery, Get3dPrinterByUuidQueryVariables>(Get3dPrinterByUuidDocument, options);
+        }
+export type Get3dPrinterByUuidQueryHookResult = ReturnType<typeof useGet3dPrinterByUuidQuery>;
+export type Get3dPrinterByUuidLazyQueryHookResult = ReturnType<typeof useGet3dPrinterByUuidLazyQuery>;
+export type Get3dPrinterByUuidQueryResult = Apollo.QueryResult<Get3dPrinterByUuidQuery, Get3dPrinterByUuidQueryVariables>;
+export const Get3dPrinterIdsDocument = gql`
+    query get3dPrinterIds($input: GetPrinter3dInput) {
+  get3dPrinters(input: $input) {
+    uuid
+  }
+}
+    `;
+
+/**
+ * __useGet3dPrinterIdsQuery__
+ *
+ * To run a query within a React component, call `useGet3dPrinterIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGet3dPrinterIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGet3dPrinterIdsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGet3dPrinterIdsQuery(baseOptions?: Apollo.QueryHookOptions<Get3dPrinterIdsQuery, Get3dPrinterIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Get3dPrinterIdsQuery, Get3dPrinterIdsQueryVariables>(Get3dPrinterIdsDocument, options);
+      }
+export function useGet3dPrinterIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get3dPrinterIdsQuery, Get3dPrinterIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Get3dPrinterIdsQuery, Get3dPrinterIdsQueryVariables>(Get3dPrinterIdsDocument, options);
+        }
+export type Get3dPrinterIdsQueryHookResult = ReturnType<typeof useGet3dPrinterIdsQuery>;
+export type Get3dPrinterIdsLazyQueryHookResult = ReturnType<typeof useGet3dPrinterIdsLazyQuery>;
+export type Get3dPrinterIdsQueryResult = Apollo.QueryResult<Get3dPrinterIdsQuery, Get3dPrinterIdsQueryVariables>;
 export const Get3dPrintersDocument = gql`
-    query get3dPrinters($input: GetPrinter3dInput!) {
+    query get3dPrinters($input: GetPrinter3dInput) {
   get3dPrinters(input: $input) {
     item_id {
       title
@@ -166,7 +287,7 @@ export const Get3dPrintersDocument = gql`
  *   },
  * });
  */
-export function useGet3dPrintersQuery(baseOptions: Apollo.QueryHookOptions<Get3dPrintersQuery, Get3dPrintersQueryVariables>) {
+export function useGet3dPrintersQuery(baseOptions?: Apollo.QueryHookOptions<Get3dPrintersQuery, Get3dPrintersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<Get3dPrintersQuery, Get3dPrintersQueryVariables>(Get3dPrintersDocument, options);
       }

@@ -7,9 +7,9 @@ import { GetPrinter3dInput } from './GetPrinter3dInput'
 @Resolver()
 export class Printer3dResolver {
   @Query(() => Printer3d, { nullable: true })
-  async get3dPrinter(@Arg('id') id: number) {
+  async get3dPrinterByUUID(@Arg('uuid') uuid: string) {
     const data = await Printer3d.findOne({
-      where: { item_id: id },
+      where: { uuid },
       relations: ['item_id'],
     })
 
@@ -17,7 +17,10 @@ export class Printer3dResolver {
   }
 
   @Query(() => [Printer3d], { nullable: true })
-  async get3dPrinters(@Arg('input') q: GetPrinter3dInput) {
+  async get3dPrinters(@Arg('input', { nullable: true }) q: GetPrinter3dInput) {
+    //  if no input filters, just return everything
+    if (!q) return Printer3d.find({ relations: ['item_id'] })
+
     const query = await createQueryBuilder('Printer3d')
 
     //  3d Printer queries
