@@ -3,13 +3,13 @@ import styled from 'styled-components'
 export const TextInput = styled.input.attrs(({ type }) => ({
   type: type,
 }))`
-  width: 400px;
-  height: 80px;
+  width: 200px;
+  height: 40px;
   font-size: 3.5rem;
-  color: white;
   text-align: center;
   outline: none;
-  background-color: transparent;
   border: none;
+  background-color: red;
   border-bottom: 5px solid white;
+  margin: 10px 10px 10px 10px;
 `

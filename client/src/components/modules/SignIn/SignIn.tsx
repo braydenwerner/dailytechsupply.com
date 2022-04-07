@@ -21,7 +21,7 @@ interface FormSubmitData {
 
 type errorResponse = { error: string }
 
-export const Login: React.FC = () => {
+export const SignIn: React.FC = () => {
   const [email, setEmail] = useState('')
   const [snackbarOpen, setSnackBarOpen] = useState(false)
   const [errorSnackbarOpen, setErrorSnackBarOpen] = useState(false)
@@ -40,11 +40,11 @@ export const Login: React.FC = () => {
         if (user?.user) {
           const response = await createUser({
             variables: {
-              data: {
+              input: {
                 uid: user.user.uid,
                 email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
+                first_name: data.firstName,
+                last_name: data.lastName,
                 lastLoggedIn: new Date(),
               },
             },
@@ -85,16 +85,16 @@ export const Login: React.FC = () => {
       .then(() => {
         updateUser({
           variables: {
-            data: {
-              firstName: data.firstName,
-              lastName: data.lastName,
+            input: {
+              first_name: data.firstName,
+              last_name: data.lastName,
               lastLoggedIn: new Date(),
             },
           },
         })
       })
       .catch((error) => {
-        //   if the accout does not exist, create it
+        //   if the accout does not exist, create it, this is so scuffed
         if (error.code === 'auth/user-not-found') {
           createNewUser(data)
         } else {
@@ -124,13 +124,14 @@ export const Login: React.FC = () => {
         validateOnChange={false}
         validateOnBlur={false}
         initialValues={{
-          name: '',
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
         }}
         onSubmit={async (data, { setSubmitting, setFieldError }) => {
           if (
-            data.name.length === 0 ||
+            data.firstName.length === 0 ||
             data.email.length === 0 ||
             data.password.length === 0
           )
@@ -149,18 +150,17 @@ export const Login: React.FC = () => {
         validate={(values) => {
           const errors: Record<string, string> = {}
 
-          if (values.name.length === 0) {
-            errors.name = 'Please enter a name'
+          if (values.firstName.length <= 0) {
+            errors.name = 'Please enter your first name'
           } else if (values.email.length === 0) {
             errors.name = 'Please enter an email'
           } else if (values.password.length === 0) {
             errors.password = 'Please enter a password'
           }
 
-          if (values.name.length < 1 && values.name.length !== 0) {
-            errors.name = 'Names must be at least 1 characters long'
-          } else if (values.name.length > 36 && values.name.length !== 0) {
-            errors.name = 'Names must be at most 36 characters long'
+          if (values.firstName.length > 36 && values.firstName.length !== 0) {
+            errors.firstName =
+              'Your first name exceeds the maximum length 40 characters'
           }
 
           const re =
@@ -178,11 +178,12 @@ export const Login: React.FC = () => {
       >
         {({ values, errors }) => (
           <Form>
-            <Field name="name" component={CustomTextField} />
+            <Field name="firstName" component={CustomTextField} />
+            <Field name="lastName" component={CustomTextField} />
             <Field name="email" component={CustomTextField} />
             <Field
               name="password"
-              type={'password'}
+              type="password"
               component={CustomTextField}
             />
             <div
