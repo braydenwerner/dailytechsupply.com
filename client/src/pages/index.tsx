@@ -3,7 +3,7 @@ import Head from 'next/head'
 import type { NextPage } from 'next'
 import { useGetUserLazyQuery } from '../generated/graphql'
 import { SignedInContext } from '../providers'
-import { SignIn } from '../components/modules'
+import { SignUp } from '../components/modules'
 
 const Home: NextPage = () => {
   const { tokenAttached } = useContext(SignedInContext)
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <div>
-          {!userData ? <SignIn /> : <div>Hello, {userData.first_name}</div>}
+          {!userData ? <SignUp /> : <div>Hello, {userData.first_name}</div>}
         </div>
       </main>
     </div>
