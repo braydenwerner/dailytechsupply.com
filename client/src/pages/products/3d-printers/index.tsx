@@ -13,7 +13,6 @@ import { ItemList, Printer3dSearch } from '../../../components/modules'
 //  Data is not changing very much, will be best to use getStaticProps with a revalidation
 //  However, we can't use getStaticProps because we need to have access to query string in URL to filter data
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  //  generate query param object
   const input = validateQueryParams(context.query, printer3dProperties)
 
   console.log(input)

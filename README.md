@@ -1,7 +1,5 @@
 TODO
 -Add more valid data, build UI for items
-
-when doing sliders/fast input searches on the frontend, do a throttle to only search and update page once slider/other input is done moving
-use ssr for rendering the items
-
 -SEO probably with next/seo library
+-Add user sign on and comment functionlity
+-Script to run a migration to create random users and comments

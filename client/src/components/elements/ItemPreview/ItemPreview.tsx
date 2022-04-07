@@ -32,7 +32,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
     return tags
   }
 
-  console.log(item)
   return (
     <div
       onClick={() =>

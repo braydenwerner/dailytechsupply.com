@@ -38,16 +38,18 @@ export class UserResolver {
   }
 
   @Mutation(() => UserResponse)
-  async createUser(@Arg('data') data: CreateUserInput): Promise<UserResponse> {
+  async createUser(
+    @Arg('input') input: CreateUserInput
+  ): Promise<UserResponse> {
     let user: User
 
     try {
-      user = await User.create({ ...data }).save()
+      user = await User.create({ ...input }).save()
     } catch (err) {
       return { errors: [{ field: 'createUser', message: err }] }
     }
 
-    return { user, token: createToken(data.uid) }
+    return { user, token: createToken(input.uid) }
   }
 
   @Mutation(() => UserResponse)
@@ -62,13 +64,13 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  updateUser(@Ctx() ctx: MyContext, @Arg('data') data: UpdateUserInput) {
+  updateUser(@Ctx() ctx: MyContext, @Arg('input') input: UpdateUserInput) {
     const uid = getUserId(ctx)
 
     User.update(
       { uid },
       {
-        ...data,
+        ...input,
       }
     )
     return true
