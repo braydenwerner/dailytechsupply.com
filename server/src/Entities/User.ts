@@ -19,21 +19,17 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   uid: string
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field()
+  @Column()
   first_name: string
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field()
+  @Column()
   last_name: string
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field()
+  @Column()
   email: string
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  country: string
 
   @Field(() => String, { nullable: true })
   @CreateDateColumn()
