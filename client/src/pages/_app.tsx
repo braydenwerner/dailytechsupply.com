@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
 
 import { client } from '../utils/createApolloClient'
+import { TokenProvider } from '../providers'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <TokenProvider>
+          <Component {...pageProps} />
+        </TokenProvider>
       </ApolloProvider>
     </>
   )

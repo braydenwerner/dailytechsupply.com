@@ -1,21 +1,23 @@
-import { useContext, useEffect } from 'react'
-import Head from 'next/head'
+import { useContext, useEffect, useState } from 'react'
+import { useGetUserLazyQuery, User } from '../generated/graphql'
 import type { NextPage } from 'next'
-import { useGetUserLazyQuery } from '../generated/graphql'
-import { SignedInContext } from '../providers'
-import { SignUp } from '../components/modules'
+import Head from 'next/head'
+
+import { auth } from '../config/config'
+import { TokenContext } from '../providers'
+import { SignInHandler } from '../components/modules'
 
 const Home: NextPage = () => {
-  const { tokenAttached } = useContext(SignedInContext)
+  const [fetchingUser, setFetchingUser] = useState(true)
 
-  const [getUser, { data }] = useGetUserLazyQuery()
+  const [getUser, { data, loading }] = useGetUserLazyQuery()
   const userData = data && data.getUser
 
+  const { tokenAttached } = useContext(TokenContext)
+
   useEffect(() => {
-    //  only want to make this query once the user is signed in and the session cookie is attached
-    if (tokenAttached) {
-      getUser()
-    }
+    if (tokenAttached) getUser()
+    setFetchingUser(false)
   }, [tokenAttached])
 
   return (
@@ -26,9 +28,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          {!userData ? <SignUp /> : <div>Hello, {userData.first_name}</div>}
-        </div>
+        {!userData && !loading && !fetchingUser && <SignInHandler />}
+        {userData && (
+          <button
+            onClick={async () => {
+              await auth.signOut().catch((err) => {
+                console.log(err)
+              })
+              localStorage.removeItem('token')
+              window.location.reload()
+            }}
+          >
+            Sign Out
+          </button>
+        )}
+        {userData && <div>Hey, {userData.first_name}</div>}
       </main>
     </div>
   )
