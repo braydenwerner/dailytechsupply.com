@@ -23,13 +23,7 @@ export const CustomTextField: React.FC<CustomTextFieldProps> = ({
         {placeholder}
         {mandatory ? ' *' : ''}
       </div>
-      <Styled.TextInput
-        type={type}
-        autoComplete="true"
-        autoFocus
-        {...field}
-        {...props}
-      />
+      <Styled.TextInput type={type} {...field} {...props} />
     </>
   )
 }
