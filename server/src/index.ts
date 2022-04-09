@@ -9,7 +9,7 @@ import { buildSchema } from 'type-graphql'
 import { createConnection } from 'typeorm'
 
 import { User, Item, Printer3d, Comment } from './Entities'
-import { UserResolver, Printer3dResolver } from './Resolvers'
+import { UserResolver, Printer3dResolver, CommentResolver } from './Resolvers'
 
 const main = async () => {
   /*const conn = */ await createConnection({
@@ -32,7 +32,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, Printer3dResolver],
+      resolvers: [UserResolver, Printer3dResolver, CommentResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({

@@ -7,13 +7,11 @@ import { GetPrinter3dInput } from './GetPrinter3dInput'
 @Resolver()
 export class Printer3dResolver {
   @Query(() => Printer3d, { nullable: true })
-  async get3dPrinterByUUID(@Arg('uuid') uuid: string) {
-    const data = await Printer3d.findOne({
+  get3dPrinterByUUID(@Arg('uuid') uuid: string) {
+    return Printer3d.findOne({
       where: { uuid },
       relations: ['item_id'],
     })
-
-    return data
   }
 
   @Query(() => [Printer3d], { nullable: true })
