@@ -43,14 +43,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   if (!res.data?.get3dPrinterByUUID) return { notFound: true }
 
-  return { props: { printer: res.data.get3dPrinterByUUID } }
+  return { props: { uuid: params.id, printer: res.data.get3dPrinterByUUID } }
 }
 
 interface Printer3dItemProps {
+  uuid: string
   printer: Printer3d
 }
 
-const Printer3dItem: NextPage<Printer3dItemProps> = ({ printer }) => {
+const Printer3dItem: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
   const [fetchingUser, setFetchingUser] = useState(true)
 
   const [getUser, { data, loading }] = useGetUserLazyQuery()
@@ -85,7 +86,7 @@ const Printer3dItem: NextPage<Printer3dItemProps> = ({ printer }) => {
   return (
     <>
       <ItemView item={printer} properties={getProperties()} />
-      <ItemComments signedIn={!!userData} />
+      <ItemComments itemUUID={uuid} signedIn={!!userData} />
     </>
   )
 }

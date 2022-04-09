@@ -1,12 +1,24 @@
 import { Field, ObjectType } from 'type-graphql'
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { User } from '.'
 
 @ObjectType()
 @Entity()
 export class Comment extends BaseEntity {
+  @Field()
+  @PrimaryGeneratedColumn()
+  id!: number
+
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.id, { primary: true })
+  @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user_id!: User
 
@@ -17,4 +29,8 @@ export class Comment extends BaseEntity {
   @Field()
   @Column('text')
   text: string
+
+  @Field(() => String)
+  @CreateDateColumn()
+  created_at: Date
 }

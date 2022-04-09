@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 
 import { MyContext } from '../types'
 import { getUserId } from '../utils'
@@ -8,25 +8,30 @@ import { User, Comment } from '../Entities'
 export class CommentResolver {
   @Query(() => [Comment])
   async getComments(@Arg('item_uuid') item_uuid: string) {
-    return Comment.find({ where: { item_uuid }, relations: ['user_id'] })
+    const data = await Comment.find({
+      where: { item_uuid },
+      relations: ['user_id'],
+    })
+    console.log(data)
+    return data
   }
 
   @Mutation(() => Boolean)
   async createComment(
-    ctx: MyContext,
+    @Ctx() ctx: MyContext,
     @Arg('text') text: string,
     @Arg('item_uuid') item_uuid: string
   ) {
-    const id = getUserId(ctx)
+    const uid = getUserId(ctx)
 
-    const user = await User.findOne(id)
+    const user = await User.findOne({ uid })
     if (!user) return false
 
-    const comment = await Comment.create({
+    const comment = await Comment.insert({
       item_uuid,
       user_id: user,
       text,
-    }).save()
+    })
     if (!comment) return false
 
     return true

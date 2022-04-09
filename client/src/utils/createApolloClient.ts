@@ -17,7 +17,6 @@ const authLink = setContext((_, { headers }) => {
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(async ({ message, locations, path }) => {
-      console.log(message)
       if (message === 'Not Authorized') {
         await auth.signOut().catch((err) => {
           console.log(err)
@@ -27,7 +26,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           console.log(err)
         })
 
-        console.log(typeof window)
         if (typeof window !== 'undefined') localStorage.removeItem('token')
       }
       console.log(

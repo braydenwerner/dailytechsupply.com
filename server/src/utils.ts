@@ -13,6 +13,7 @@ export const getUserId = (ctx: MyContext) => {
     }
     return uid
   }
+  console.log('throwing error')
   throw new AuthError()
 }
 
