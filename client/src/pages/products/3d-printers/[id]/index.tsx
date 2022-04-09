@@ -1,12 +1,17 @@
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import {
   Get3dPrinterByUuidDocument,
   Get3dPrinterIdsDocument,
   Printer3d,
+  useGetUserLazyQuery,
 } from '../../../../generated/graphql'
 
 import { client } from '../../../../utils/createApolloClient'
+import { ItemView } from '../../../../components/modules'
+import { ItemProperties } from '../../../../types'
+import { ItemComments } from '../../../../components/elements/ItemComments/ItemComments'
+import { TokenContext } from '../../../../providers'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await client.query({
@@ -46,10 +51,23 @@ interface Printer3dItemProps {
 }
 
 const Printer3dItem: NextPage<Printer3dItemProps> = ({ printer }) => {
-  const renderTags = () => {
-    const tags: ReactJSXElement[] = []
+  const [fetchingUser, setFetchingUser] = useState(true)
 
+  const [getUser, { data, loading }] = useGetUserLazyQuery()
+  const userData = data && data.getUser
+
+  const { tokenAttached } = useContext(TokenContext)
+
+  useEffect(() => {
+    if (tokenAttached) getUser()
+    setFetchingUser(false)
+  }, [tokenAttached])
+
+  const getProperties = useCallback(() => {
     type key = keyof typeof printer
+
+    const properties: ItemProperties = {}
+
     Object.keys(printer).map((key, i) => {
       if (
         key !== '__typename' &&
@@ -57,29 +75,18 @@ const Printer3dItem: NextPage<Printer3dItemProps> = ({ printer }) => {
         key !== 'uuid' &&
         printer[key as key]
       ) {
-        tags.push(
-          <div key={i}>
-            {key}: {printer[key as key]?.toString()}
-          </div>
-        )
+        properties[key] = printer[key as key]
       }
     })
 
-    return tags
-  }
+    return properties
+  }, [])
 
   return (
-    <div>
-      <div>{printer.item_id.title}</div>
-      <div>{printer.item_id.description}</div>
-      <div>{printer.item_id.manufacturer}</div>
-      <div>${printer.item_id.price}</div>
-      <div>{printer.item_id.rating}</div>
-      <div>{printer.item_id.sold_by}</div>
-      <div>{printer.item_id.url}</div>
-      <img src={printer.item_id.image_url} />
-      {renderTags()}
-    </div>
+    <>
+      <ItemView item={printer} properties={getProperties()} />
+      <ItemComments signedIn={!!userData} />
+    </>
   )
 }
 

@@ -4,7 +4,8 @@ import { auth, serverURL } from '../config/config'
 import { onError } from '@apollo/client/link/error'
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token')
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') : ''
   return {
     headers: {
       ...headers,
@@ -25,7 +26,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         await auth.signOut().catch((err) => {
           console.log(err)
         })
-        localStorage.removeItem('token')
+
+        console.log(typeof window)
+        if (typeof window !== 'undefined') localStorage.removeItem('token')
       }
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`

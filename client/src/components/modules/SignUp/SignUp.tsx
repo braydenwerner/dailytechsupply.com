@@ -86,7 +86,7 @@ export const SignUp: React.FC = () => {
         } else if (response?.code === 'auth/cannot-create-account') {
           setFieldError(
             'email',
-            'Sorry we cannot create your account at this time. Please try again later.'
+            'Sorry, we cannot create your account at this time. Please try again later.'
           )
         }
 

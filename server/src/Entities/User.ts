@@ -4,9 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { Comment } from './Comment'
 
 @ObjectType()
 @Entity()
@@ -14,6 +17,11 @@ export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.id, { primary: true })
+  @JoinColumn({ name: 'id' })
+  comment_ids!: Comment[]
 
   @Field()
   @Column({ unique: true })

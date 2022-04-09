@@ -10,7 +10,7 @@ export const ItemList: React.FC<ItemListProps> = ({ itemsData }) => {
   return (
     <div>
       {itemsData.map((item: Printer3d, i: number) => (
-        <div style={{ marginBottom: '50px' }}>
+        <div key={i} style={{ marginBottom: '50px' }}>
           <ItemPreview item={item} />
         </div>
       ))}

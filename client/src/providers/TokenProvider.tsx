@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect, useMemo } from 'react'
 
 import { auth, User } from '../config/config'
-import useLocalStorage from '../hooks/useLocalStorage'
 
 export const TokenContext = createContext({
   user: null as User,
@@ -16,7 +15,8 @@ export const TokenProvider: React.FC = ({ children }) => {
   const [tokenAttached, setTokenAttached] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem('token')) setTokenAttached(true)
+    if (typeof window !== 'undefined' && localStorage.getItem('token'))
+      setTokenAttached(true)
   }, [])
 
   useEffect(() => {

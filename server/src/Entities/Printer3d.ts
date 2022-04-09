@@ -6,11 +6,12 @@ import {
   Entity,
   Generated,
   JoinColumn,
+  OneToMany,
   OneToOne,
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Item } from './index'
+import { Item, Comment } from './index'
 
 @ObjectType()
 @Entity()
@@ -19,6 +20,11 @@ export class Printer3d extends BaseEntity {
   @OneToOne(() => Item, (item) => item.id, { primary: true })
   @JoinColumn({ name: 'id' })
   item_id!: Item
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.id, { primary: true })
+  @JoinColumn({ name: 'id' })
+  comment_ids!: Comment[]
 
   @Field()
   @Column()

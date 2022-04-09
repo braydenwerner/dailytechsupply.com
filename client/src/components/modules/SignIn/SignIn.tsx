@@ -73,7 +73,14 @@ export const SignIn: React.FC = () => {
         const response: ErrorResponse | null = await signInUser(data)
         console.log(response)
         if (response?.code === 'auth/user-not-found') {
-          setFieldError('password', 'Invalid email or password')
+          setFieldError('email', 'Invalid email')
+        } else if (response?.code === 'auth/wrong-password') {
+          setFieldError('password', 'Invalid password')
+        } else if (response?.code === 'auth/too-many-requests') {
+          setFieldError(
+            'password',
+            'Too many failed log in attempts, plase try again later.'
+          )
         }
 
         setSubmitting(false)
