@@ -1,0 +1,9 @@
+query getComments($item_uuid: String!) {
+  getComments(item_uuid: $item_uuid) {
+    user_id {
+      first_name
+      last_name
+    }
+    text
+  }
+}

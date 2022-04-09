@@ -1,4 +1,3 @@
-import React from 'react'
 import { Printer3d } from '../../../generated/graphql'
 import { ItemPreview } from '../../elements'
 

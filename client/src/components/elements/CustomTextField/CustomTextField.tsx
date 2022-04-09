@@ -1,4 +1,3 @@
-import React from 'react'
 import { FieldProps } from 'formik'
 
 import * as Styled from './CustomTextField.styled'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { SliderThumb } from '@mui/material/Slider'
 import Box from '@mui/material/Box'
 

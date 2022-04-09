@@ -1,4 +1,3 @@
-import React from 'react'
 import { GetPrinter3dInput } from '../../../generated/graphql'
 import { SearchRange, SearchCheckbox } from '../../modules'
 

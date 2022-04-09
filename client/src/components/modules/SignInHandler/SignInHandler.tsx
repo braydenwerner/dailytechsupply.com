@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { SignIn, SignUp } from '..'
 
 export const SignInHandler: React.FC = () => {
