@@ -7,13 +7,11 @@ import { User, Comment } from '../Entities'
 @Resolver()
 export class CommentResolver {
   @Query(() => [Comment])
-  async getComments(@Arg('item_uuid') item_uuid: string) {
-    const data = await Comment.find({
+  getComments(@Arg('item_uuid') item_uuid: string) {
+    return Comment.find({
       where: { item_uuid },
       relations: ['user_id'],
     })
-    console.log(data)
-    return data
   }
 
   @Mutation(() => Boolean)

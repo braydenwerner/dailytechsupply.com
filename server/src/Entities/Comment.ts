@@ -30,6 +30,10 @@ export class Comment extends BaseEntity {
   @Column('text')
   text: string
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  rating: number
+
   @Field(() => String)
   @CreateDateColumn()
   created_at: Date

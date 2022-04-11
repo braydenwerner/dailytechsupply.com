@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { Dispatch, SetStateAction, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Formik, Form, Field } from 'formik'
 import {
@@ -17,7 +17,11 @@ interface FormSubmitData {
 
 type ErrorResponse = { code: string; error: string; field: string }
 
-export const SignIn: React.FC = () => {
+interface SignInProps {
+  closeModal: () => void
+}
+
+export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
   const [login] = useLoginMutation()
   const [updateUser] = useUpdateUserMutation()
 
@@ -28,7 +32,7 @@ export const SignIn: React.FC = () => {
   const signInUser = async (
     data: FormSubmitData
   ): Promise<ErrorResponse | null> => {
-    let response = null
+    let errorResponse = null
 
     await auth
       .signInWithEmailAndPassword(data.email, data.password)
@@ -53,10 +57,14 @@ export const SignIn: React.FC = () => {
       })
       .catch((err) => {
         console.log(err)
-        response = { code: err.code, error: err.message, field: 'Sign In User' }
+        errorResponse = {
+          code: err.code,
+          error: err.message,
+          field: 'Sign In User',
+        }
       })
 
-    return response
+    return errorResponse
   }
 
   return (
@@ -70,13 +78,15 @@ export const SignIn: React.FC = () => {
       onSubmit={async (data, { setSubmitting, setFieldError }) => {
         setSubmitting(true)
 
-        const response: ErrorResponse | null = await signInUser(data)
-        console.log(response)
-        if (response?.code === 'auth/user-not-found') {
+        const errorResponse: ErrorResponse | null = await signInUser(data)
+
+        if (!errorResponse) closeModal()
+
+        if (errorResponse?.code === 'auth/user-not-found') {
           setFieldError('email', 'Invalid email')
-        } else if (response?.code === 'auth/wrong-password') {
+        } else if (errorResponse?.code === 'auth/wrong-password') {
           setFieldError('password', 'Invalid password')
-        } else if (response?.code === 'auth/too-many-requests') {
+        } else if (errorResponse?.code === 'auth/too-many-requests') {
           setFieldError(
             'password',
             'Too many failed log in attempts, plase try again later.'

@@ -40,7 +40,6 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
       })
       await getComments()
 
-      console.log(res)
       textRef.current.value = ''
     }
   }

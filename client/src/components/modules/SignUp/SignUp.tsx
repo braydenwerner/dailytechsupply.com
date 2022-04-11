@@ -15,7 +15,11 @@ interface FormSubmitData {
 
 type ErrorResponse = { code: string; error: string; field: string }
 
-export const SignUp: React.FC = () => {
+interface SignUpProps {
+  closeModal: () => void
+}
+
+export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
   const [createUser] = useCreateUserMutation()
 
   const { setTokenAttached } = useContext(TokenContext)
@@ -23,7 +27,7 @@ export const SignUp: React.FC = () => {
   const createNewUser = async (
     data: FormSubmitData
   ): Promise<ErrorResponse | null> => {
-    let response = null
+    let errorResponse = null
 
     await auth
       .createUserWithEmailAndPassword(data.email, data.password)
@@ -47,7 +51,7 @@ export const SignUp: React.FC = () => {
           }
         } else {
           console.error('User object does not exist, cannot create user')
-          response = {
+          errorResponse = {
             code: 'auth/cannot-create-account',
             error: 'Cannot create account',
             field: 'Create User',
@@ -56,10 +60,14 @@ export const SignUp: React.FC = () => {
       })
       .catch((err) => {
         console.error(err)
-        response = { code: err.code, error: err.message, field: 'Create User' }
+        errorResponse = {
+          code: err.code,
+          error: err.message,
+          field: 'Create User',
+        }
       })
 
-    return response
+    return errorResponse
   }
 
   return (
@@ -75,15 +83,16 @@ export const SignUp: React.FC = () => {
       onSubmit={async (data, { setSubmitting, setFieldError }) => {
         setSubmitting(true)
 
-        const response: ErrorResponse | null = await createNewUser(data)
+        const errorResponse: ErrorResponse | null = await createNewUser(data)
 
-        console.log(response)
-        if (response?.code === 'auth/email-already-in-use') {
+        if (!errorResponse) closeModal()
+
+        if (errorResponse?.code === 'auth/email-already-in-use') {
           setFieldError(
             'email',
             'Sorry, the email you have entered is already in use.'
           )
-        } else if (response?.code === 'auth/cannot-create-account') {
+        } else if (errorResponse?.code === 'auth/cannot-create-account') {
           setFieldError(
             'email',
             'Sorry, we cannot create your account at this time. Please try again later.'

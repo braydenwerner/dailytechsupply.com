@@ -1,20 +1,24 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { SignIn, SignUp } from '..'
 
-export const SignInHandler: React.FC = () => {
+interface SignInHandlerProps {
+  closeModal: () => void
+}
+
+export const SignInHandler: React.FC<SignInHandlerProps> = ({ closeModal }) => {
   const [mode, setMode] = useState('SignIn')
 
   if (mode === 'SignIn') {
     return (
       <>
-        <SignIn />
+        <SignIn closeModal={closeModal} />
         <div onClick={() => setMode('SignUp')}>Don't have an account</div>
       </>
     )
   } else {
     return (
       <>
-        <SignUp />
+        <SignUp closeModal={closeModal} />
         <div onClick={() => setMode('SignIn')}>Already have an account?</div>
       </>
     )
