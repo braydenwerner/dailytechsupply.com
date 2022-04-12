@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useContext, useEffect, useState, useRef } from 'react'
 import { useGetUserLazyQuery } from '../../../generated/graphql'
 import * as Styled from './NavBar.styled'
 
@@ -10,6 +11,8 @@ import { SpringModal } from '../../elements'
 export const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
+  const [modalPortal, setModalPortal] = useState<HTMLElement | null>(null)
+  const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
 
   const [fetchingUser, setFetchingUser] = useState(true)
 
@@ -18,10 +21,33 @@ export const Navbar: React.FC = () => {
 
   const { tokenAttached } = useContext(TokenContext)
 
+  const svgContainerRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (tokenAttached) getUser()
     setFetchingUser(false)
   }, [tokenAttached])
+
+  useEffect(() => {
+    setModalPortal(document.getElementById('modal-portal'))
+  }, [])
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (svgContainerRef.current) {
+        setSvgContainerOffsetLeft(
+          svgContainerRef.current.offsetLeft +
+            svgContainerRef.current.clientWidth
+        )
+      }
+    }
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [svgContainerRef])
+
+  console.log('MenuOpen: ' + menuOpen)
 
   return (
     <>
@@ -35,11 +61,10 @@ export const Navbar: React.FC = () => {
         </Styled.SearchContainer>
         <Styled.ProfileContainer
           onClick={() => {
-            if (!loading && !fetchingUser)
-              setMenuOpen((oldMenuOpen) => !oldMenuOpen)
+            if (!loading && !fetchingUser) setMenuOpen(true)
           }}
         >
-          <Styled.SvgContainer>
+          <Styled.SvgContainer ref={svgContainerRef}>
             <Styled.MenuSvg
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
@@ -65,46 +90,59 @@ export const Navbar: React.FC = () => {
               </Styled.PersonSvg>
             </Styled.PersonSvgWrapper>
           </Styled.SvgContainer>
-          {menuOpen && (
-            <Styled.Menu>
-              {userData ? (
-                <button
-                  onClick={async () => {
-                    await auth.signOut().catch((err) => {
-                      console.log(err)
-                    })
-                    localStorage.removeItem('token')
-                    window.location.reload()
-                  }}
-                >
-                  Sign Out
-                </button>
-              ) : (
-                <div>
-                  <Styled.MenuButton onClick={() => setModalOpenMode('SignIn')}>
-                    Sign In
-                  </Styled.MenuButton>
-                  <Styled.MenuButton onClick={() => setModalOpenMode('SignUp')}>
-                    Sign Up
-                  </Styled.MenuButton>
-                </div>
-              )}
-            </Styled.Menu>
-          )}
         </Styled.ProfileContainer>
         <Styled.PaddingDiv />
       </Styled.NavContainer>
-      <Styled.SpaceDiv />
+
+      {/* Modals */}
+      {menuOpen &&
+        (userData ? (
+          <Styled.Menu left={svgContainerOffsetLeft} width={250}>
+            <button
+              onClick={async () => {
+                await auth.signOut().catch((err) => {
+                  console.log(err)
+                })
+                localStorage.removeItem('token')
+                window.location.reload()
+              }}
+            >
+              Sign Out
+            </button>
+          </Styled.Menu>
+        ) : (
+          <Styled.Menu left={svgContainerOffsetLeft} width={250}>
+            <Styled.MenuButton
+              onClick={() => {
+                console.log('Setting menu open to false')
+                setMenuOpen(false)
+                setModalOpenMode('SignIn')
+              }}
+            >
+              Log In
+            </Styled.MenuButton>
+            <Styled.MenuButton
+              onClick={() => {
+                console.log('Setting menu open to false')
+                setMenuOpen(false)
+                setModalOpenMode('SignUp')
+              }}
+            >
+              Sign Up
+            </Styled.MenuButton>
+          </Styled.Menu>
+        ))}
       {modalOpenMode === 'SignIn' && (
-        <SpringModal>
+        <SpringModal onClose={() => setModalOpenMode(null)}>
           <SignIn closeModal={() => setModalOpenMode(null)} />
         </SpringModal>
       )}
       {modalOpenMode === 'SignUp' && (
-        <SpringModal>
+        <SpringModal onClose={() => setModalOpenMode(null)}>
           <SignUp closeModal={() => setModalOpenMode(null)} />
         </SpringModal>
       )}
+      <Styled.SpaceDiv />
     </>
   )
 }

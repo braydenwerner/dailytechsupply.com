@@ -41,15 +41,15 @@ export const ProfileContainer = styled.div`
 export const SvgContainer = styled.div`
   display: flex;
   align-items: center;
-  cursor: pointer;
   padding: 5px 5px 5px 12px;
   height: 30px;
   border-radius: 21px;
   border: 1px solid rgb(221, 221, 221);
   transition: 0.2s ease-out;
+  cursor: pointer;
 
   &:hover {
-    box-shadow: 4px 4px 4px rgb(0 0 0 / 8%);
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 8%);
   }
 `
 
@@ -78,11 +78,18 @@ export const PersonSvg = styled.svg`
   fill: currentcolor;
 `
 
-export const Menu = styled.div`
+interface MenuProps {
+  left: number
+  width: number
+}
+export const Menu = styled.div<MenuProps>`
   position: absolute;
-  top: 70px;
-  width: 150px;
+  left: ${(props) => props.left - props.width}px;
+  width: ${(props) => props.width}px;
+  top: 75px;
+  z-index: 1;
   border-radius: 10px;
+  background-color: white;
   border: 1px solid rgb(221, 221, 221);
 `
 

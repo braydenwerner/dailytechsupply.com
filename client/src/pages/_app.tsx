@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <ApolloProvider client={client}>
         <TokenProvider>
+          <div id="modal-portal"></div>
           <Component {...pageProps} />
         </TokenProvider>
       </ApolloProvider>

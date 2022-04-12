@@ -1,8 +1,9 @@
-import * as React from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { useSpring, animated } from 'react-spring'
 import Backdrop from '@mui/material/Backdrop'
 import Modal from '@mui/material/Modal'
-import { useSpring, animated } from 'react-spring'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 
 interface FadeProps {
   children?: React.ReactElement
@@ -11,10 +12,7 @@ interface FadeProps {
   onExited?: () => {}
 }
 
-const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(
-  props,
-  ref
-) {
+const Fade = forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {
   const { in: open, children, onEnter, onExited, ...other } = props
   const style = useSpring({
     from: { opacity: 0 },
@@ -51,15 +49,29 @@ const style = {
 }
 
 interface SpringModalProps {
+  onClose?: () => void
   children: JSX.Element
 }
 
-export const SpringModal: React.FC<SpringModalProps> = ({ children }) => {
-  const [open, setOpen] = React.useState(true)
-  const handleClose = () => setOpen(false)
+export const SpringModal: React.FC<SpringModalProps> = ({
+  onClose,
+  children,
+}) => {
+  const [open, setOpen] = useState(true)
+  const [modalPortal, setModalPortal] = useState<HTMLElement | null>(null)
+
+  const handleClose = () => {
+    if (onClose) onClose()
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    setModalPortal(document.getElementById('modal-portal'))
+  }, [])
 
   return (
-    <div>
+    modalPortal &&
+    createPortal(
       <Modal
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
@@ -74,7 +86,8 @@ export const SpringModal: React.FC<SpringModalProps> = ({ children }) => {
         <Fade in={open}>
           <Box sx={style}>{children}</Box>
         </Fade>
-      </Modal>
-    </div>
+      </Modal>,
+      modalPortal
+    )
   )
 }
