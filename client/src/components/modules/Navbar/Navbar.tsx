@@ -1,5 +1,5 @@
-import { createPortal } from 'react-dom'
 import { useContext, useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/router'
 import { useGetUserLazyQuery } from '../../../generated/graphql'
 import * as Styled from './NavBar.styled'
 
@@ -11,7 +11,6 @@ import { SpringModal } from '../../elements'
 export const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
-  const [modalPortal, setModalPortal] = useState<HTMLElement | null>(null)
   const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
 
   const [fetchingUser, setFetchingUser] = useState(true)
@@ -22,15 +21,14 @@ export const Navbar: React.FC = () => {
   const { tokenAttached } = useContext(TokenContext)
 
   const svgContainerRef = useRef<HTMLDivElement>(null)
+  const menuContainerRef = useRef<HTMLDivElement>(null)
+
+  const router = useRouter()
 
   useEffect(() => {
     if (tokenAttached) getUser()
     setFetchingUser(false)
   }, [tokenAttached])
-
-  useEffect(() => {
-    setModalPortal(document.getElementById('modal-portal'))
-  }, [])
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -45,26 +43,66 @@ export const Navbar: React.FC = () => {
     window.addEventListener('resize', updateDimensions)
 
     return () => window.removeEventListener('resize', updateDimensions)
-  }, [svgContainerRef])
+  }, [])
 
-  console.log('MenuOpen: ' + menuOpen)
+  useEffect(() => {
+    window.addEventListener('click', menuHandleClick)
+
+    return () => window.removeEventListener('click', menuHandleClick)
+  }, [])
+
+  //  will close the menu if the user clicks outside of it
+  const menuHandleClick = (e: MouseEvent) => {
+    //  this function is called inside an event listener, so state will not
+    //  be the most updated, need to use this trick to get the most updated state
+    let updatedMenuOpen = false
+    setMenuOpen((oldMenuOpen) => {
+      updatedMenuOpen = oldMenuOpen
+      return oldMenuOpen
+    })
+    if (
+      updatedMenuOpen &&
+      menuContainerRef.current &&
+      svgContainerRef.current
+    ) {
+      const menuDimensions = menuContainerRef.current.getBoundingClientRect()
+      const svgDimensions = svgContainerRef.current.getBoundingClientRect()
+      if (
+        !(
+          e.clientX >= menuDimensions.left &&
+          e.clientX <= menuDimensions.right &&
+          e.clientY <= menuDimensions.bottom &&
+          e.clientY >= menuDimensions.top
+        ) &&
+        !(
+          e.clientX >= svgDimensions.left &&
+          e.clientX <= svgDimensions.right &&
+          e.clientY <= svgDimensions.bottom &&
+          e.clientY >= svgDimensions.top
+        )
+      ) {
+        setMenuOpen(false)
+      }
+    }
+  }
 
   return (
     <>
       <Styled.NavContainer>
         <Styled.PaddingDiv />
         <Styled.LogoContainer>
-          <div>Daily Tech Supply</div>
+          <div onClick={() => router.push('/')}>Daily Tech Supply</div>
         </Styled.LogoContainer>
         <Styled.SearchContainer>
           <input placeholder="Search"></input>
         </Styled.SearchContainer>
         <Styled.ProfileContainer
           onClick={() => {
-            if (!loading && !fetchingUser) setMenuOpen(true)
+            if (!loading && !fetchingUser)
+              setMenuOpen((oldMenuOpen) => !oldMenuOpen)
           }}
         >
-          <Styled.SvgContainer ref={svgContainerRef}>
+          <Styled.SvgContainer ref={svgContainerRef} menuOpen={menuOpen}>
             <Styled.MenuSvg
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +135,16 @@ export const Navbar: React.FC = () => {
       {/* Modals */}
       {menuOpen &&
         (userData ? (
-          <Styled.Menu left={svgContainerOffsetLeft} width={250}>
-            <button
+          <Styled.Menu ref={menuContainerRef} left={svgContainerOffsetLeft}>
+            <Styled.MenuButton
+              onClick={() => router.push(`/users/${userData.uid}`)}
+            >
+              Profile
+            </Styled.MenuButton>
+            <Styled.MenuButton onClick={() => router.push(`/account-settings`)}>
+              Account Settings
+            </Styled.MenuButton>
+            <Styled.MenuButton
               onClick={async () => {
                 await auth.signOut().catch((err) => {
                   console.log(err)
@@ -108,27 +154,27 @@ export const Navbar: React.FC = () => {
               }}
             >
               Sign Out
-            </button>
+            </Styled.MenuButton>
           </Styled.Menu>
         ) : (
-          <Styled.Menu left={svgContainerOffsetLeft} width={250}>
+          <Styled.Menu ref={menuContainerRef} left={svgContainerOffsetLeft}>
             <Styled.MenuButton
+              fontWeight={600}
               onClick={() => {
-                console.log('Setting menu open to false')
-                setMenuOpen(false)
-                setModalOpenMode('SignIn')
-              }}
-            >
-              Log In
-            </Styled.MenuButton>
-            <Styled.MenuButton
-              onClick={() => {
-                console.log('Setting menu open to false')
                 setMenuOpen(false)
                 setModalOpenMode('SignUp')
               }}
             >
               Sign Up
+            </Styled.MenuButton>
+            <Styled.MenuButton
+              fontWeight={400}
+              onClick={() => {
+                setMenuOpen(false)
+                setModalOpenMode('SignIn')
+              }}
+            >
+              Log In
             </Styled.MenuButton>
           </Styled.Menu>
         ))}

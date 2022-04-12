@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import {
-  Get3dPrinterByUuidDocument,
+  Get3dPrinterByIdDocument,
   Get3dPrinterIdsDocument,
   Printer3d,
   useGetUserLazyQuery,
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (!params?.id) return { notFound: true }
 
   const res = await client.query({
-    query: Get3dPrinterByUuidDocument,
+    query: Get3dPrinterByIdDocument,
     variables: { uuid: params.id },
   })
 
@@ -52,16 +52,13 @@ interface Printer3dItemProps {
 }
 
 const Printer3dItem: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
-  const [fetchingUser, setFetchingUser] = useState(true)
-
-  const [getUser, { data, loading }] = useGetUserLazyQuery()
+  const [getUser, { data }] = useGetUserLazyQuery()
   const userData = data && data.getUser
 
   const { tokenAttached } = useContext(TokenContext)
 
   useEffect(() => {
     if (tokenAttached) getUser()
-    setFetchingUser(false)
   }, [tokenAttached])
 
   const getProperties = useCallback(() => {

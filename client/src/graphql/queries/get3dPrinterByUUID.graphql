@@ -1,4 +1,4 @@
-query get3dPrinterByUUID($uuid: String!) {
+query get3dPrinterById($uuid: String!) {
   get3dPrinterByUUID(uuid: $uuid) {
     item_id {
       title

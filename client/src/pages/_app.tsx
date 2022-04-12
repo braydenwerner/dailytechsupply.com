@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
+import '../styles/globals.css'
 
 import { client } from '../utils/createApolloClient'
 import { TokenProvider } from '../providers'

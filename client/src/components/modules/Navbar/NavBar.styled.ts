@@ -13,20 +13,17 @@ export const NavContainer = styled.div`
   box-shadow: rgb(0 0 0 / 8%) 1px 1px 1px;
 `
 
+export const PaddingDiv = styled.div`
+  width: 95px;
+`
 export const LogoContainer = styled.div`
   width: 560px;
-  background-color: orange;
 `
 
 export const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 464px;
-  background-color: yellow;
-`
-
-export const PaddingDiv = styled.div`
-  width: 95px;
 `
 
 export const ProfileContainer = styled.div`
@@ -38,15 +35,20 @@ export const ProfileContainer = styled.div`
   height: 30px;
 `
 
-export const SvgContainer = styled.div`
+interface SvgContainerProps {
+  menuOpen: boolean
+}
+
+export const SvgContainer = styled.div<SvgContainerProps>`
   display: flex;
   align-items: center;
   padding: 5px 5px 5px 12px;
-  height: 30px;
+  height: 42px;
   border-radius: 21px;
   border: 1px solid rgb(221, 221, 221);
   transition: 0.2s ease-out;
   cursor: pointer;
+  box-shadow: ${(props) => props.menuOpen && '0px 4px 4px rgb(0 0 0 / 8%)'};
 
   &:hover {
     box-shadow: 0px 4px 4px rgb(0 0 0 / 8%);
@@ -80,23 +82,33 @@ export const PersonSvg = styled.svg`
 
 interface MenuProps {
   left: number
-  width: number
 }
+
 export const Menu = styled.div<MenuProps>`
-  position: absolute;
-  left: ${(props) => props.left - props.width}px;
-  width: ${(props) => props.width}px;
+  position: fixed;
+  z-index: 2;
+  left: ${(props) => props.left - 250}px;
+  width: 250px;
   top: 75px;
-  z-index: 1;
   border-radius: 10px;
   background-color: white;
-  border: 1px solid rgb(221, 221, 221);
+  box-shadow: 0px 0px 5px rgb(221, 221, 221);
+  user-select: none;
 `
 
-export const MenuButton = styled.div`
-  font-size: 1rem;
+interface MenuButtonProps {
+  fontWeight?: number
+}
+
+export const MenuButton = styled.div<MenuButtonProps>`
+  font-size: 0.9rem;
   padding: 15px 0px 15px 10px;
   cursor: pointer;
+  font-weight: ${(props) => props.fontWeight};
+
+  :hover {
+    background-color: rgba(221, 221, 221, 0.2);
+  }
 `
 
 export const SpaceDiv = styled.div`
