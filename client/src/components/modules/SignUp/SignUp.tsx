@@ -16,10 +16,11 @@ interface FormSubmitData {
 type ErrorResponse = { code: string; error: string; field: string }
 
 interface SignUpProps {
-  closeModal?: () => void
+  onStart?: () => void
+  onSuccess?: () => void
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
+export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
   const [createUser] = useCreateUserMutation()
 
   const { setTokenAttached } = useContext(TokenContext)
@@ -40,7 +41,7 @@ export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
                 email: data.email,
                 first_name: data.firstName,
                 last_name: data.lastName,
-                lastLoggedIn: new Date(),
+                last_logged_in: new Date(),
               },
             },
           })
@@ -83,9 +84,11 @@ export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
       onSubmit={async (data, { setSubmitting, setFieldError }) => {
         setSubmitting(true)
 
+        if (onStart) onStart()
+
         const errorResponse: ErrorResponse | null = await createNewUser(data)
 
-        if (!errorResponse && closeModal) closeModal()
+        if (!errorResponse && onSuccess) onSuccess()
 
         if (errorResponse?.code === 'auth/email-already-in-use') {
           setFieldError(

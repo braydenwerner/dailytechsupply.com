@@ -180,12 +180,12 @@ export const Navbar: React.FC = () => {
         ))}
       {modalOpenMode === 'SignIn' && (
         <SpringModal onClose={() => setModalOpenMode(null)}>
-          <SignIn closeModal={() => setModalOpenMode(null)} />
+          <SignIn onSuccess={() => setModalOpenMode(null)} />
         </SpringModal>
       )}
       {modalOpenMode === 'SignUp' && (
         <SpringModal onClose={() => setModalOpenMode(null)}>
-          <SignUp closeModal={() => setModalOpenMode(null)} />
+          <SignUp onSuccess={() => setModalOpenMode(null)} />
         </SpringModal>
       )}
       <Styled.SpaceDiv />

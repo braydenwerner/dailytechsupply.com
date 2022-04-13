@@ -37,7 +37,7 @@ export type CreateUserInput = {
   first_name?: Maybe<Scalars['String']>
   last_name?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
-  lastLoggedIn?: Maybe<Scalars['DateTime']>
+  last_logged_in?: Maybe<Scalars['DateTime']>
 }
 
 export type FieldError = {
@@ -160,7 +160,7 @@ export type UpdateUserInput = {
   first_name?: Maybe<Scalars['String']>
   last_name?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
-  lastLoggedIn?: Maybe<Scalars['DateTime']>
+  last_logged_in?: Maybe<Scalars['DateTime']>
 }
 
 export type User = {

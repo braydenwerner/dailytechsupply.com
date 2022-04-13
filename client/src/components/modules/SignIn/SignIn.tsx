@@ -18,10 +18,11 @@ interface FormSubmitData {
 type ErrorResponse = { code: string; error: string; field: string }
 
 interface SignInProps {
-  closeModal?: () => void
+  onStart?: () => void
+  onSuccess?: () => void
 }
 
-export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
+export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
   const [login] = useLoginMutation()
   const [updateUser] = useUpdateUserMutation()
 
@@ -50,7 +51,7 @@ export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
         updateUser({
           variables: {
             input: {
-              lastLoggedIn: new Date(),
+              last_logged_in: new Date(),
             },
           },
         })
@@ -78,9 +79,11 @@ export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
       onSubmit={async (data, { setSubmitting, setFieldError }) => {
         setSubmitting(true)
 
+        if (onStart) onStart()
+
         const errorResponse: ErrorResponse | null = await signInUser(data)
 
-        if (!errorResponse && closeModal) closeModal()
+        if (!errorResponse && onSuccess) onSuccess()
 
         if (errorResponse?.code === 'auth/user-not-found') {
           setFieldError('email', 'Invalid email')
