@@ -37,6 +37,16 @@ export class UserResolver {
     return User.findOne({ uid })
   }
 
+  @Query(() => User, { nullable: true })
+  getUserById(@Arg('uid') uid: string) {
+    return User.findOne({ uid })
+  }
+
+  @Query(() => [User], { nullable: true })
+  getUsers() {
+    return User.find()
+  }
+
   @Mutation(() => UserResponse)
   async createUser(
     @Arg('input') input: CreateUserInput

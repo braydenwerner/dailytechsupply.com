@@ -47,7 +47,17 @@ const LoginPage: NextPage = () => {
               }
             }}
           />
-          <div onClick={() => router.push('/signup')}>Sign Up</div>
+          <div
+            onClick={() => {
+              if ('redirect_url' in router.query) {
+                router.push(`/signup?redirect_url=${router.query.redirect_url}`)
+              } else {
+                router.push('/signup')
+              }
+            }}
+          >
+            Sign Up
+          </div>
         </>
       )}
     </>

@@ -12,5 +12,5 @@ export class UpdateUserInput {
   email?: string
 
   @Field({ nullable: true })
-  lastLoggedIn?: Date
+  last_logged_in?: Date
 }
