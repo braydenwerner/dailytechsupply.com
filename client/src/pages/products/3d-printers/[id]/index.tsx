@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import {
@@ -51,7 +52,7 @@ interface Printer3dItemProps {
   printer: Printer3d
 }
 
-const Printer3dItem: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
+const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
   const [getUser, { data }] = useGetUserLazyQuery()
   const userData = data && data.getUser
 
@@ -82,6 +83,11 @@ const Printer3dItem: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
 
   return (
     <>
+      <Head>
+        <title>{printer.item_id.title} - DailyTechSupply</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
       <ItemView item={printer} properties={getProperties()} />
       <ItemComments itemUUID={uuid} signedIn={!!userData} />
@@ -89,4 +95,4 @@ const Printer3dItem: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
   )
 }
 
-export default Printer3dItem
+export default Printer3dItemPage

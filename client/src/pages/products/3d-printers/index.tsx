@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { GetServerSideProps, NextPage } from 'next'
 import {
   Get3dPrintersDocument,
@@ -32,8 +33,13 @@ interface Printer3dPageProps {
 const Printer3dPage: NextPage<Printer3dPageProps> = ({ printers, input }) => {
   return (
     <>
+      <Head>
+        <title>3D Printers - DailyTechSupply</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
-      <div>3d Printer page</div>
+      <div>3D Printer page</div>
       <ItemList itemsData={printers} />
       <Printer3dSearch input={input} />
     </>

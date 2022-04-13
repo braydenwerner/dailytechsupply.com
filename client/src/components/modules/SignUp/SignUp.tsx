@@ -16,7 +16,7 @@ interface FormSubmitData {
 type ErrorResponse = { code: string; error: string; field: string }
 
 interface SignUpProps {
-  closeModal: () => void
+  closeModal?: () => void
 }
 
 export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
@@ -85,7 +85,7 @@ export const SignUp: React.FC<SignUpProps> = ({ closeModal }) => {
 
         const errorResponse: ErrorResponse | null = await createNewUser(data)
 
-        if (!errorResponse) closeModal()
+        if (!errorResponse && closeModal) closeModal()
 
         if (errorResponse?.code === 'auth/email-already-in-use') {
           setFieldError(

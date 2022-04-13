@@ -18,7 +18,7 @@ interface FormSubmitData {
 type ErrorResponse = { code: string; error: string; field: string }
 
 interface SignInProps {
-  closeModal: () => void
+  closeModal?: () => void
 }
 
 export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
@@ -80,7 +80,7 @@ export const SignIn: React.FC<SignInProps> = ({ closeModal }) => {
 
         const errorResponse: ErrorResponse | null = await signInUser(data)
 
-        if (!errorResponse) closeModal()
+        if (!errorResponse && closeModal) closeModal()
 
         if (errorResponse?.code === 'auth/user-not-found') {
           setFieldError('email', 'Invalid email')

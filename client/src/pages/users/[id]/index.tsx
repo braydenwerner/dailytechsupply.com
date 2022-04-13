@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import {
   GetUserByIdDocument,
@@ -45,9 +46,14 @@ interface UserProfileProps {
   user: User
 }
 
-const UserProfile: NextPage<UserProfileProps> = ({ user }) => {
+const UserProfilePage: NextPage<UserProfileProps> = ({ user }) => {
   return (
     <>
+      <Head>
+        <title>{user.first_name}'s Profile - DailyTechSupply</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
       <div>
         <div>Hey, {user.first_name}</div>
@@ -57,4 +63,4 @@ const UserProfile: NextPage<UserProfileProps> = ({ user }) => {
   )
 }
 
-export default UserProfile
+export default UserProfilePage

@@ -5,7 +5,7 @@ const ErrorPage: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <title>Page not found - DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -1,7 +1,7 @@
-import React from 'react'
+import Head from 'next/head'
 import { NextPage } from 'next'
 
-const ForgotPassword: NextPage = () => {
+const ForgotPasswordPage: NextPage = () => {
   // const handleResetPassword = (email: string) => {
   //   auth
   //     .sendPasswordResetEmail(email)
@@ -14,7 +14,16 @@ const ForgotPassword: NextPage = () => {
   //       setErrorMessage(error.message)
   //     })
   // }
-  return <div>Wow you forgot your password</div>
+  return (
+    <>
+      <Head>
+        <title>Forgot Password - DailyTechSupply</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div> wow you forgot your password</div>
+    </>
+  )
 }
 
-export default ForgotPassword
+export default ForgotPasswordPage

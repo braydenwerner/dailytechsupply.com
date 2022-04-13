@@ -1,20 +1,19 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
 
-import { Navbar } from '../../components/modules'
+import { SignUp } from '../components/modules'
 
-const ProductsPage: NextPage = () => {
+const SignUpPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Products - DailyTechSupply</title>
+        <title>SignUp - DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <div>Products Page</div>
+      <SignUp />
     </>
   )
 }
 
-export default ProductsPage
+export default SignUpPage
