@@ -5,7 +5,6 @@ import {
   Get3dPrinterByIdDocument,
   Get3dPrinterIdsDocument,
   Printer3d,
-  useGetUserLazyQuery,
 } from '../../../../generated/graphql'
 
 import { client } from '../../../../utils/createApolloClient'
@@ -53,14 +52,7 @@ interface Printer3dItemProps {
 }
 
 const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
-  const [getUser, { data }] = useGetUserLazyQuery()
-  const userData = data && data.getUser
-
-  const { tokenAttached } = useContext(TokenContext)
-
-  useEffect(() => {
-    if (tokenAttached) getUser()
-  }, [tokenAttached])
+  const { userData } = useContext(TokenContext)
 
   const getProperties = useCallback(() => {
     type key = keyof typeof printer

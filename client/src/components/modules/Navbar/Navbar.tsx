@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import { useGetUserLazyQuery } from '../../../generated/graphql'
 import * as Styled from './NavBar.styled'
 
 import { auth } from '../../../config/config'
@@ -13,22 +12,12 @@ export const Navbar: React.FC = () => {
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
   const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
 
-  const [fetchingUser, setFetchingUser] = useState(true)
-
-  const [getUser, { data, loading }] = useGetUserLazyQuery()
-  const userData = data && data.getUser
-
-  const { tokenAttached } = useContext(TokenContext)
+  const { userData } = useContext(TokenContext)
 
   const svgContainerRef = useRef<HTMLDivElement>(null)
   const menuContainerRef = useRef<HTMLDivElement>(null)
 
   const router = useRouter()
-
-  useEffect(() => {
-    if (tokenAttached) getUser()
-    setFetchingUser(false)
-  }, [tokenAttached])
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -97,10 +86,7 @@ export const Navbar: React.FC = () => {
           <input placeholder="Search"></input>
         </Styled.SearchContainer>
         <Styled.ProfileContainer
-          onClick={() => {
-            if (!loading && !fetchingUser)
-              setMenuOpen((oldMenuOpen) => !oldMenuOpen)
-          }}
+          onClick={() => setMenuOpen((oldMenuOpen) => !oldMenuOpen)}
         >
           <Styled.SvgContainer ref={svgContainerRef} menuOpen={menuOpen}>
             <Styled.MenuSvg

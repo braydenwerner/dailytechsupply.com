@@ -4,29 +4,19 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { SignUp } from '../components/modules'
-import { useGetUserLazyQuery } from '../generated/graphql'
 import { TokenContext } from '../providers'
 
 const SignUpPage: NextPage = () => {
-  const [getUser, { data, loading }] = useGetUserLazyQuery()
-  const userData = data && data.getUser
-
-  const [fetchingUser, setFetchingUser] = useState(true)
   const [loggingIn, setLoggingIn] = useState(false)
 
-  const { tokenAttached } = useContext(TokenContext)
+  const { isMounted, tokenAttached, userData } = useContext(TokenContext)
 
   const router = useRouter()
 
   //  if the user is already logged in, redirect to homepage
   useEffect(() => {
     if (userData && !loggingIn) router.push('/')
-  }, [data])
-
-  useEffect(() => {
-    if (tokenAttached) getUser()
-    setFetchingUser(false)
-  }, [tokenAttached])
+  }, [userData])
 
   return (
     <>
@@ -35,7 +25,7 @@ const SignUpPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!userData && !fetchingUser && !loading && (
+      {isMounted && !tokenAttached && (
         <>
           <SignUp
             onStart={() => setLoggingIn(true)}

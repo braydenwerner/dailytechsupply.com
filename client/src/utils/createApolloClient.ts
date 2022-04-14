@@ -26,7 +26,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           console.log(err)
         })
 
-        if (typeof window !== 'undefined') localStorage.removeItem('token')
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token')
+          window.location.reload()
+        }
       }
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
