@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Checkbox from '@mui/material/Checkbox'
+import { Checkbox } from '@mui/material'
 
 interface CheckboxProps {
   defaultValue: boolean

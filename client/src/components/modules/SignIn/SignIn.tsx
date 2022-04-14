@@ -110,6 +110,7 @@ export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
         if (!re.test(values.email) && values.email.length !== 0)
           errors.email = 'Invalid email formatting'
 
+        console.log(errors)
         return errors
       }}
     >
@@ -119,17 +120,15 @@ export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
             name="email"
             placeholder="Email"
             component={CustomTextField}
-            mandatory={true}
+            required={true}
           />
-          {errors.email}
           <Field
             name="password"
             placeholder="Password"
             type="password"
             component={CustomTextField}
-            mandatory={true}
+            required={true}
           />
-          {errors.password}
           <button
             type="submit"
             disabled={isSubmitting || !values.email || !values.password}

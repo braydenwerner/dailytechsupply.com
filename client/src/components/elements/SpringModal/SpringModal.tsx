@@ -5,6 +5,8 @@ import Backdrop from '@mui/material/Backdrop'
 import Modal from '@mui/material/Modal'
 import { Box } from '@mui/material'
 
+import { ModalStyle } from './SpringModal.styled'
+
 interface FadeProps {
   children?: React.ReactElement
   in: boolean
@@ -35,18 +37,6 @@ const Fade = forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {
     </animated.div>
   )
 })
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
 
 interface SpringModalProps {
   onClose?: () => void
@@ -84,7 +74,7 @@ export const SpringModal: React.FC<SpringModalProps> = ({
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>{children}</Box>
+          <Box sx={ModalStyle}>{children}</Box>
         </Fade>
       </Modal>,
       modalPortal

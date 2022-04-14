@@ -7,12 +7,12 @@ import { Navbar } from '../components/modules'
 import { TokenContext } from '../providers'
 
 const AccountSettingsPage: NextPage = () => {
-  //  if the user tries to access this page without being logged in,
-  //  take them to the login page, pass this url as a query
   const { isMounted, tokenAttached, userData } = useContext(TokenContext)
 
   const router = useRouter()
 
+  //  if the user tries to access this page without being logged in,
+  //  take them to the login page, pass this url as a query
   if (isMounted && !tokenAttached) {
     router.push('/login?redirect_url=account-settings')
   }
@@ -24,10 +24,10 @@ const AccountSettingsPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <div>Account settings</div>
       {userData && (
         <div>
+          <Navbar />
+          <div>Account settings</div>
           <div>{userData.email}</div>
           <div>{userData.first_name}</div>
           <div>{userData.last_name}</div>

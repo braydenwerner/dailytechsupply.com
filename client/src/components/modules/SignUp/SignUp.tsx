@@ -134,21 +134,21 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
             name="email"
             placeholder="Email"
             component={CustomTextField}
-            mandatory={true}
+            required={true}
           />
           {errors.email}
           <Field
             name="firstName"
             placeholder="First name"
             component={CustomTextField}
-            mandatory={true}
+            required={true}
           />
           {errors.firstName}
           <Field
             name="lastName"
             placeholder="Last name"
             component={CustomTextField}
-            mandatory={false}
+            required={false}
           />
           {errors.lastName}
           <Field
@@ -156,7 +156,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
             placeholder="Password"
             type="password"
             component={CustomTextField}
-            mandatory={true}
+            required={true}
           />
           {errors.password}
           <button

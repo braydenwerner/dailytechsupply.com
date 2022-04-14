@@ -3,7 +3,7 @@ import { FieldProps } from 'formik'
 import * as Styled from './CustomTextField.styled'
 
 type CustomTextFieldProps = {
-  mandatory: boolean
+  required: boolean
   placeholder?: string
   type?: string
 } & FieldProps
@@ -11,18 +11,22 @@ type CustomTextFieldProps = {
 export const CustomTextField: React.FC<CustomTextFieldProps> = ({
   placeholder,
   type,
-  mandatory,
+  required,
   field,
   form: { touched, errors },
   ...props
 }) => {
   return (
-    <>
-      <div>
-        {placeholder}
-        {mandatory ? ' *' : ''}
-      </div>
-      <Styled.TextInput type={type} {...field} {...props} />
-    </>
+    <Styled.CssTextField
+      label={placeholder}
+      variant="outlined"
+      margin="normal"
+      required={required}
+      type={type}
+      error={!!errors[field.name]}
+      helperText={errors[field.name]}
+      {...field}
+      {...props}
+    />
   )
 }
