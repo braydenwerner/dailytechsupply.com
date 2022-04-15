@@ -136,6 +136,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
             placeholder="Email"
             component={CustomTextField}
             required={true}
+            autoFocus
           />
           <Field
             name="firstName"

@@ -9,6 +9,7 @@ import {
 import { auth } from '../../../config/config'
 import { CustomTextField } from '../../elements'
 import { TokenContext } from '../../../providers'
+import { ForgotPasswordText } from './SignIn.styled'
 import * as Styled from '../../../styles/shared.styled'
 
 interface FormSubmitData {
@@ -122,6 +123,7 @@ export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
             placeholder="Email"
             component={CustomTextField}
             required={true}
+            autoFocus
           />
           <Field
             name="password"
@@ -130,15 +132,15 @@ export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
             component={CustomTextField}
             required={true}
           />
+          <ForgotPasswordText onClick={() => router.push('/forgot-password')}>
+            Forgot your password?
+          </ForgotPasswordText>
           <Styled.LoginSubmit
             type="submit"
             disabled={isSubmitting || !values.email || !values.password}
           >
             Log In
           </Styled.LoginSubmit>
-          <div onClick={() => router.push('/forgot-password')}>
-            Forgot Password?
-          </div>
         </Styled.LoginForm>
       )}
     </Formik>
