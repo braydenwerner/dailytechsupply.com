@@ -10,7 +10,7 @@ export const NavContainer = styled.div`
   top: 0px;
   left: 0px;
   background-color: white;
-  box-shadow: rgb(0 0 0 / 8%) 1px 1px 1px;
+  border-bottom: 1px solid rgb(0 0 0 / 8%);
 `
 
 export const PaddingDiv = styled.div`

@@ -1,10 +1,11 @@
 import { useContext } from 'react'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Field } from 'formik'
 import { useCreateUserMutation } from '../../../generated/graphql'
 
 import { auth } from '../../../config/config'
 import { CustomTextField } from '../../elements/index'
 import { TokenContext } from '../../../providers'
+import * as Styled from '../../../styles/shared.styled'
 
 interface FormSubmitData {
   firstName: string
@@ -128,29 +129,26 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
         return errors
       }}
     >
-      {({ values, errors, isSubmitting, handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
+      {({ values, isSubmitting, handleSubmit }) => (
+        <Styled.LoginForm onSubmit={handleSubmit}>
           <Field
             name="email"
             placeholder="Email"
             component={CustomTextField}
             required={true}
           />
-          {errors.email}
           <Field
             name="firstName"
             placeholder="First name"
             component={CustomTextField}
             required={true}
           />
-          {errors.firstName}
           <Field
             name="lastName"
             placeholder="Last name"
             component={CustomTextField}
             required={false}
           />
-          {errors.lastName}
           <Field
             name="password"
             placeholder="Password"
@@ -158,8 +156,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
             component={CustomTextField}
             required={true}
           />
-          {errors.password}
-          <button
+          <Styled.LoginSubmit
             type="submit"
             disabled={
               isSubmitting ||
@@ -168,9 +165,9 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
               !values.password
             }
           >
-            Register
-          </button>
-        </Form>
+            Sign In
+          </Styled.LoginSubmit>
+        </Styled.LoginForm>
       )}
     </Formik>
   )

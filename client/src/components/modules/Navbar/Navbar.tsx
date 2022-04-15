@@ -165,12 +165,12 @@ export const Navbar: React.FC = () => {
           </Styled.Menu>
         ))}
       {modalOpenMode === 'SignIn' && (
-        <SpringModal onClose={() => setModalOpenMode(null)}>
+        <SpringModal title="Log In" onClose={() => setModalOpenMode(null)}>
           <SignIn onSuccess={() => setModalOpenMode(null)} />
         </SpringModal>
       )}
       {modalOpenMode === 'SignUp' && (
-        <SpringModal onClose={() => setModalOpenMode(null)}>
+        <SpringModal title="Sign Up" onClose={() => setModalOpenMode(null)}>
           <SignUp onSuccess={() => setModalOpenMode(null)} />
         </SpringModal>
       )}

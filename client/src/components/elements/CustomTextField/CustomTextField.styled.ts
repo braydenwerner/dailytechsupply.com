@@ -5,7 +5,7 @@ interface CssTextFieldProps {
   error: boolean
 }
 export const CssTextField = styled(TextField)<CssTextFieldProps>`
-  width: 100%;
+  width: 500px;
   background-color: white;
 
   & input {
