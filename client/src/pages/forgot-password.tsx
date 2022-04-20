@@ -1,19 +1,18 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import { NextPage } from 'next'
 
+import { auth } from '../config/config'
+
 const ForgotPasswordPage: NextPage = () => {
-  // const handleResetPassword = (email: string) => {
-  //   auth
-  //     .sendPasswordResetEmail(email)
-  //     .then(() => {
-  //       setEmail(email)
-  //       setSuccessSnackBarOpen(true)
-  //     })
-  //     .catch((error) => {
-  //       setErrorSnackBarOpen(true)
-  //       setErrorMessage(error.message)
-  //     })
-  // }
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+  const handleResetPassword = (email: string) => {
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {})
+      .catch((error) => {})
+  }
   return (
     <>
       <Head>
@@ -21,7 +20,9 @@ const ForgotPasswordPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div> wow you forgot your password</div>
+      <div>
+        <div>Reset your password</div>
+      </div>
     </>
   )
 }
