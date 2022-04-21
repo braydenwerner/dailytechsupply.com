@@ -21,6 +21,7 @@ export const analytics = firebase.analytics
 
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider()
+export const twitterAuthProvider = new firebase.auth.TwitterAuthProvider()
 export const microsoftAuthProvider = new firebase.auth.OAuthProvider(
   'microsoft.com'
 )

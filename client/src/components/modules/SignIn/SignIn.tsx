@@ -7,7 +7,8 @@ import {
 } from '../../../generated/graphql'
 
 import { auth } from '../../../config/config'
-import { CustomTextField, ProviderSignIn } from '../../elements'
+import { ProviderSignIn } from '../../modules'
+import { CustomTextField } from '../../elements'
 import { TokenContext } from '../../../providers'
 import { ForgotPasswordText } from './SignIn.styled'
 import * as Styled from '../../../styles/shared.styled'

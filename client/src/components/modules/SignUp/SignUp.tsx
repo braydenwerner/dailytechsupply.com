@@ -3,13 +3,13 @@ import { Formik, Field } from 'formik'
 import { useCreateUserMutation } from '../../../generated/graphql'
 
 import { auth } from '../../../config/config'
-import { CustomTextField, ProviderSignIn } from '../../elements/index'
+import { ProviderSignIn } from '../../modules'
+import { CustomTextField } from '../../elements/index'
 import { TokenContext } from '../../../providers'
 import * as Styled from '../../../styles/shared.styled'
 
 interface FormSubmitData {
   firstName: string
-  lastName: string
   email: string
   password: string
 }
@@ -41,7 +41,6 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
                 uid: user.user.uid,
                 email: data.email,
                 first_name: data.firstName,
-                last_name: data.lastName,
                 last_logged_in: new Date(),
               },
             },
@@ -79,7 +78,6 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
         validateOnBlur={false}
         initialValues={{
           firstName: '',
-          lastName: '',
           email: '',
           password: '',
         }}
@@ -144,12 +142,6 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
               placeholder="First name"
               component={CustomTextField}
               required={true}
-            />
-            <Field
-              name="lastName"
-              placeholder="Last name"
-              component={CustomTextField}
-              required={false}
             />
             <Field
               name="password"

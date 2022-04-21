@@ -4,6 +4,7 @@ import {
   facebookAuthProvider,
   googleAuthProvider,
   microsoftAuthProvider,
+  twitterAuthProvider,
 } from '../../../config/config'
 import {
   useCreateUserMutation,
@@ -11,6 +12,7 @@ import {
   useUpdateUserMutation,
 } from '../../../generated/graphql'
 import { TokenContext } from '../../../providers'
+import { ProviderSignInButton } from '../../elements/ProviderSignInButton/ProviderSignInButton'
 
 interface ProviderSignInProps {
   onStart?: () => void
@@ -37,7 +39,7 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
       .then(async (result) => {
         if (!result.user?.uid) return
 
-        if (result.additionalUserInfo?.isNewUser && result.user.email) {
+        if (result.additionalUserInfo?.isNewUser) {
           const response = await createUser({
             variables: {
               input: {
@@ -85,15 +87,26 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
   return (
     <>
       <div>Or</div>
-      <button onClick={() => signInWithProvider(googleAuthProvider)}>
-        Continue with Google
-      </button>
-      <button onClick={() => signInWithProvider(facebookAuthProvider)}>
-        Continue with Facebook
-      </button>
-      <button onClick={() => signInWithProvider(microsoftAuthProvider)}>
-        Continue with Microsoft
-      </button>
+      <ProviderSignInButton
+        onClick={() => signInWithProvider(googleAuthProvider)}
+        title="Continue with Google"
+        imagePath=""
+      />
+      <ProviderSignInButton
+        onClick={() => signInWithProvider(facebookAuthProvider)}
+        title="Continue with Facebook"
+        imagePath=""
+      />
+      <ProviderSignInButton
+        onClick={() => signInWithProvider(twitterAuthProvider)}
+        title="Continue with Twitter"
+        imagePath=""
+      />
+      <ProviderSignInButton
+        onClick={() => signInWithProvider(microsoftAuthProvider)}
+        title="Continue with Microsoft"
+        imagePath=""
+      />
       {errorMessage && <div>{errorMessage}</div>}
     </>
   )
