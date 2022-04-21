@@ -13,7 +13,7 @@ export const getUserId = (ctx: MyContext) => {
     }
     return uid
   }
-  console.log('throwing error')
+  console.log('User is not authorized')
   throw new AuthError()
 }
 

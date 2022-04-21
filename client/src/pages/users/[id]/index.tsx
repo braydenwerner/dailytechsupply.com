@@ -47,16 +47,18 @@ interface UserProfileProps {
 }
 
 const UserProfilePage: NextPage<UserProfileProps> = ({ user }) => {
+  const name = user.first_name ? user.first_name : user.display_name
+
   return (
     <>
       <Head>
-        <title>{user.first_name}'s Profile - DailyTechSupply</title>
+        <title>{name}'s Profile - DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
       <div>
-        <div>Hey, {user.first_name}</div>
+        <div>Hey, {name}</div>
         <div>{user.email}</div>
       </div>
     </>

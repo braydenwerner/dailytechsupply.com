@@ -3,6 +3,7 @@ query getUserById($uid: String!) {
     uid
     first_name
     last_name
+    display_name
     email
   }
 }

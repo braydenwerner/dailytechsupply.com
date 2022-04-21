@@ -37,13 +37,13 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
       .then(async (result) => {
         if (!result.user?.uid) return
 
-        if (result.additionalUserInfo?.isNewUser) {
+        if (result.additionalUserInfo?.isNewUser && result.user.email) {
           const response = await createUser({
             variables: {
               input: {
                 uid: result.user.uid,
                 email: result.user.email,
-                first_name: result.user.displayName,
+                display_name: result.user.displayName,
                 last_logged_in: new Date(),
               },
             },

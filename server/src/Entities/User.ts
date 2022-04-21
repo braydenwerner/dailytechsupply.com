@@ -19,13 +19,17 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   uid: string
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   first_name: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   last_name: string
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  display_name: string
 
   @Field()
   @Column()
