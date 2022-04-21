@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 const ErrorPage: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
         <title>Page not found - DailyTechSupply</title>
         <meta name="description" content="" />
@@ -12,7 +12,7 @@ const ErrorPage: NextPage = () => {
       <main>
         <div>Big fat error</div>
       </main>
-    </div>
+    </>
   )
 }
 

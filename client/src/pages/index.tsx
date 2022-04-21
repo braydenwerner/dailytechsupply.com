@@ -5,17 +5,18 @@ import { Navbar } from '../components/modules'
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
         <title>DailyTechSupply - New Tech Deals Everyday</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Navbar />
-        <div>Main page</div>
+        <div>
+          <Navbar />
+        </div>
       </main>
-    </div>
+    </>
   )
 }
 

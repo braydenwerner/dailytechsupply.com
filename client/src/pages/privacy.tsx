@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-const PrivacyPolicyPage: NextPage = () => {
+const PrivacyPage: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
-        <title>Privacy Policy - DailyTechSupply</title>
+        <title>Privacy at DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -14,8 +14,8 @@ const PrivacyPolicyPage: NextPage = () => {
         <div>Data deletion instructions:</div>
         <div>Clear your cookies</div>
       </main>
-    </div>
+    </>
   )
 }
 
-export default PrivacyPolicyPage
+export default PrivacyPage

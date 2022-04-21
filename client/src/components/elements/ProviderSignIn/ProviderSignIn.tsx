@@ -3,6 +3,7 @@ import {
   auth,
   facebookAuthProvider,
   googleAuthProvider,
+  microsoftAuthProvider,
 } from '../../../config/config'
 import {
   useCreateUserMutation,
@@ -89,6 +90,9 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
       </button>
       <button onClick={() => signInWithProvider(facebookAuthProvider)}>
         Continue with Facebook
+      </button>
+      <button onClick={() => signInWithProvider(microsoftAuthProvider)}>
+        Continue with Microsoft
       </button>
       {errorMessage && <div>{errorMessage}</div>}
     </>

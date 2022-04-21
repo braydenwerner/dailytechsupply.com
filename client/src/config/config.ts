@@ -21,6 +21,13 @@ export const analytics = firebase.analytics
 
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider()
+export const microsoftAuthProvider = new firebase.auth.OAuthProvider(
+  'microsoft.com'
+)
+microsoftAuthProvider.setCustomParameters({
+  prompt: 'consent',
+  tenant: '096a46d9-84f3-48ef-a75b-8f470dfb1b6b',
+})
 
 export const dev = process.env.NODE_ENV !== 'production'
 export const serverURL = dev ? 'http://localhost:4000' : ''
