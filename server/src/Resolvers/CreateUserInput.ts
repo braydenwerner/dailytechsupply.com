@@ -11,8 +11,8 @@ export class CreateUserInput {
   @Field({ nullable: true })
   last_name?: string
 
-  @Field({ nullable: true })
-  email?: string
+  @Field()
+  email: string
 
   @Field({ nullable: true })
   last_logged_in?: Date

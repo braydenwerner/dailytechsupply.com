@@ -1,5 +1,9 @@
 import { useState, useContext } from 'react'
-import { auth, googleAuthProvider } from '../../../config/config'
+import {
+  auth,
+  facebookAuthProvider,
+  googleAuthProvider,
+} from '../../../config/config'
 import {
   useCreateUserMutation,
   useLoginMutation,
@@ -24,11 +28,11 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
 
   const { setTokenAttached } = useContext(TokenContext)
 
-  const signInWithGoogle = () => {
+  const signInWithProvider = (provider: firebase.default.auth.AuthProvider) => {
     if (onStart) onStart()
 
     auth
-      .signInWithPopup(googleAuthProvider)
+      .signInWithPopup(provider)
       .then(async (result) => {
         if (!result.user?.uid) return
 
@@ -69,13 +73,23 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
       })
       .catch((error) => {
         console.error(error)
+
+        if (error.code === 'auth/account-exists-with-different-credential')
+          setErrorMessage(
+            'An account already exists that is associated with a different login provider. Try logging in with another method.'
+          )
       })
   }
 
   return (
     <>
       <div>Or</div>
-      <button onClick={signInWithGoogle}>Continue with Google</button>
+      <button onClick={() => signInWithProvider(googleAuthProvider)}>
+        Continue with Google
+      </button>
+      <button onClick={() => signInWithProvider(facebookAuthProvider)}>
+        Continue with Facebook
+      </button>
       {errorMessage && <div>{errorMessage}</div>}
     </>
   )
