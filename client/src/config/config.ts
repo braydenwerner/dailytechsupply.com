@@ -19,5 +19,7 @@ export type User = firebase.User | null
 export const auth = firebase.auth()
 export const analytics = firebase.analytics
 
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+
 export const dev = process.env.NODE_ENV !== 'production'
 export const serverURL = dev ? 'http://localhost:4000' : ''
