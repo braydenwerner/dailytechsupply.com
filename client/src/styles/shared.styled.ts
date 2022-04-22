@@ -19,7 +19,7 @@ export const LoginSubmit = styled.button`
   text-align: center;
   border: none;
   background-size: 300% 100%;
-  border-radius: 10px;
+  border-radius: 8px;
 
   -o-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
@@ -39,5 +39,20 @@ export const LoginSubmit = styled.button`
     -o-transition: all 0.4s ease-in-out;
     -webkit-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
+  }
+`
+
+export const SignInModalFooter = styled.div`
+  position: fixed;
+  font-size: 1rem;
+  bottom: 20px;
+`
+
+export const SignInModalFooterSpan = styled.span`
+  font-size: 1rem;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
   }
 `

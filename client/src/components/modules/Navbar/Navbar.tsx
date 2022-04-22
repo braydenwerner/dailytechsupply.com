@@ -164,14 +164,22 @@ export const Navbar: React.FC = () => {
             </Styled.MenuButton>
           </Styled.Menu>
         ))}
-      {modalOpenMode === 'SignIn' && (
-        <SpringModal title="Log In" onClose={() => setModalOpenMode(null)}>
-          <SignIn onSuccess={() => setModalOpenMode(null)} />
-        </SpringModal>
-      )}
-      {modalOpenMode === 'SignUp' && (
-        <SpringModal title="Sign Up" onClose={() => setModalOpenMode(null)}>
-          <SignUp onSuccess={() => setModalOpenMode(null)} />
+      {modalOpenMode && (
+        <SpringModal
+          title={modalOpenMode === 'SignIn' ? 'Sign In' : 'Log In'}
+          onClose={() => setModalOpenMode(null)}
+        >
+          {modalOpenMode === 'SignIn' ? (
+            <SignIn
+              onSuccess={() => setModalOpenMode(null)}
+              setModalOpenMode={setModalOpenMode}
+            />
+          ) : (
+            <SignUp
+              onSuccess={() => setModalOpenMode(null)}
+              setModalOpenMode={setModalOpenMode}
+            />
+          )}
         </SpringModal>
       )}
       <Styled.SpaceDiv />

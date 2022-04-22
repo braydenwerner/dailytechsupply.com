@@ -1,18 +1,20 @@
 import { useState, useContext } from 'react'
 import {
+  useCreateUserMutation,
+  useLoginMutation,
+  useUpdateUserMutation,
+} from '../../../generated/graphql'
+
+import {
   auth,
   facebookAuthProvider,
   googleAuthProvider,
   microsoftAuthProvider,
   twitterAuthProvider,
 } from '../../../config/config'
-import {
-  useCreateUserMutation,
-  useLoginMutation,
-  useUpdateUserMutation,
-} from '../../../generated/graphql'
 import { TokenContext } from '../../../providers'
 import { ProviderSignInButton } from '../../elements/ProviderSignInButton/ProviderSignInButton'
+import * as Styled from './ProviderSignIn.styled'
 
 interface ProviderSignInProps {
   onStart?: () => void
@@ -85,8 +87,12 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
   }
 
   return (
-    <>
-      <div>Or</div>
+    <Styled.ProviderSignInContainer>
+      <Styled.DividerContainer>
+        <Styled.DividerLine />
+        <Styled.DivderText>or</Styled.DivderText>
+        <Styled.DividerLine />
+      </Styled.DividerContainer>
       <ProviderSignInButton
         onClick={() => signInWithProvider(googleAuthProvider)}
         title="Continue with Google"
@@ -108,6 +114,6 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
         imagePath=""
       />
       {errorMessage && <div>{errorMessage}</div>}
-    </>
+    </Styled.ProviderSignInContainer>
   )
 }

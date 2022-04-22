@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { Dispatch, SetStateAction, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Formik, Field } from 'formik'
 import {
@@ -23,9 +23,14 @@ type ErrorResponse = { code: string; error: string; field: string }
 interface SignInProps {
   onStart?: () => void
   onSuccess?: () => void
+  setModalOpenMode?: Dispatch<SetStateAction<string | null>>
 }
 
-export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
+export const SignIn: React.FC<SignInProps> = ({
+  onStart,
+  onSuccess,
+  setModalOpenMode,
+}) => {
   const [login] = useLoginMutation()
   const [updateUser] = useUpdateUserMutation()
 
@@ -146,6 +151,16 @@ export const SignIn: React.FC<SignInProps> = ({ onStart, onSuccess }) => {
         )}
       </Formik>
       <ProviderSignIn onStart={onStart} onSuccess={onSuccess} />
+      {setModalOpenMode && (
+        <Styled.SignInModalFooter>
+          Don't have an account?{' '}
+          <Styled.SignInModalFooterSpan
+            onClick={() => setModalOpenMode('SignUp')}
+          >
+            Register
+          </Styled.SignInModalFooterSpan>
+        </Styled.SignInModalFooter>
+      )}
     </>
   )
 }

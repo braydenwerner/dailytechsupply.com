@@ -8,7 +8,7 @@ export const ModalStyle = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 568,
-  height: 650,
+  height: 700,
   bgcolor: 'background.paper',
   borderRadius: '13px',
 }

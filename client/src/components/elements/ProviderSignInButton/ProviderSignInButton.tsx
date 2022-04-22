@@ -14,6 +14,7 @@ export const ProviderSignInButton: React.FC<ProviderSignInButtonProps> = ({
     <Styled.ButtonContainer>
       <img></img>
       <Styled.ButtonTitle>{title}</Styled.ButtonTitle>
+      <Styled.PaddingDiv />
     </Styled.ButtonContainer>
   )
 }

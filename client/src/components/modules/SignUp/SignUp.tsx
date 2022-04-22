@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { Dispatch, SetStateAction, useContext } from 'react'
 import { Formik, Field } from 'formik'
 import { useCreateUserMutation } from '../../../generated/graphql'
 
@@ -19,9 +19,14 @@ type ErrorResponse = { code: string; error: string; field: string }
 interface SignUpProps {
   onStart?: () => void
   onSuccess?: () => void
+  setModalOpenMode?: Dispatch<SetStateAction<string | null>>
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
+export const SignUp: React.FC<SignUpProps> = ({
+  onStart,
+  onSuccess,
+  setModalOpenMode,
+}) => {
   const [createUser] = useCreateUserMutation()
 
   const { setTokenAttached } = useContext(TokenContext)
@@ -165,6 +170,16 @@ export const SignUp: React.FC<SignUpProps> = ({ onStart, onSuccess }) => {
         )}
       </Formik>
       <ProviderSignIn onStart={onStart} onSuccess={onSuccess} />
+      {setModalOpenMode && (
+        <Styled.SignInModalFooter>
+          Already have an account?{' '}
+          <Styled.SignInModalFooterSpan
+            onClick={() => setModalOpenMode('SignIn')}
+          >
+            Log In
+          </Styled.SignInModalFooterSpan>
+        </Styled.SignInModalFooter>
+      )}
     </>
   )
 }
