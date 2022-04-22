@@ -9,6 +9,9 @@ export const LoginForm = styled(Form)`
 `
 
 export const LoginSubmit = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 500px;
   font-size: 16px;
   font-weight: 600;

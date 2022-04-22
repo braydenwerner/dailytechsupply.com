@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 export const ButtonContainer = styled.button`
   display: flex;
   align-items: center;
   width: 500px;
-  height: 40px;
+  height: 43px;
   background-color: white;
   border-radius: 8px;
   margin: 10px 0px 10px 0px;
@@ -27,7 +27,7 @@ export const SVGContainer = styled.div`
 
 export const ButtonTitle = styled.div`
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.9rem;
 `
 
 export const PaddingDiv = styled.div`

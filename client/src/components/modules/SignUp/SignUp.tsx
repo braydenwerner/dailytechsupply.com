@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useContext } from 'react'
 import { Formik, Field } from 'formik'
 import { useCreateUserMutation } from '../../../generated/graphql'
+import { CircularProgress } from '@mui/material'
 
 import { auth } from '../../../config/config'
 import { ProviderSignIn } from '../../modules'
@@ -140,7 +141,6 @@ export const SignUp: React.FC<SignUpProps> = ({
               placeholder="Email"
               component={CustomTextField}
               required={true}
-              autoFocus
             />
             <Field
               name="firstName"
@@ -164,7 +164,11 @@ export const SignUp: React.FC<SignUpProps> = ({
                 !values.password
               }
             >
-              Sign Up
+              {isSubmitting ? (
+                <CircularProgress size={28} />
+              ) : (
+                <div>Sign Up</div>
+              )}
             </Styled.LoginSubmit>
           </Styled.LoginForm>
         )}

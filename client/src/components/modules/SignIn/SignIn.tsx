@@ -5,6 +5,7 @@ import {
   useLoginMutation,
   useUpdateUserMutation,
 } from '../../../generated/graphql'
+import { CircularProgress } from '@mui/material'
 
 import { auth } from '../../../config/config'
 import { ProviderSignIn } from '../../modules'
@@ -129,7 +130,6 @@ export const SignIn: React.FC<SignInProps> = ({
               placeholder="Email"
               component={CustomTextField}
               required={true}
-              autoFocus
             />
             <Field
               name="password"
@@ -145,7 +145,11 @@ export const SignIn: React.FC<SignInProps> = ({
               type="submit"
               disabled={isSubmitting || !values.email || !values.password}
             >
-              Log In
+              {isSubmitting ? (
+                <CircularProgress size={28} />
+              ) : (
+                <div>Log In</div>
+              )}
             </Styled.LoginSubmit>
           </Styled.LoginForm>
         )}
@@ -157,7 +161,7 @@ export const SignIn: React.FC<SignInProps> = ({
           <Styled.SignInModalFooterSpan
             onClick={() => setModalOpenMode('SignUp')}
           >
-            Register
+            Sign Up
           </Styled.SignInModalFooterSpan>
         </Styled.SignInModalFooter>
       )}

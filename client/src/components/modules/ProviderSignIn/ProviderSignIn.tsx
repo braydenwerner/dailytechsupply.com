@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useState, useContext, useEffect } from 'react'
 import { Alert, Slide, Snackbar } from '@mui/material'
 import {
@@ -16,7 +17,6 @@ import {
 import { TokenContext } from '../../../providers'
 import { ProviderSignInButton } from '../../elements/ProviderSignInButton/ProviderSignInButton'
 import * as Styled from './ProviderSignIn.styled'
-import { createPortal } from 'react-dom'
 
 interface ProviderSignInProps {
   onStart?: () => void
