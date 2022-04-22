@@ -51,6 +51,7 @@ export const SignInModalFooter = styled.div`
 export const SignInModalFooterSpan = styled.span`
   font-size: 1rem;
   cursor: pointer;
+  color: #0095f6;
 
   :hover {
     text-decoration: underline;
