@@ -5,6 +5,11 @@ import { useRouter } from 'next/router'
 
 import { SignIn } from '../components/modules'
 import { TokenContext } from '../providers'
+import {
+  SignInPageContainer,
+  SignInPageHeader,
+  SignInPageTitle,
+} from '../styles/shared.styled'
 
 const LoginPage: NextPage = () => {
   const [loggingIn, setLoggingIn] = useState(false)
@@ -26,7 +31,10 @@ const LoginPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {isMounted && !tokenAttached && (
-        <>
+        <SignInPageContainer>
+          <SignInPageHeader>
+            <SignInPageTitle>Log In</SignInPageTitle>
+          </SignInPageHeader>
           <SignIn
             onStart={() => setLoggingIn(true)}
             onSuccess={() => {
@@ -36,19 +44,15 @@ const LoginPage: NextPage = () => {
                 router.push('/')
               }
             }}
-          />
-          <div
-            onClick={() => {
+            toggleToSignUp={() => {
               if ('redirect_url' in router.query) {
                 router.push(`/signup?redirect_url=${router.query.redirect_url}`)
               } else {
                 router.push('/signup')
               }
             }}
-          >
-            Sign Up
-          </div>
-        </>
+          />
+        </SignInPageContainer>
       )}
     </>
   )

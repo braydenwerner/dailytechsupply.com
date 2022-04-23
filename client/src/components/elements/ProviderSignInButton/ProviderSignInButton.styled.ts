@@ -1,6 +1,9 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
-export const ButtonContainer = styled.button`
+interface ButtonContainerProps {
+  animateIn: boolean
+}
+export const ButtonContainer = styled.button<ButtonContainerProps>`
   display: flex;
   align-items: center;
   width: 500px;
@@ -12,9 +15,26 @@ export const ButtonContainer = styled.button`
   border: none;
   cursor: pointer;
   border: 1px solid black;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+
+  ${(props) =>
+    props.animateIn &&
+    css`
+      animation-name: ${ButtonContainerAnimation};
+    `}
 
   :hover {
     background-color: rgba(221, 221, 221, 0.2);
+  }
+`
+
+const ButtonContainerAnimation = keyframes`
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1)
   }
 `
 

@@ -60,3 +60,33 @@ export const SignInModalFooterSpan = styled.span`
     text-decoration: underline;
   }
 `
+
+export const SignInPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 720px;
+  width: 578px;
+  background-color: white;
+  border-radius: 13px;
+  border: 1px solid black;
+`
+
+export const SignInPageHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  width: 100%;
+  border-bottom: 1px solid rgb(0 0 0 / 8%);
+`
+
+export const SignInPageTitle = styled.div`
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-left: 35px;
+`

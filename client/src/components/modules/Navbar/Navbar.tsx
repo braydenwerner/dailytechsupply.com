@@ -172,12 +172,12 @@ export const Navbar: React.FC = () => {
           {modalOpenMode === 'SignIn' ? (
             <SignIn
               onSuccess={() => setModalOpenMode(null)}
-              setModalOpenMode={setModalOpenMode}
+              toggleToSignUp={() => setModalOpenMode('SignUp')}
             />
           ) : (
             <SignUp
               onSuccess={() => setModalOpenMode(null)}
-              setModalOpenMode={setModalOpenMode}
+              toggleToSignIn={() => setModalOpenMode('SignIn')}
             />
           )}
         </SpringModal>

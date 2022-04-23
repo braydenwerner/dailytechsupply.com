@@ -8,7 +8,7 @@ export const ModalStyle = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 578,
-  height: 700,
+  height: 720,
   bgcolor: 'background.paper',
   borderRadius: '13px',
 }
@@ -30,7 +30,7 @@ export const SignInHeader = styled.div`
 `
 
 export const SignInTitle = styled.div`
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   font-weight: 700;
   margin-left: 35px;
 `

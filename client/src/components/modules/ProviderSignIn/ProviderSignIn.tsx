@@ -40,12 +40,10 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
     setModalPortal(document.getElementById('modal-portal'))
   }, [])
 
-  const signInWithProvider = (
-    provider: firebase.default.auth.AuthProvider
-  ): Promise<firebase.default.User | undefined> => {
+  const signInWithProvider = (provider: firebase.default.auth.AuthProvider) => {
     if (onStart) onStart()
 
-    return auth
+    auth
       .signInWithPopup(provider)
       .then(async (result) => {
         if (!result.user?.uid) return
@@ -83,45 +81,12 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
           })
         }
         if (onSuccess) onSuccess()
-
-        return result.user
       })
       .catch((error) => {
-        //  if the user signed in with a different method before, find that method and link it to the current sign in method
-        //  for now, if a user signs in with email and password, they cannot link that to a provider
         if (error.code == 'auth/account-exists-with-different-credential') {
-          const existingEmail = error.email
-          const pendingCred = error.credential
-
-          return auth
-            .fetchSignInMethodsForEmail(error.email)
-            .then((providers) => {
-              if (providers[0] === 'google.com') {
-                const provider = googleAuthProvider
-                provider.setCustomParameters({ login_hint: existingEmail })
-                return signInWithProvider(provider)
-              } else if (providers[0] === 'facebook.com') {
-                const provider = facebookAuthProvider
-                provider.setCustomParameters({ login_hint: existingEmail })
-                return signInWithProvider(provider)
-              } else if (providers[0] === 'twitter.com') {
-                const provider = twitterAuthProvider
-                provider.setCustomParameters({ login_hint: existingEmail })
-                return signInWithProvider(provider)
-              } else if (providers[0] === 'microsoft.com') {
-                const provider = microsoftAuthProvider
-                provider.setCustomParameters({ login_hint: existingEmail })
-                return signInWithProvider(provider)
-              } else {
-                setErrorMessage(
-                  'An account already exists with this email. Please sign in with your username and password.'
-                )
-              }
-            })
-            .then((user) => {
-              if (user) user.linkWithCredential(pendingCred)
-              return user
-            })
+          setErrorMessage(
+            `An account already exists with this e-mail address. Please sign in to that account first, then connect your ${error.credential.providerId} account.`
+          )
         }
       })
   }

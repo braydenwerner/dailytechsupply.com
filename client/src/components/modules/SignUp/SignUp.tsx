@@ -20,13 +20,13 @@ type ErrorResponse = { code: string; error: string; field: string }
 interface SignUpProps {
   onStart?: () => void
   onSuccess?: () => void
-  setModalOpenMode?: Dispatch<SetStateAction<string | null>>
+  toggleToSignIn: () => void
 }
 
 export const SignUp: React.FC<SignUpProps> = ({
   onStart,
   onSuccess,
-  setModalOpenMode,
+  toggleToSignIn,
 }) => {
   const [createUser] = useCreateUserMutation()
 
@@ -141,6 +141,7 @@ export const SignUp: React.FC<SignUpProps> = ({
               placeholder="Email"
               component={CustomTextField}
               required={true}
+              autoFocus
             />
             <Field
               name="firstName"
@@ -174,16 +175,12 @@ export const SignUp: React.FC<SignUpProps> = ({
         )}
       </Formik>
       <ProviderSignIn onStart={onStart} onSuccess={onSuccess} />
-      {setModalOpenMode && (
-        <Styled.SignInModalFooter>
-          Already have an account?{' '}
-          <Styled.SignInModalFooterSpan
-            onClick={() => setModalOpenMode('SignIn')}
-          >
-            Log In
-          </Styled.SignInModalFooterSpan>
-        </Styled.SignInModalFooter>
-      )}
+      <Styled.SignInModalFooter>
+        Already have an account?{' '}
+        <Styled.SignInModalFooterSpan onClick={toggleToSignIn}>
+          Log In
+        </Styled.SignInModalFooterSpan>
+      </Styled.SignInModalFooter>
     </>
   )
 }
