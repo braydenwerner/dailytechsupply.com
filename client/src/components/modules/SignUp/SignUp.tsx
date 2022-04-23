@@ -46,7 +46,7 @@ export const SignUp: React.FC<SignUpProps> = ({
               input: {
                 uid: user.user.uid,
                 email: data.email,
-                first_name: data.firstName,
+                display_name: data.firstName,
                 last_logged_in: new Date(),
               },
             },

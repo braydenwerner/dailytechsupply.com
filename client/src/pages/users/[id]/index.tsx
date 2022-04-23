@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { useContext } from 'react'
 import {
   GetUserByIdDocument,
   GetUserIdsDocument,
@@ -7,7 +8,8 @@ import {
 } from '../../../generated/graphql'
 
 import { client } from '../../../utils/createApolloClient'
-import { Navbar } from '../../../components/modules'
+import { Navbar, Profile } from '../../../components/modules'
+import { TokenContext } from '../../../providers'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await client.query({
@@ -47,20 +49,18 @@ interface UserProfileProps {
 }
 
 const UserProfilePage: NextPage<UserProfileProps> = ({ user }) => {
-  const name = user.first_name ? user.first_name : user.display_name
+  const { userData } = useContext(TokenContext)
 
+  const isOwner = userData?.uid === user.uid
   return (
     <>
       <Head>
-        <title>{name}'s Profile - DailyTechSupply</title>
+        <title>{user.display_name}'s Profile - DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <div>
-        <div>Hey, {name}</div>
-        <div>{user.email}</div>
-      </div>
+      <Navbar small />
+      <Profile user={user} isOwner={isOwner} />
     </>
   )
 }

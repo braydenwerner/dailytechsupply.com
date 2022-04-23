@@ -73,7 +73,7 @@ export const SignInPageContainer = styled.div`
   width: 578px;
   background-color: white;
   border-radius: 13px;
-  border: 1px solid black;
+  border: 1px solid #b0b0b0;
 `
 
 export const SignInPageHeader = styled.div`

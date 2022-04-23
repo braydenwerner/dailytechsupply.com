@@ -16,8 +16,13 @@ export const NavContainer = styled.div`
 export const PaddingDiv = styled.div`
   width: 95px;
 `
-export const LogoContainer = styled.div`
-  width: 560px;
+
+interface LogoContainerProps {
+  small?: boolean
+}
+
+export const LogoContainer = styled.div<LogoContainerProps>`
+  width: ${(props) => (props.small ? '400px' : '560px')};
 `
 
 export const SearchContainer = styled.div`
@@ -26,12 +31,16 @@ export const SearchContainer = styled.div`
   width: 464px;
 `
 
-export const ProfileContainer = styled.div`
+interface ProfileContainerProps {
+  small?: boolean
+}
+
+export const ProfileContainer = styled.div<ProfileContainerProps>`
   display: flex;
   justify-content: right;
   justify-self: center;
   align-items: center;
-  width: 560px;
+  width: ${(props) => (props.small ? '400px' : '560px')};
   height: 30px;
 `
 

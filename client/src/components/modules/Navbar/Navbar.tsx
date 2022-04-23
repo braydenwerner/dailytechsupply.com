@@ -7,7 +7,11 @@ import { TokenContext } from '../../../providers'
 import { SignIn, SignUp } from '../../../components/modules'
 import { SpringModal } from '../../elements'
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  small?: boolean
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ small }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
   const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
@@ -79,13 +83,12 @@ export const Navbar: React.FC = () => {
     <>
       <Styled.NavContainer>
         <Styled.PaddingDiv />
-        <Styled.LogoContainer>
+        <Styled.LogoContainer small={small}>
           <div onClick={() => router.push('/')}>Daily Tech Supply</div>
         </Styled.LogoContainer>
-        <Styled.SearchContainer>
-          <input placeholder="Search"></input>
-        </Styled.SearchContainer>
+        <Styled.SearchContainer />
         <Styled.ProfileContainer
+          small={small}
           onClick={() => setMenuOpen((oldMenuOpen) => !oldMenuOpen)}
         >
           <Styled.SvgContainer ref={svgContainerRef} menuOpen={menuOpen}>

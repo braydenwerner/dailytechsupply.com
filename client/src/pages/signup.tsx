@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
+import { NavbarEmpty } from '../components/elements'
 import { SignUp } from '../components/modules'
 import { TokenContext } from '../providers'
 import {
@@ -30,6 +31,7 @@ const SignUpPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavbarEmpty />
       {isMounted && !tokenAttached && (
         <SignInPageContainer>
           <SignInPageHeader>
