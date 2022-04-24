@@ -1,7 +1,8 @@
-import { Formik } from 'formik'
 import { useState } from 'react'
+import { Formik } from 'formik'
 import { User, useUpdateUserMutation } from '../../../generated/graphql'
 
+import { UploadImage } from '../../elements'
 import * as Styled from './Profile.styled'
 
 interface ProfileProps {
@@ -45,6 +46,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
               </Styled.PersonSvgWrapper>
             )}
             <Styled.EditProfileButton>Update Photo</Styled.EditProfileButton>
+            <UploadImage />
           </>
         </Styled.ProfilePictureContainer>
         <Styled.SpaceContainer />

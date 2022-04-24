@@ -1,32 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Alert, CircularProgress, Snackbar } from '@mui/material'
 
-import { auth } from '../../../config/config'
-import * as Styled from './UploadImage.styled'
+import { useUploadProfilePictureMutation } from '../../../generated/graphql'
+import { TokenContext } from '../../../providers'
 
 export const UploadImage: React.FC = () => {
   const [snackbarOpen, setSnackBarOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const onDrop = async (files: File[]) => {
-    if (auth.currentUser?.uid) {
-      // const response = await uploadImage({ variables: { files } })
-      // const errors = response.data.uploadImages.errors
-      // if (errors && errors[0].message) {
-      //   setSnackBarOpen(true)
-      //   setErrorMessage(errors[0].message)
-      // }
-    }
+  const [uploadProfilePicture, { loading }] = useUploadProfilePictureMutation()
+
+  const { userData } = useContext(TokenContext)
+
+  const onDrop = async (image: File[]) => {
+    console.log(image[0])
+    if (userData) await uploadProfilePicture({ variables: { image: image[0] } })
   }
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      onDrop,
-      maxFiles: 1,
-      maxSize: 1048576 * 5, //  5 MB
-      accept: 'image/jpeg, image/png',
-    })
+  const { getRootProps, getInputProps, fileRejections, open } = useDropzone({
+    noClick: true,
+    onDrop,
+    maxFiles: 1,
+    maxSize: 1048576 * 5, //  5 MB
+    accept: 'image/jpeg, image/png',
+  })
 
   useEffect(() => {
     if (fileRejections.length > 0 && fileRejections[0].errors[0].message) {
@@ -35,28 +33,14 @@ export const UploadImage: React.FC = () => {
     }
   }, [fileRejections])
 
-  const fileUploadText = () => {
-    // if (!imageLoading) {
-    //   if (isDragActive) {
-    //     return <p style={{ userSelect: 'none' }}>Drop files here ...</p>
-    //   } else {
-    //     return (
-    //       <p style={{ userSelect: 'none' }}>
-    //         Drag files here or click to select files
-    //       </p>
-    //     )
-    //   }
-    // } else {
-    //   return <CircularProgress />
-    // }
-  }
-
   return (
     <>
-      <Styled.DropContainer {...getRootProps()}>
+      <div {...getRootProps()}>
         <input {...getInputProps()} />
-        {fileUploadText()}
-      </Styled.DropContainer>
+        <button type="button" onClick={open}>
+          Upload a photo
+        </button>
+      </div>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}

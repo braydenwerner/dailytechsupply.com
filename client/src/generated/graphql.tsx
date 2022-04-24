@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type Comment = {
@@ -83,8 +85,9 @@ export type Item = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: UserResponse;
-  login: UserResponse;
   updateUser: Scalars['Boolean'];
+  login: UserResponse;
+  uploadProfilePicture: Scalars['Boolean'];
   createComment: Scalars['Boolean'];
 };
 
@@ -94,13 +97,18 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+
 export type MutationLoginArgs = {
   uid: Scalars['String'];
 };
 
 
-export type MutationUpdateUserArgs = {
-  input: UpdateUserInput;
+export type MutationUploadProfilePictureArgs = {
+  image: Array<Scalars['Upload']>;
 };
 
 
@@ -163,8 +171,10 @@ export type UpdateUserInput = {
   email?: Maybe<Scalars['String']>;
   about?: Maybe<Scalars['String']>;
   profile_picture_url?: Maybe<Scalars['String']>;
+  reputation?: Maybe<Scalars['Float']>;
   last_logged_in?: Maybe<Scalars['DateTime']>;
 };
+
 
 export type User = {
   __typename?: 'User';
@@ -174,6 +184,7 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   about?: Maybe<Scalars['String']>;
   profile_picture_url?: Maybe<Scalars['String']>;
+  reputation?: Maybe<Scalars['Float']>;
   last_logged_in?: Maybe<Scalars['String']>;
   created_at: Scalars['String'];
   updated_at: Scalars['String'];
@@ -239,6 +250,16 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'updateUser'>
+);
+
+export type UploadProfilePictureMutationVariables = Exact<{
+  image: Array<Scalars['Upload']> | Scalars['Upload'];
+}>;
+
+
+export type UploadProfilePictureMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'uploadProfilePicture'>
 );
 
 export type Get3dPrinterByIdQueryVariables = Exact<{
@@ -477,6 +498,37 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UploadProfilePictureDocument = gql`
+    mutation uploadProfilePicture($image: [Upload!]!) {
+  uploadProfilePicture(image: $image)
+}
+    `;
+export type UploadProfilePictureMutationFn = Apollo.MutationFunction<UploadProfilePictureMutation, UploadProfilePictureMutationVariables>;
+
+/**
+ * __useUploadProfilePictureMutation__
+ *
+ * To run a mutation, you first call `useUploadProfilePictureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadProfilePictureMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadProfilePictureMutation, { data, loading, error }] = useUploadProfilePictureMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUploadProfilePictureMutation(baseOptions?: Apollo.MutationHookOptions<UploadProfilePictureMutation, UploadProfilePictureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadProfilePictureMutation, UploadProfilePictureMutationVariables>(UploadProfilePictureDocument, options);
+      }
+export type UploadProfilePictureMutationHookResult = ReturnType<typeof useUploadProfilePictureMutation>;
+export type UploadProfilePictureMutationResult = Apollo.MutationResult<UploadProfilePictureMutation>;
+export type UploadProfilePictureMutationOptions = Apollo.BaseMutationOptions<UploadProfilePictureMutation, UploadProfilePictureMutationVariables>;
 export const Get3dPrinterByIdDocument = gql`
     query get3dPrinterById($uuid: String!) {
   get3dPrinterByUUID(uuid: $uuid) {

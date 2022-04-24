@@ -7,7 +7,9 @@ import {
   Field,
   Ctx,
 } from 'type-graphql'
+import { FileUpload, GraphQLUpload } from 'graphql-upload'
 
+import { bucket } from '..'
 import { __prod__ } from '../constants/constants'
 import { MyContext } from '../types'
 import { FieldError } from './FieldError'
@@ -63,10 +65,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async updateUser(
-    @Ctx() ctx: MyContext,
-    @Arg('input') input: UpdateUserInput
-  ) {
+  updateUser(@Ctx() ctx: MyContext, @Arg('input') input: UpdateUserInput) {
     const uid = getUserId(ctx)
 
     User.update(
@@ -88,5 +87,55 @@ export class UserResolver {
     }
 
     return { user, token: createToken(uid) }
+  }
+
+  @Mutation(() => Boolean)
+  async uploadProfilePicture(
+    @Ctx() ctx: MyContext,
+    @Arg('image', () => [GraphQLUpload]) file: FileUpload[]
+  ) {
+    const uid = getUserId(ctx)
+
+    let name = uid
+    const { createReadStream, mimetype } = await file[0]
+    console.log(mimetype)
+    console.log(file)
+    if (mimetype === 'image/png') name += '.png'
+    else if (mimetype === 'image/jpeg') name += '.jpeg'
+    else {
+      console.error('Invalid image type')
+      return false
+    }
+
+    //  try to delete the current user's profile image, then add the new image
+    try {
+      const user = await User.findOne({ uid })
+
+      if (user?.profile_picture_url) await bucket.file(name).delete()
+
+      await new Promise((res) =>
+        createReadStream()
+          .pipe(
+            bucket.file(name).createWriteStream({
+              resumable: false,
+              gzip: true,
+            })
+          )
+          .on('finish', res)
+      )
+
+      User.update(
+        { uid },
+        {
+          profile_picture_url: `https://storage.googleapis.com/${process.env
+            .BUCKET!}/${name}`,
+        }
+      )
+
+      return true
+    } catch (err) {
+      console.error(err)
+      return false
+    }
   }
 }

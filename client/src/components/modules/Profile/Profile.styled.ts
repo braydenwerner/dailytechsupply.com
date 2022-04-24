@@ -23,9 +23,9 @@ export const ProfilePictureContainer = styled.div`
 `
 
 export const PersonSvgWrapper = styled.div`
-  margin-top: 25px;
-  height: 125px;
-  width: 125px;
+  margin-top: 5px;
+  height: 155px;
+  width: 155px;
   overflow: hidden;
   color: rgb(113, 113, 113);
 `

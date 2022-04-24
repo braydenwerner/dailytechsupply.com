@@ -20,13 +20,13 @@ if (!keysEnvVar) {
 }
 const keys = JSON.parse(keysEnvVar)
 const gc = new Storage({
-  projectId: 'chrome-extension-images',
+  projectId: 'dailytechsupply',
   credentials: {
     client_email: keys.client_email,
     private_key: keys.private_key,
   },
 })
-export const bucket = gc.bucket('chrome-extension-bucket')
+export const bucket = gc.bucket(process.env.BUCKET!)
 
 const main = async () => {
   /*const conn = */ await createConnection({
@@ -47,8 +47,8 @@ const main = async () => {
   app.use(cors())
   app.set('trust proxy', 1)
   app.use(graphqlUploadExpress({ maxFileSize: 1048576 * 5, maxFiles: 1 }))
-  app.use(express.json({ limit: '5' }))
-  app.use(express.urlencoded({ limit: '5' }))
+  app.use(express.json({ limit: '50mb' }))
+  app.use(express.urlencoded({ limit: '50mb' }))
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
