@@ -62,6 +62,23 @@ export class UserResolver {
     return { user, token: createToken(input.uid) }
   }
 
+  @Mutation(() => Boolean)
+  async updateUser(
+    @Ctx() ctx: MyContext,
+    @Arg('input') input: UpdateUserInput
+  ) {
+    const uid = getUserId(ctx)
+
+    User.update(
+      { uid },
+      {
+        ...input,
+      }
+    )
+
+    return true
+  }
+
   @Mutation(() => UserResponse)
   async login(@Arg('uid') uid: string) {
     const user = await User.findOne({ uid })
@@ -71,18 +88,5 @@ export class UserResolver {
     }
 
     return { user, token: createToken(uid) }
-  }
-
-  @Mutation(() => Boolean)
-  updateUser(@Ctx() ctx: MyContext, @Arg('input') input: UpdateUserInput) {
-    const uid = getUserId(ctx)
-
-    User.update(
-      { uid },
-      {
-        ...input,
-      }
-    )
-    return true
   }
 }

@@ -3,6 +3,7 @@ import styled, { css, keyframes } from 'styled-components'
 interface ButtonContainerProps {
   animateIn: boolean
 }
+
 export const ButtonContainer = styled.button<ButtonContainerProps>`
   display: flex;
   align-items: center;

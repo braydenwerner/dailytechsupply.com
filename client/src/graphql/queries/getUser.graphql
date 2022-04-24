@@ -3,6 +3,7 @@ query getUser {
     uid
     display_name
     email
+    about
     profile_picture_url
     created_at
   }

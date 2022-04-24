@@ -60,7 +60,7 @@ const UserProfilePage: NextPage<UserProfileProps> = ({ user }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar small />
-      <Profile user={user} isOwner={isOwner} />
+      <Profile user={isOwner ? userData : user} isOwner={isOwner} />
     </>
   )
 }

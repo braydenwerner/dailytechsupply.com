@@ -27,6 +27,4 @@ export const microsoftAuthProvider = new firebase.auth.OAuthProvider(
 )
 
 export const dev = process.env.NODE_ENV !== 'production'
-export const serverURL = dev
-  ? process.env.NEXT_PUBLIC_SERVER_DEVELOPMENT_URL
-  : process.env.NEXT_PUBLIC_SERVER_PRODUCTION_URL
+export const serverURL = process.env.NEXT_PUBLIC_SERVER_URL

@@ -1,7 +1,16 @@
+import { createUploadLink } from 'apollo-upload-client'
 import { ApolloClient, InMemoryCache, from, HttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { auth, serverURL } from '../config/config'
 import { onError } from '@apollo/client/link/error'
+
+import { auth, serverURL } from '../config/config'
+
+const uploadLink = createUploadLink({
+  uri: serverURL,
+  headers: {
+    'keep-alive': 'true',
+  },
+})
 
 const authLink = setContext((_, { headers }) => {
   const token =
@@ -40,6 +49,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 export const client = new ApolloClient({
-  link: from([authLink, errorLink, new HttpLink({ uri: serverURL })]),
+  link: from([authLink, errorLink, uploadLink]),
   cache: new InMemoryCache(),
 })

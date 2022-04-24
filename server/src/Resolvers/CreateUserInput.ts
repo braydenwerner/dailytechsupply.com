@@ -5,13 +5,7 @@ export class CreateUserInput {
   @Field()
   uid: string
 
-  @Field({ nullable: true })
-  first_name?: string
-
-  @Field({ nullable: true })
-  last_name?: string
-
-  @Field({ nullable: true })
+  @Field()
   display_name?: string
 
   @Field({ nullable: true })

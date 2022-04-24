@@ -19,21 +19,25 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   uid: string
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  first_name: string
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  last_name: string
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field()
+  @Column()
   display_name: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   email: string
+
+  @Field({ nullable: true })
+  @Column('text', { nullable: true })
+  about: string
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  profile_picture_url: string
+
+  @Field({ defaultValue: 0 })
+  @Column({ default: 0 })
+  reputation: number
 
   @Field(() => String, { nullable: true })
   @CreateDateColumn()

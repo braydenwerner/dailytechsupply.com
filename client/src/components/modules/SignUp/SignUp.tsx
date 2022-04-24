@@ -119,9 +119,9 @@ export const SignUp: React.FC<SignUpProps> = ({
           if (values.password.length === 0)
             errors.password = 'Please enter a password'
 
-          if (values.firstName.length > 36 && values.firstName.length !== 0)
+          if (values.firstName.length > 50 && values.firstName.length !== 0)
             errors.firstName =
-              'Your first name exceeds the maximum length 40 characters'
+              'Your name exceeds the maximum length 50 characters'
 
           const re =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i

@@ -161,6 +161,8 @@ export type QueryGetCommentsArgs = {
 export type UpdateUserInput = {
   display_name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  about?: Maybe<Scalars['String']>;
+  profile_picture_url?: Maybe<Scalars['String']>;
   last_logged_in?: Maybe<Scalars['DateTime']>;
 };
 
@@ -170,6 +172,7 @@ export type User = {
   uid: Scalars['String'];
   display_name: Scalars['String'];
   email?: Maybe<Scalars['String']>;
+  about?: Maybe<Scalars['String']>;
   profile_picture_url?: Maybe<Scalars['String']>;
   last_logged_in?: Maybe<Scalars['String']>;
   created_at: Scalars['String'];
@@ -309,7 +312,7 @@ export type GetUserQuery = (
   { __typename?: 'Query' }
   & { getUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'display_name' | 'email' | 'profile_picture_url' | 'created_at'>
+    & Pick<User, 'uid' | 'display_name' | 'email' | 'about' | 'profile_picture_url' | 'created_at'>
   )> }
 );
 
@@ -322,7 +325,7 @@ export type GetUserByIdQuery = (
   { __typename?: 'Query' }
   & { getUserById?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'display_name' | 'email' | 'profile_picture_url' | 'created_at'>
+    & Pick<User, 'uid' | 'display_name' | 'email' | 'about' | 'profile_picture_url' | 'created_at'>
   )> }
 );
 
@@ -669,6 +672,7 @@ export const GetUserDocument = gql`
     uid
     display_name
     email
+    about
     profile_picture_url
     created_at
   }
@@ -707,6 +711,7 @@ export const GetUserByIdDocument = gql`
     uid
     display_name
     email
+    about
     profile_picture_url
     created_at
   }
