@@ -27,7 +27,9 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
   onStart,
   onSuccess,
 }) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  )
   const [modalPortal, setModalPortal] = useState<HTMLElement | null>(null)
 
   const [login] = useLoginMutation()
@@ -48,7 +50,7 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
       .then(async (result) => {
         if (!result.user?.uid) return
 
-        if (result.additionalUserInfo?.isNewUser) {
+        if (result.additionalUserInfo?.isNewUser && result.user.displayName) {
           const response = await createUser({
             variables: {
               input: {
@@ -214,7 +216,6 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
           <Snackbar
             open={!!errorMessage}
             TransitionComponent={(props) => <Slide {...props} direction="up" />}
-            onClose={() => setErrorMessage(null)}
             style={{
               display: 'flex',
               justifyContent: 'center',
@@ -222,7 +223,7 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
               left: 0,
             }}
           >
-            <Alert severity="error" onClose={() => setErrorMessage(null)}>
+            <Alert severity="error" onClose={() => setErrorMessage(undefined)}>
               {errorMessage}
             </Alert>
           </Snackbar>,

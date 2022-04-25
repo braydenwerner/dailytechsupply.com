@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   if (!res.data?.getUserById) return { notFound: true }
 
-  return { props: { user: res.data.getUserById } }
+  return { props: { user: res.data.getUserById }, revalidate: 60 }
 }
 
 interface UserProfileProps {

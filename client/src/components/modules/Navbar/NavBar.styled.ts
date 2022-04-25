@@ -73,13 +73,27 @@ export const MenuSvg = styled.svg`
   overflow: visible;
 `
 
-export const PersonSvgWrapper = styled.div`
+export const ProfileSvgWrapper = styled.div`
   height: 30px;
   width: 30px;
   z-index: 1;
   margin-left: 12px;
   overflow: hidden;
   color: rgb(113, 113, 113);
+`
+
+export const ProfilePictureWrapper = styled.div`
+  height: 30px;
+  width: 30px;
+  z-index: 1;
+  margin-left: 12px;
+  overflow: hidden;
+`
+
+export const ProfilePicture = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 `
 
 export const PersonSvg = styled.svg`

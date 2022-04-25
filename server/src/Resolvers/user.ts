@@ -8,6 +8,7 @@ import {
   Ctx,
 } from 'type-graphql'
 import { FileUpload, GraphQLUpload } from 'graphql-upload'
+import { v4 as uuid } from 'uuid'
 
 import { bucket } from '..'
 import { __prod__ } from '../constants/constants'
@@ -96,12 +97,10 @@ export class UserResolver {
   ) {
     const uid = getUserId(ctx)
 
-    let name = uid
+    let id = uuid()
     const { createReadStream, mimetype } = await file[0]
-    console.log(mimetype)
-    console.log(file)
-    if (mimetype === 'image/png') name += '.png'
-    else if (mimetype === 'image/jpeg') name += '.jpeg'
+    if (mimetype === 'image/png') id += '.png'
+    else if (mimetype === 'image/jpeg') id += '.jpeg'
     else {
       console.error('Invalid image type')
       return false
@@ -111,12 +110,19 @@ export class UserResolver {
     try {
       const user = await User.findOne({ uid })
 
-      if (user?.profile_picture_url) await bucket.file(name).delete()
+      if (user?.profile_picture_url)
+        await bucket
+          .file(
+            user.profile_picture_url.split(
+              `https://storage.googleapis.com/${process.env.BUCKET}/`
+            )[1]
+          )
+          .delete()
 
       await new Promise((res) =>
         createReadStream()
           .pipe(
-            bucket.file(name).createWriteStream({
+            bucket.file(id).createWriteStream({
               resumable: false,
               gzip: true,
             })
@@ -127,14 +133,42 @@ export class UserResolver {
       User.update(
         { uid },
         {
-          profile_picture_url: `https://storage.googleapis.com/${process.env
-            .BUCKET!}/${name}`,
+          profile_picture_url: `https://storage.googleapis.com/${process.env.BUCKET}/${id}`,
         }
       )
 
       return true
     } catch (err) {
       console.error(err)
+      return false
+    }
+  }
+
+  @Mutation(() => Boolean, { nullable: true })
+  async deleteProfilePicture(@Ctx() ctx: MyContext) {
+    const uid = getUserId(ctx)
+
+    const user = await User.findOne({ uid })
+
+    if (!user?.profile_picture_url) return false
+
+    try {
+      await bucket
+        .file(
+          user.profile_picture_url.split(
+            `https://storage.googleapis.com/${process.env.BUCKET}/`
+          )[1]
+        )
+        .delete()
+
+      User.update(
+        { uid },
+        {
+          profile_picture_url: undefined,
+        }
+      )
+      return true
+    } catch (err) {
       return false
     }
   }

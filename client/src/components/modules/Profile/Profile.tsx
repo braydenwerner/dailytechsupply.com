@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Formik } from 'formik'
 import { User, useUpdateUserMutation } from '../../../generated/graphql'
 
-import { UploadImage } from '../../elements'
+import { EditProfilePicture } from '../../elements'
 import * as Styled from './Profile.styled'
 
 interface ProfileProps {
@@ -20,6 +20,7 @@ interface ProfileProps {
 }
 
 export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
+  const [profilePictureMenuOpen, setProfilePictureMenuOpen] = useState(false)
   const [editorOpen, setEditorOpen] = useState(false)
   const [animateIn, setAnimateIn] = useState(false)
 
@@ -31,7 +32,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
         <Styled.ProfilePictureContainer>
           <>
             {user.profile_picture_url ? (
-              <img src=""></img>
+              <Styled.ProfilePicture src={user.profile_picture_url} />
             ) : (
               <Styled.PersonSvgWrapper>
                 <Styled.PersonSvg
@@ -45,8 +46,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
                 </Styled.PersonSvg>
               </Styled.PersonSvgWrapper>
             )}
-            <Styled.EditProfileButton>Update Photo</Styled.EditProfileButton>
-            <UploadImage />
+            {isOwner && <EditProfilePicture />}
           </>
         </Styled.ProfilePictureContainer>
         <Styled.SpaceContainer />

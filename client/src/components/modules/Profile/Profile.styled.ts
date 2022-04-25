@@ -22,6 +22,12 @@ export const ProfilePictureContainer = styled.div`
   border-radius: 10px;
 `
 
+export const ProfilePicture = styled.img`
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+`
+
 export const PersonSvgWrapper = styled.div`
   margin-top: 5px;
   height: 155px;
