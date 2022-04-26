@@ -22,9 +22,17 @@ export const ProfilePictureContainer = styled.div`
   border-radius: 10px;
 `
 
-export const ProfilePicture = styled.img`
-  width: 155px;
-  height: 155px;
+interface ProfilePictureProps {
+  url: string
+}
+
+export const ProfilePicture = styled.img<ProfilePictureProps>`
+  display: inline-block;
+  width: 115px;
+  height: 115px;
+  background: ${(props) => props.url && `url(${props.url})`};
+  background-position: 50% 50%;
+  background-size: cover;
   border-radius: 50%;
 `
 

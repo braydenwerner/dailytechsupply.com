@@ -90,10 +90,19 @@ export const ProfilePictureWrapper = styled.div`
   overflow: hidden;
 `
 
-export const ProfilePicture = styled.img`
+interface ProfilePictureProps {
+  url: string
+}
+
+export const ProfilePicture = styled.img<ProfilePictureProps>`
+  display: inline-block;
   width: 30px;
   height: 30px;
+  background: ${(props) => props.url && `url(${props.url})`};
+  background-position: 50% 50%;
+  background-size: cover;
   border-radius: 50%;
+  user-select: none;
 `
 
 export const PersonSvg = styled.svg`

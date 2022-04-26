@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
             </Styled.MenuSvg>
             {userData && userData.profile_picture_url ? (
               <Styled.ProfilePictureWrapper>
-                <Styled.ProfilePicture src={userData.profile_picture_url} />
+                <Styled.ProfilePicture url={userData.profile_picture_url} />
               </Styled.ProfilePictureWrapper>
             ) : (
               <Styled.ProfileSvgWrapper>

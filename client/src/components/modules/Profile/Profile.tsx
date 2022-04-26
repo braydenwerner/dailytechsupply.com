@@ -20,7 +20,6 @@ interface ProfileProps {
 }
 
 export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
-  const [profilePictureMenuOpen, setProfilePictureMenuOpen] = useState(false)
   const [editorOpen, setEditorOpen] = useState(false)
   const [animateIn, setAnimateIn] = useState(false)
 
@@ -32,7 +31,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
         <Styled.ProfilePictureContainer>
           <>
             {user.profile_picture_url ? (
-              <Styled.ProfilePicture src={user.profile_picture_url} />
+              <Styled.ProfilePicture url={user.profile_picture_url} />
             ) : (
               <Styled.PersonSvgWrapper>
                 <Styled.PersonSvg

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
