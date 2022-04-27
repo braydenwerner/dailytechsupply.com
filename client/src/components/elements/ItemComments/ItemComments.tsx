@@ -62,8 +62,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
         {commentsData &&
           commentsData.map((comment, i) => (
             <div key={i}>
-              <div>{comment.user_id.first_name}</div>
-              <div>{comment.user_id.last_name}</div>
+              <div>{comment.user_id.display_name}</div>
               <div>{comment.text}</div>
             </div>
           ))}

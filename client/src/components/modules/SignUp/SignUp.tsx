@@ -35,46 +35,45 @@ export const SignUp: React.FC<SignUpProps> = ({
   const createNewUser = async (
     data: FormSubmitData
   ): Promise<ErrorResponse | null> => {
-    let errorResponse = null
+    let user
+    try {
+      user = await auth.createUserWithEmailAndPassword(
+        data.email,
+        data.password
+      )
+    } catch (err: any) {
+      return {
+        code: err.code,
+        error: err.message,
+        field: 'Create User',
+      }
+    }
 
-    await auth
-      .createUserWithEmailAndPassword(data.email, data.password)
-      .then(async (user) => {
-        if (user?.user) {
-          const response = await createUser({
-            variables: {
-              input: {
-                uid: user.user.uid,
-                email: data.email,
-                display_name: data.firstName,
-                last_logged_in: new Date(),
-              },
-            },
-          })
-
-          if (response.data?.createUser.token) {
-            localStorage.setItem('token', response.data.createUser.token)
-            setTokenAttached(true)
-          }
-        } else {
-          console.error('User object does not exist, cannot create user')
-          errorResponse = {
-            code: 'auth/cannot-create-account',
-            error: 'Cannot create account',
-            field: 'Create User',
-          }
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-        errorResponse = {
-          code: err.code,
-          error: err.message,
-          field: 'Create User',
-        }
+    if (user?.user) {
+      const response = await createUser({
+        variables: {
+          input: {
+            uid: user.user.uid,
+            email: data.email,
+            display_name: data.firstName,
+            last_logged_in: new Date(),
+          },
+        },
       })
 
-    return errorResponse
+      if (response.data?.createUser.token) {
+        localStorage.setItem('token', response.data.createUser.token)
+        setTokenAttached(true)
+      }
+    } else {
+      return {
+        code: 'auth/cannot-create-account',
+        error: 'Cannot create account',
+        field: 'Create User',
+      }
+    }
+
+    return null
   }
 
   return (

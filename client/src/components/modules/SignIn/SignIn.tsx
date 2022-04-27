@@ -42,38 +42,35 @@ export const SignIn: React.FC<SignInProps> = ({
   const signInUser = async (
     data: FormSubmitData
   ): Promise<ErrorResponse | null> => {
-    let errorResponse = null
+    let user
+    try {
+      user = await auth.signInWithEmailAndPassword(data.email, data.password)
+    } catch (err: any) {
+      return {
+        code: err.code,
+        error: err.message,
+        field: 'Sign In User',
+      }
+    }
 
-    await auth
-      .signInWithEmailAndPassword(data.email, data.password)
-      .then(async (user) => {
-        if (user.user?.uid) {
-          const response = await login({ variables: { uid: user.user.uid } })
+    if (user.user?.uid) {
+      const response = await login({ variables: { uid: user.user.uid } })
 
-          if (response.data?.login.token) {
-            localStorage.setItem('token', response.data.login.token)
-            setTokenAttached(true)
-          }
+      if (response.data?.login.token) {
+        localStorage.setItem('token', response.data.login.token)
+        setTokenAttached(true)
+      }
 
-          await updateUser({
-            variables: {
-              input: {
-                last_logged_in: new Date(),
-              },
-            },
-          })
-        }
+      await updateUser({
+        variables: {
+          input: {
+            last_logged_in: new Date(),
+          },
+        },
       })
-      .catch((err) => {
-        console.log(err)
-        errorResponse = {
-          code: err.code,
-          error: err.message,
-          field: 'Sign In User',
-        }
-      })
+    }
 
-    return errorResponse
+    return null
   }
 
   return (

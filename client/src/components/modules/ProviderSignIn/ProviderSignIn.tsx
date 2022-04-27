@@ -42,55 +42,64 @@ export const ProviderSignIn: React.FC<ProviderSignInProps> = ({
     setModalPortal(document.getElementById('modal-portal'))
   }, [])
 
-  const signInWithProvider = (provider: firebase.default.auth.AuthProvider) => {
+  const signInWithProvider = async (
+    provider: firebase.default.auth.AuthProvider
+  ) => {
     if (onStart) onStart()
 
-    auth
-      .signInWithPopup(provider)
-      .then(async (result) => {
-        if (!result.user?.uid) return
+    let result = null
+    try {
+      result = await auth.signInWithPopup(provider)
+    } catch (err: any) {
+      if (err.code == 'auth/account-exists-with-different-credential') {
+        setErrorMessage(
+          `An account already exists with this e-mail address. Please sign in to that account first, then connect your ${err.credential.providerId} account.`
+        )
+      }
+    }
+    if (!result) return
 
-        if (result.additionalUserInfo?.isNewUser && result.user.displayName) {
-          const response = await createUser({
-            variables: {
-              input: {
-                uid: result.user.uid,
-                email: result.user.email,
-                display_name: result.user.displayName,
-                last_logged_in: new Date(),
-              },
-            },
-          })
+    const user = result.user
+    if (!user?.uid) return
 
-          if (response.data?.createUser.token) {
-            localStorage.setItem('token', response.data.createUser.token)
-            setTokenAttached(true)
-          }
-        } else {
-          const response = await login({ variables: { uid: result.user.uid } })
+    if (result.additionalUserInfo?.isNewUser) {
+      const display_name = user.displayName
+        ? user.displayName
+        : user.email?.split('@')[0]
 
-          if (response.data?.login.token) {
-            localStorage.setItem('token', response.data.login.token)
-            setTokenAttached(true)
-          }
-
-          await updateUser({
-            variables: {
-              input: {
-                last_logged_in: new Date(),
-              },
-            },
-          })
-        }
-        if (onSuccess) onSuccess()
+      if (!display_name) return
+      const response = await createUser({
+        variables: {
+          input: {
+            uid: user.uid,
+            email: user.email,
+            display_name,
+            last_logged_in: new Date(),
+          },
+        },
       })
-      .catch((error) => {
-        if (error.code == 'auth/account-exists-with-different-credential') {
-          setErrorMessage(
-            `An account already exists with this e-mail address. Please sign in to that account first, then connect your ${error.credential.providerId} account.`
-          )
-        }
+
+      if (response.data?.createUser.token) {
+        localStorage.setItem('token', response.data.createUser.token)
+        setTokenAttached(true)
+      }
+    } else {
+      const response = await login({ variables: { uid: user.uid } })
+
+      if (response.data?.login.token) {
+        localStorage.setItem('token', response.data.login.token)
+        setTokenAttached(true)
+      }
+
+      await updateUser({
+        variables: {
+          input: {
+            last_logged_in: new Date(),
+          },
+        },
       })
+    }
+    if (onSuccess) onSuccess()
   }
 
   return (

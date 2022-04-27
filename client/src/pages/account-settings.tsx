@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import { Navbar } from '../components/modules'
+import { AccountSettings, Navbar } from '../components/modules'
 import { TokenContext } from '../providers'
 
 const AccountSettingsPage: NextPage = () => {
@@ -24,15 +24,8 @@ const AccountSettingsPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {userData && (
-        <div>
-          <Navbar />
-          <div>Account settings</div>
-          <div>{userData.email}</div>
-          <div>{userData.first_name}</div>
-          <div>{userData.last_name}</div>
-        </div>
-      )}
+      <Navbar />
+      {userData && <AccountSettings user={userData} />}
     </>
   )
 }
