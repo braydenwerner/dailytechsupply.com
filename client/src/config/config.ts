@@ -19,6 +19,7 @@ export type User = firebase.User | null
 export const auth = firebase.auth()
 export const analytics = firebase.analytics
 
+export const emailAuthProvider = new firebase.auth.EmailAuthProvider()
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider()
 export const twitterAuthProvider = new firebase.auth.TwitterAuthProvider()

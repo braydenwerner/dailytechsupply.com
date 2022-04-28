@@ -28,11 +28,17 @@ export const AccountSettingSubtitle = styled.div`
 
 export const SocialAccountContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: space-between;
   width: 100%;
-  justify-content: space-between;
 `
 
 export const SocialAccountTitle = styled.div`
   font-size: 1rem;
   color: #484848;
+`
+
+export const LinkButton = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
 `
