@@ -1,16 +1,16 @@
-import { useRouter } from 'next/router'
-
 import * as Styled from '../../modules/Navbar/NavBar.styled'
 
 export const NavbarEmpty: React.FC = () => {
-  const router = useRouter()
-
   return (
     <>
       <Styled.NavContainer>
         <Styled.PaddingDiv />
         <Styled.LogoContainer>
-          <div onClick={() => router.push('/')}>Daily Tech Supply</div>
+          <a href="/">
+            <Styled.LogoContainer>
+              <Styled.Logo>Daily Tech Supply</Styled.Logo>
+            </Styled.LogoContainer>
+          </a>
         </Styled.LogoContainer>
         <Styled.SearchContainer />
         <Styled.ProfileContainer />

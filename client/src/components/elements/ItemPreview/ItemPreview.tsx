@@ -32,11 +32,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
   }
 
   return (
-    <div
-      onClick={() =>
-        router.push({ pathname: `/products/3d-printers/${item.uuid}` })
-      }
-    >
+    <a href={`/products/3d-printers/${item.uuid}`}>
       <div>{item.item_id.title}</div>
       <div>{item.item_id.description}</div>
       <div>{item.item_id.manufacturer}</div>
@@ -46,6 +42,6 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
       <div>{item.item_id.url}</div>
       <img src={item.item_id.image_url} />
       {renderTags()}
-    </div>
+    </a>
   )
 }

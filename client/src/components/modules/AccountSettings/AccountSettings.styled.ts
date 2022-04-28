@@ -25,3 +25,14 @@ export const AccountSettingSubtitle = styled.div`
   color: rgb(72, 72, 72);
   margin-top: 50px;
 `
+
+export const SocialAccountContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`
+
+export const SocialAccountTitle = styled.div`
+  font-size: 1rem;
+  color: #484848;
+`

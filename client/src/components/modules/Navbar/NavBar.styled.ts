@@ -23,7 +23,10 @@ interface LogoContainerProps {
 
 export const LogoContainer = styled.div<LogoContainerProps>`
   width: ${(props) => (props.small ? '400px' : '560px')};
+  cursor: pointer;
 `
+
+export const Logo = styled.div``
 
 export const SearchContainer = styled.div`
   display: flex;

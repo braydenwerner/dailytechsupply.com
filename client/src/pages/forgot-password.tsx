@@ -8,10 +8,7 @@ const ForgotPasswordPage: NextPage = () => {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const handleResetPassword = (email: string) => {
-    auth
-      .sendPasswordResetEmail(email)
-      .then(() => {})
-      .catch((error) => {})
+    const res = auth.sendPasswordResetEmail(email)
   }
   return (
     <>

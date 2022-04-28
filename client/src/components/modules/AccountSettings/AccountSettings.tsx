@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { auth } from '../../../config/config'
 import { User } from '../../../generated/graphql'
 
@@ -8,18 +8,20 @@ interface AccountSettingsProps {
   user: User
 }
 export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
+  const [signInMethods, setSignInMethods] = useState<string[]>([])
+
   useEffect(() => {
     const fetchSignInMethods = async () => {
-      console.log(auth.currentUser)
       if (auth.currentUser?.email) {
-        const methods = await auth.fetchSignInMethodsForEmail(
+        const res = await auth.fetchSignInMethodsForEmail(
           auth.currentUser.email
         )
-        console.log(methods)
+        setSignInMethods(res)
       }
     }
     fetchSignInMethods()
   }, [])
+
   return (
     <Styled.AccountSettingsWrapper>
       <Styled.AccountSettingsContainer>

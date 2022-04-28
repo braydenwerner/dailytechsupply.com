@@ -83,9 +83,11 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
     <>
       <Styled.NavContainer>
         <Styled.PaddingDiv />
-        <Styled.LogoContainer small={small}>
-          <div onClick={() => router.push('/')}>Daily Tech Supply</div>
-        </Styled.LogoContainer>
+        <a href="/">
+          <Styled.LogoContainer small={small}>
+            <Styled.Logo>Daily Tech Supply</Styled.Logo>
+          </Styled.LogoContainer>
+        </a>
         <Styled.SearchContainer />
         <Styled.ProfileContainer
           small={small}
@@ -131,14 +133,12 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
       {menuOpen &&
         (userData ? (
           <Styled.Menu ref={menuContainerRef} left={svgContainerOffsetLeft}>
-            <Styled.MenuButton
-              onClick={() => router.push(`/users/${userData.uid}`)}
-            >
-              Profile
-            </Styled.MenuButton>
-            <Styled.MenuButton onClick={() => router.push(`/account-settings`)}>
-              Account Settings
-            </Styled.MenuButton>
+            <a href={`/users/${userData.uid}`}>
+              <Styled.MenuButton>Profile</Styled.MenuButton>
+            </a>
+            <a href="/account-settings">
+              <Styled.MenuButton>Account Settings</Styled.MenuButton>
+            </a>
             <Styled.MenuButton
               onClick={async () => {
                 await auth.signOut().catch((err) => {
