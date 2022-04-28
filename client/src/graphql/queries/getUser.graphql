@@ -5,6 +5,7 @@ query getUser {
     email
     about
     profile_picture_url
+    last_updated_password
     created_at
   }
 }

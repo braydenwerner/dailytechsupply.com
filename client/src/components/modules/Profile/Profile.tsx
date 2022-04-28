@@ -73,7 +73,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
               validateOnBlur={false}
               initialValues={{
                 name: user.display_name,
-                about: user.about,
+                about: user.about ? user.about : '',
               }}
               onSubmit={async (data, { setSubmitting, setFieldError }) => {
                 setSubmitting(true)

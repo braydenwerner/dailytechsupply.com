@@ -21,4 +21,5 @@ export const DivderText = styled.div`
   font-size: 0.8rem;
   font-weight: lighter;
   padding: 0px 13px 0px 13px;
+  margin: 10px 0px 10px 0px;
 `

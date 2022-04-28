@@ -6,10 +6,15 @@ export const AccountSettingsWrapper = styled.div`
   width: 100%;
 `
 
+export const LoginSettingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export const AccountSettingsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 950px;
+  width: 750px;
 `
 
 export const AccountSettingsTitle = styled.div`
@@ -26,19 +31,20 @@ export const AccountSettingSubtitle = styled.div`
   margin-top: 50px;
 `
 
-export const SocialAccountContainer = styled.div`
+export const AccountSettingsOption = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: space-between;
+  justify-content: space-between;
   width: 100%;
+  margin: 15px 0px 15px 0px;
 `
 
-export const SocialAccountTitle = styled.div`
+export const ProviderText = styled.div`
   font-size: 1rem;
   color: #484848;
 `
 
 export const LinkButton = styled.div`
   text-decoration: underline;
+  user-select: none;
   cursor: pointer;
 `

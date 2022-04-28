@@ -170,6 +170,7 @@ export type UpdateUserInput = {
   profile_picture_url?: Maybe<Scalars['String']>
   reputation?: Maybe<Scalars['Float']>
   last_logged_in?: Maybe<Scalars['DateTime']>
+  last_updated_password?: Maybe<Scalars['DateTime']>
 }
 
 export type User = {
@@ -182,6 +183,7 @@ export type User = {
   profile_picture_url?: Maybe<Scalars['String']>
   reputation?: Maybe<Scalars['Float']>
   last_logged_in?: Maybe<Scalars['String']>
+  last_updated_password?: Maybe<Scalars['String']>
   created_at: Scalars['String']
   updated_at: Scalars['String']
 }
@@ -359,6 +361,7 @@ export type GetUserQuery = { __typename?: 'Query' } & {
       | 'email'
       | 'about'
       | 'profile_picture_url'
+      | 'last_updated_password'
       | 'created_at'
     >
   >
@@ -377,6 +380,7 @@ export type GetUserByIdQuery = { __typename?: 'Query' } & {
       | 'email'
       | 'about'
       | 'profile_picture_url'
+      | 'last_updated_password'
       | 'created_at'
     >
   >
@@ -922,6 +926,7 @@ export const GetUserDocument = gql`
       email
       about
       profile_picture_url
+      last_updated_password
       created_at
     }
   }
@@ -974,6 +979,7 @@ export const GetUserByIdDocument = gql`
       email
       about
       profile_picture_url
+      last_updated_password
       created_at
     }
   }
