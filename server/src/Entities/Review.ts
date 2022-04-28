@@ -12,7 +12,7 @@ import { User } from '.'
 
 @ObjectType()
 @Entity()
-export class Comment extends BaseEntity {
+export class Review extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number

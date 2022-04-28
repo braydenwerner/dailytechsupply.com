@@ -178,6 +178,14 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                         ref={passwordInputRef}
                       />
                       {passwordError && <div>{passwordError}</div>}
+                      <button
+                        onClick={() => {
+                          setEnterPasswordOpen(false)
+                          setPasswordError(undefined)
+                        }}
+                      >
+                        Cancel
+                      </button>
                       <button type="submit">Submit</button>
                     </form>
                   )}

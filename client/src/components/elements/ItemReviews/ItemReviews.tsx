@@ -1,7 +1,7 @@
 import { useRef, FormEvent, useEffect } from 'react'
 import {
-  useCreateCommentMutation,
-  useGetCommentsLazyQuery,
+  useCreateReviewMutation,
+  useGetReviewsLazyQuery,
 } from '../../../generated/graphql'
 
 interface ItemCommentsProps {
@@ -9,19 +9,19 @@ interface ItemCommentsProps {
   signedIn: boolean
 }
 
-export const ItemComments: React.FC<ItemCommentsProps> = ({
+export const ItemReviews: React.FC<ItemCommentsProps> = ({
   itemUUID,
   signedIn,
 }) => {
-  const [getComments, { data }] = useGetCommentsLazyQuery({
+  const [getReviews, { data }] = useGetReviewsLazyQuery({
     variables: { item_uuid: itemUUID },
   })
-  const commentsData = data && data.getComments
+  const reviewsData = data && data.getReviews
 
-  const [createCommentMutation] = useCreateCommentMutation()
+  const [createCommentMutation] = useCreateReviewMutation()
 
   useEffect(() => {
-    getComments()
+    getReviews()
   }, [])
 
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -38,7 +38,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
       const res = await createCommentMutation({
         variables: { item_uuid: itemUUID, text: textRef.current.value },
       })
-      await getComments()
+      await getReviews()
 
       textRef.current.value = ''
     }
@@ -59,11 +59,11 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
         )}
       </div>
       <div>
-        {commentsData &&
-          commentsData.map((comment, i) => (
+        {reviewsData &&
+          reviewsData.map((review, i) => (
             <div key={i}>
-              <div>{comment.user_id.display_name}</div>
-              <div>{comment.text}</div>
+              <div>{review.user_id.display_name}</div>
+              <div>{review.text}</div>
             </div>
           ))}
       </div>

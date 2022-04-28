@@ -10,8 +10,8 @@ import { createConnection } from 'typeorm'
 import { Storage } from '@google-cloud/storage'
 import { graphqlUploadExpress } from 'graphql-upload'
 
-import { User, Item, Printer3d, Comment } from './Entities'
-import { UserResolver, Printer3dResolver, CommentResolver } from './Resolvers'
+import { User, Item, Printer3d, Review } from './Entities'
+import { UserResolver, Printer3dResolver, ReviewResolver } from './Resolvers'
 
 //  get storage credentials from .env instead of json file
 const keysEnvVar = process.env['STORAGE_CREDS']
@@ -34,7 +34,7 @@ const main = async () => {
     url: process.env.DATABASE_URL,
     logging: true,
     synchronize: true,
-    entities: [User, Item, Printer3d, Comment],
+    entities: [User, Item, Printer3d, Review],
     migrations: [path.join(__dirname, './migrations/*')],
     ssl: {
       rejectUnauthorized: false,
@@ -52,7 +52,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, Printer3dResolver, CommentResolver],
+      resolvers: [UserResolver, Printer3dResolver, ReviewResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
