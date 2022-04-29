@@ -38,6 +38,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const [updateEmailErrors, setUpdateEmailErrors] = useState<
     string | undefined
   >()
+  const [updateEmailLoading, setUpdateEmailLoading] = useState(false)
 
   const [updatePasswordOpen, setUpdatePasswordOpen] = useState(false)
   const [updatePasswordErrors, setUpdatePasswordErrors] = useState<
@@ -145,15 +146,15 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const updateEmail = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
   ) => {
+    setUpdateEmailLoading(true)
     setErrorMessage(undefined)
 
     const email = inputRef.current?.value
-    if (!email) return
-
     const re =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-    if (!re.test(email)) {
+    if (!email || !re.test(email)) {
       setUpdateEmailErrors('Invalid email formatting')
+      setUpdateEmailLoading(false)
       return
     }
 
@@ -169,7 +170,10 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     } catch (err: any) {
       handleFirebaseError(err)
     }
+    setUpdateEmailLoading(false)
   }
+
+  console.log('updateEmailLoading: ' + updateEmailLoading)
 
   const updatePassword = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
@@ -177,9 +181,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     setErrorMessage(undefined)
 
     const password = inputRef.current?.value
-    if (!password) return
-
-    if (password.length < 8) {
+    if (!password || password.length < 8) {
       setUpdatePasswordErrors('Passwords must be at least 8 characters long')
       return
     }
@@ -276,7 +278,10 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                   </Styled.LinkButton>
                 ) : (
                   <Styled.LinkButton
-                    onClick={() => setUpdateEmailOpen(false)}
+                    onClick={() => {
+                      setUpdateEmailErrors(undefined)
+                      setUpdateEmailOpen(false)
+                    }}
                     open={true}
                   >
                     Cancel
@@ -290,6 +295,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                 inputTitle="New email"
                 formError={updateEmailErrors}
                 submitTitle="Update email"
+                loading={updateEmailLoading}
               />
             )}
             <Styled.DividerLine />
@@ -314,7 +320,10 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                   </Styled.LinkButton>
                 ) : (
                   <Styled.LinkButton
-                    onClick={() => setUpdatePasswordOpen(false)}
+                    onClick={() => {
+                      setUpdatePasswordErrors(undefined)
+                      setUpdatePasswordOpen(false)
+                    }}
                     open={true}
                   >
                     Cancel
@@ -404,26 +413,31 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
               {deactivateAccountOpen && (
                 <SpringModal
                   onClose={() => setDeactivateAccountOpen(false)}
-                  width={700}
-                  height={450}
-                  title="Deactivate your account?"
-                  headerHeight={40}
-                  titleSize="1.2rem"
+                  width={568}
+                  height={250}
+                  title="Deactivate Account"
+                  titleSize="1.5rem"
+                  headerHeight={70}
                 >
-                  <div style={{ width: '100%', backgroundColor: 'blue' }}>
-                    <div>
-                      All of your personal data will be deleted.This cannot be
-                      undone.
-                    </div>
-                    <div>
-                      Are you sure you want to <span>permantely delete</span>{' '}
-                      your account?
-                    </div>
-                    <button onClick={deactivateAccount}>Yes, delete it</button>
-                    <button onClick={() => setDeactivateAccountOpen(false)}>
-                      Cancel
-                    </button>
-                  </div>
+                  <Styled.SettingsModalContainer>
+                    <Styled.SettingsModalHeader>
+                      Are you sure you want to permanently delete your account?
+                      This action cannot be undone.
+                    </Styled.SettingsModalHeader>
+                    <Styled.SettingsModalButtonContainer>
+                      <Styled.SettingsModalCancelButton
+                        onClick={() => setDeactivateAccountOpen(false)}
+                      >
+                        Cancel
+                      </Styled.SettingsModalCancelButton>
+                      <Styled.SettingsModalContinueButton
+                        onClick={deactivateAccount}
+                        color="#D95767"
+                      >
+                        Deactivate
+                      </Styled.SettingsModalContinueButton>
+                    </Styled.SettingsModalButtonContainer>
+                  </Styled.SettingsModalContainer>
                 </SpringModal>
               )}
             </Styled.AccountSettingsOption>
@@ -434,25 +448,35 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       {requiresLoginOpen && (
         <SpringModal
           onClose={() => setRequiresLoginOpen(false)}
-          width={500}
-          height={150}
+          width={568}
+          height={250}
+          title="Please Sign Out"
+          titleSize="1.5rem"
+          headerHeight={70}
         >
-          <div>
-            <div>
+          <Styled.SettingsModalContainer>
+            <Styled.SettingsModalHeader>
               This operation is sensitive and requires you to log in again.
               Press continue to sign out.
-            </div>
-            <button
-              onClick={async () => {
-                localStorage.removeItem('token')
-                await auth.signOut()
-                window.location.reload()
-              }}
-            >
-              Continue
-            </button>
-            <button onClick={() => setRequiresLoginOpen(false)}>Cancel</button>
-          </div>
+            </Styled.SettingsModalHeader>
+            <Styled.SettingsModalButtonContainer>
+              <Styled.SettingsModalCancelButton
+                onClick={() => setRequiresLoginOpen(false)}
+              >
+                Cancel
+              </Styled.SettingsModalCancelButton>
+              <Styled.SettingsModalContinueButton
+                onClick={async () => {
+                  localStorage.removeItem('token')
+                  await auth.signOut()
+                  window.location.reload()
+                }}
+                color="rgb(0, 132, 137)"
+              >
+                Continue
+              </Styled.SettingsModalContinueButton>
+            </Styled.SettingsModalButtonContainer>
+          </Styled.SettingsModalContainer>
         </SpringModal>
       )}
       <Snackbar

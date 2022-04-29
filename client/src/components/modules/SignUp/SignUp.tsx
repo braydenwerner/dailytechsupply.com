@@ -165,7 +165,7 @@ export const SignUp: React.FC<SignUpProps> = ({
               }
             >
               {isSubmitting ? (
-                <CircularProgress size={28} />
+                <CircularProgress size={28} color="inherit" />
               ) : (
                 <div>Sign Up</div>
               )}

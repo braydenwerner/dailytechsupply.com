@@ -18,17 +18,21 @@ export const Input = styled.input`
   border: 1px solid rgb(0 0 0 / 8%);
   border-radius: 5px;
   margin-top: 10px;
+  padding-left: 5px;
 
   :focus {
     border: 1px solid #008489;
   }
 `
 
-export const Error = styled.div``
+export const Error = styled.div`
+  color: #d93900;
+  margin-top: 8px;
+`
 
 export const Submit = styled.button`
   width: 160px;
-  height: 40px;
+  height: 43px;
   border-radius: 5px;
   margin-top: 25px;
   background-color: rgb(0, 132, 137);

@@ -144,7 +144,7 @@ export const SignIn: React.FC<SignInProps> = ({
               disabled={isSubmitting || !values.email || !values.password}
             >
               {isSubmitting ? (
-                <CircularProgress size={28} />
+                <CircularProgress size={28} color="inherit" />
               ) : (
                 <div>Log In</div>
               )}

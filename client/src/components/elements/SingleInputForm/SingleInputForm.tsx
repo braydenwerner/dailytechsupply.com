@@ -1,4 +1,5 @@
 import { FormEvent, MutableRefObject, useRef } from 'react'
+import { CircularProgress } from '@mui/material'
 
 import * as Styled from './SingleInputForm.styled'
 
@@ -8,6 +9,7 @@ interface SingleInputFormProps {
   inputTitle?: string
   formError?: string
   submitTitle?: string
+  loading?: boolean
 }
 
 export const SingleInputForm: React.FC<SingleInputFormProps> = ({
@@ -16,6 +18,7 @@ export const SingleInputForm: React.FC<SingleInputFormProps> = ({
   inputTitle,
   formError,
   submitTitle,
+  loading,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -30,9 +33,13 @@ export const SingleInputForm: React.FC<SingleInputFormProps> = ({
       <Styled.Input type={inputType} ref={inputRef} />
       {formError && <Styled.Error>{formError}</Styled.Error>}
       <Styled.Submit type="submit">
-        <Styled.SubmitText>
-          {submitTitle ? submitTitle : 'Submit'}
-        </Styled.SubmitText>
+        {!loading ? (
+          <Styled.SubmitText>
+            {submitTitle ? submitTitle : 'Submit'}
+          </Styled.SubmitText>
+        ) : (
+          <CircularProgress style={{ color: 'white' }} size={28} />
+        )}
       </Styled.Submit>
     </Styled.Form>
   )

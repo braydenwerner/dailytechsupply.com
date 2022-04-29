@@ -96,3 +96,64 @@ export const DeactivateAccountButton = styled.div`
     text-decoration: underline;
   }
 `
+
+export const SettingsModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+`
+
+export const SettingsModalHeader = styled.div`
+  font-size: 1.1rem;
+  padding-top: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+`
+
+export const SettingsModalButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  top: 45px;
+`
+
+export const SettingsModalCancelButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 43px;
+  border-radius: 5px;
+  margin-top: 25px;
+  background-color: rgba(221, 221, 221);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: black;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0px 5px 15px 15px;
+`
+
+interface RequireLoginContinueButton {
+  color: string
+}
+
+export const SettingsModalContinueButton = styled.div<RequireLoginContinueButton>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 43px;
+  border-radius: 5px;
+  margin-top: 25px;
+  background-color: ${(props) => props.color};
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0px 15px 15px 5px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+`
