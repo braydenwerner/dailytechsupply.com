@@ -41,12 +41,20 @@ interface SpringModalProps {
   title?: string
   onClose?: () => void
   children: JSX.Element
+  width?: number
+  height?: number
+  titleSize?: string
+  headerHeight?: number
 }
 
 export const SpringModal: React.FC<SpringModalProps> = ({
   title,
   onClose,
   children,
+  width,
+  height,
+  headerHeight,
+  titleSize,
 }) => {
   const [open, setOpen] = useState(true)
   const [modalPortal, setModalPortal] = useState<HTMLElement | null>(null)
@@ -59,6 +67,19 @@ export const SpringModal: React.FC<SpringModalProps> = ({
   useEffect(() => {
     setModalPortal(document.getElementById('modal-portal'))
   }, [])
+
+  const ModalStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: width ? width : 578,
+    height: height ? height : 720,
+    bgcolor: 'background.paper',
+    borderRadius: '13px',
+  }
 
   return (
     modalPortal &&
@@ -75,18 +96,20 @@ export const SpringModal: React.FC<SpringModalProps> = ({
         }}
       >
         <Fade in={open}>
-          <Box sx={Styled.ModalStyle}>
-            <Styled.SignInContainer>
-              {title && (
-                <Styled.SignInHeader>
-                  <Styled.SignInTitle>{title}</Styled.SignInTitle>
-                  <Styled.CloseModalIconContainer>
-                    <AiOutlineClose onClick={handleClose} size={18} />
-                  </Styled.CloseModalIconContainer>
-                </Styled.SignInHeader>
-              )}
+          <Box sx={ModalStyle}>
+            <Styled.ModalContainer width={width}>
+              <Styled.ModalHeader headerHeight={headerHeight}>
+                {title && (
+                  <Styled.ModalTitle titleSize={titleSize}>
+                    {title}
+                  </Styled.ModalTitle>
+                )}
+                <Styled.CloseModalIconContainer>
+                  <AiOutlineClose onClick={handleClose} size={18} />
+                </Styled.CloseModalIconContainer>
+              </Styled.ModalHeader>
               {children}
-            </Styled.SignInContainer>
+            </Styled.ModalContainer>
           </Box>
         </Fade>
       </Modal>,

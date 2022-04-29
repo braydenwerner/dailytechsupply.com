@@ -6,10 +6,14 @@ import {
   facebookAuthProvider,
   googleAuthProvider,
   microsoftAuthProvider,
-  twitterAuthProvider,
 } from '../../../config/config'
-import { User, useUpdateUserMutation } from '../../../generated/graphql'
-import { SingleInputForm } from '../../elements'
+import {
+  useDeleteUserMutation,
+  User,
+  useUpdateUserMutation,
+} from '../../../generated/graphql'
+import { SingleInputForm, SpringModal } from '../../elements'
+import { useRouter } from 'next/router'
 import firebase from 'firebase/app'
 
 import * as Styled from './AccountSettings.styled'
@@ -45,11 +49,40 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     string | undefined
   >()
 
+  const [requiresLoginOpen, setRequiresLoginOpen] = useState(false)
+  const [deactivateAccountOpen, setDeactivateAccountOpen] = useState(false)
+
   const [updateUser] = useUpdateUserMutation()
+  const [deleteUser] = useDeleteUserMutation()
+
+  const router = useRouter()
 
   useEffect(() => {
     fetchSignInMethods()
-  }, [])
+  }, [auth.currentUser])
+
+  const handleFirebaseError = async (err: any) => {
+    console.error(err)
+    if (err.code === 'auth/requires-recent-login') {
+      setDeactivateAccountOpen(false)
+      setRequiresLoginOpen(true)
+    } else if (err.code === 'auth/provider-already-linked')
+      setErrorMessage(
+        'Your account is already linked with a username and a password.'
+      )
+    else if (err.code === 'auth/user-token-expired')
+      setErrorMessage(
+        'Your user credentials are no longer valid. Please log in again.'
+      )
+    else if (err.code === 'auth/invalid-credential')
+      setErrorMessage('Could not link your account due to invalid credentials.')
+    else if (err.code === 'auth/credential-already-in-use')
+      setErrorMessage(
+        'This credential is already associated with another account.'
+      )
+    else if (err.code === 'auth/no-such-provider')
+      setErrorMessage('Your account was not linked to that provider.')
+  }
 
   const fetchSignInMethods = async () => {
     if (auth.currentUser?.email) {
@@ -83,6 +116,8 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
   const linkUsernameAndPassword = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
   ) => {
+    setErrorMessage(undefined)
+
     if (!auth.currentUser?.email) return
 
     const password = inputRef.current?.value
@@ -103,25 +138,15 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       setConnectPasswordOpen(false)
       fetchSignInMethods()
     } catch (err: any) {
-      if (err.code === 'auth/requires-recent-login')
-        setErrorMessage(
-          'This operation is sensitive and requires a recent login. Please log in again.'
-        )
-      else if (err.code === 'auth/provider-already-linked')
-        setErrorMessage(
-          'Your account is already linked with a username and a password.'
-        )
-      else if (err.code === 'auth/user-token-expired')
-        setErrorMessage(
-          'Your user credentials are no longer valid. Please log in again.'
-        )
-      console.error(err)
+      handleFirebaseError(err)
     }
   }
 
   const updateEmail = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
   ) => {
+    setErrorMessage(undefined)
+
     const email = inputRef.current?.value
     if (!email) return
 
@@ -142,17 +167,15 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
 
       setUpdateEmailOpen(false)
     } catch (err: any) {
-      console.error(err)
-      if (err?.code === 'auth/requires-recent-login')
-        setErrorMessage(
-          'This operation is sensitive and requires a recent login. Please log in again.'
-        )
+      handleFirebaseError(err)
     }
   }
 
   const updatePassword = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
   ) => {
+    setErrorMessage(undefined)
+
     const password = inputRef.current?.value
     if (!password) return
 
@@ -176,26 +199,24 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       setUpdatePasswordOpen(false)
       fetchSignInMethods()
     } catch (err: any) {
-      console.error(err)
+      handleFirebaseError(err)
     }
   }
 
   const linkProvider = async (provider: firebase.auth.AuthProvider) => {
+    setErrorMessage(undefined)
+
     try {
       await auth.currentUser?.linkWithPopup(provider)
       fetchSignInMethods()
     } catch (err: any) {
-      console.log(err)
-      if (err.code === 'auth/invalid-credential')
-        setErrorMessage('Could not link account due to invalid credentials.')
-      else if (err.code === 'auth/credential-already-in-use')
-        setErrorMessage(
-          'This credential is already associated with another account.'
-        )
+      handleFirebaseError(err)
     }
   }
 
   const unlinkProvider = async (provider: firebase.auth.AuthProvider) => {
+    setErrorMessage(undefined)
+
     try {
       let numProviders = 0
       for (const method of signInMethods!) {
@@ -208,9 +229,25 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
       await auth.currentUser?.unlink(provider.providerId)
       fetchSignInMethods()
     } catch (err: any) {
-      console.error(err)
-      if (err.code === 'auth/no-such-provider')
-        setErrorMessage('Your account was not linked to that provider.')
+      handleFirebaseError(err)
+    }
+  }
+
+  const deactivateAccount = async () => {
+    setErrorMessage(undefined)
+
+    try {
+      if (auth.currentUser) {
+        await auth.currentUser.delete()
+
+        await deleteUser()
+
+        localStorage.removeItem('token')
+        await router.push('/')
+        window.location.reload()
+      }
+    } catch (err) {
+      handleFirebaseError(err)
     }
   }
 
@@ -224,43 +261,74 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           <Styled.LoginSettingsContainer>
             <Styled.AccountSettingSubtitle>Login</Styled.AccountSettingSubtitle>
             <Styled.AccountSettingsOption>
-              <Styled.ProviderText>Email</Styled.ProviderText>
-              {auth.currentUser && <div>{auth.currentUser.email}</div>}
-              {!updateEmailOpen ? (
-                <Styled.LinkButton onClick={() => setUpdateEmailOpen(true)}>
-                  Update
-                </Styled.LinkButton>
-              ) : (
-                <Styled.LinkButton onClick={() => setUpdateEmailOpen(false)}>
-                  Cancel
-                </Styled.LinkButton>
-              )}
+              <Styled.AccountLabelContainer>
+                <Styled.ProviderText>Email</Styled.ProviderText>
+                {auth.currentUser && (
+                  <Styled.ProviderLabel>
+                    {auth.currentUser.email}
+                  </Styled.ProviderLabel>
+                )}
+              </Styled.AccountLabelContainer>
+              <Styled.LinkButtonContainer>
+                {!updateEmailOpen ? (
+                  <Styled.LinkButton onClick={() => setUpdateEmailOpen(true)}>
+                    Update
+                  </Styled.LinkButton>
+                ) : (
+                  <Styled.LinkButton
+                    onClick={() => setUpdateEmailOpen(false)}
+                    open={true}
+                  >
+                    Cancel
+                  </Styled.LinkButton>
+                )}
+              </Styled.LinkButtonContainer>
             </Styled.AccountSettingsOption>
             {updateEmailOpen && (
               <SingleInputForm
                 onSubmit={updateEmail}
-                inputPlaceholder="Enter an email"
+                inputTitle="New email"
                 formError={updateEmailErrors}
+                submitTitle="Update email"
               />
             )}
+            <Styled.DividerLine />
             <Styled.AccountSettingsOption>
-              <Styled.ProviderText>Password</Styled.ProviderText>
-              {auth.currentUser && <div>{user.last_updated_password}</div>}
-              {!updatePasswordOpen ? (
-                <Styled.LinkButton onClick={() => setUpdatePasswordOpen(true)}>
-                  Update
-                </Styled.LinkButton>
-              ) : (
-                <Styled.LinkButton onClick={() => setUpdatePasswordOpen(false)}>
-                  Cancel
-                </Styled.LinkButton>
-              )}
+              <Styled.AccountLabelContainer>
+                <Styled.ProviderText>Password</Styled.ProviderText>
+                {user.last_updated_password && (
+                  <Styled.ProviderLabel>
+                    Last updated on{' '}
+                    {new Date(
+                      parseInt(user.last_updated_password)
+                    ).toLocaleDateString('en-US')}
+                  </Styled.ProviderLabel>
+                )}
+              </Styled.AccountLabelContainer>
+              <Styled.LinkButtonContainer>
+                {!updatePasswordOpen ? (
+                  <Styled.LinkButton
+                    onClick={() => setUpdatePasswordOpen(true)}
+                  >
+                    Update
+                  </Styled.LinkButton>
+                ) : (
+                  <Styled.LinkButton
+                    onClick={() => setUpdatePasswordOpen(false)}
+                    open={true}
+                  >
+                    Cancel
+                  </Styled.LinkButton>
+                )}
+              </Styled.LinkButtonContainer>
             </Styled.AccountSettingsOption>
             {updatePasswordOpen && (
               <SingleInputForm
                 onSubmit={updatePassword}
-                inputPlaceholder="Enter a password"
+                inputType="password"
+                inputTitle="New password"
                 formError={updatePasswordErrors}
+                submitTitle="Update password"
               />
             )}
           </Styled.LoginSettingsContainer>
@@ -270,23 +338,32 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
           {signInMethods &&
             signInMethods.map((method, i) => (
               <div key={i}>
-                <Styled.AccountSettingsOption key={i}>
-                  <Styled.ProviderText>{method.title}</Styled.ProviderText>
+                <Styled.AccountSettingsOption>
+                  <Styled.AccountLabelContainer>
+                    <Styled.ProviderText>{method.title}</Styled.ProviderText>
+                    <Styled.ProviderLabel
+                      color={method.linked ? '' : '#767676'}
+                    >
+                      {method.linked ? 'Connected' : 'Not Connected'}
+                    </Styled.ProviderLabel>
+                  </Styled.AccountLabelContainer>
                   {!connectPasswordOpen ||
                   method.provider !== emailAuthProvider ? (
-                    <Styled.LinkButton
-                      onClick={() => {
-                        if (method.provider === emailAuthProvider) {
-                          if (method.linked) unlinkProvider(method.provider)
-                          else setConnectPasswordOpen(true)
-                        } else {
-                          if (method.linked) unlinkProvider(method.provider)
-                          else linkProvider(method.provider)
-                        }
-                      }}
-                    >
-                      {method.linked ? 'Disconnect' : 'Connect'}
-                    </Styled.LinkButton>
+                    <Styled.LinkButtonContainer>
+                      <Styled.LinkButton
+                        onClick={() => {
+                          if (method.provider === emailAuthProvider) {
+                            if (method.linked) unlinkProvider(method.provider)
+                            else setConnectPasswordOpen(true)
+                          } else {
+                            if (method.linked) unlinkProvider(method.provider)
+                            else linkProvider(method.provider)
+                          }
+                        }}
+                      >
+                        {method.linked ? 'Disconnect' : 'Connect'}
+                      </Styled.LinkButton>
+                    </Styled.LinkButtonContainer>
                   ) : (
                     <Styled.LinkButton
                       onClick={() => {
@@ -303,14 +380,81 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                     <SingleInputForm
                       onSubmit={linkUsernameAndPassword}
                       inputType="password"
-                      inputPlaceholder="Enter a password"
+                      inputTitle="New password"
                       formError={connectPasswordError}
+                      submitTitle="Update password"
                     />
                   )}
+                <Styled.DividerLine style={{ marginTop: '25px' }} />
               </div>
             ))}
+          <Styled.LoginSettingsContainer>
+            <Styled.AccountSettingSubtitle>
+              Account
+            </Styled.AccountSettingSubtitle>
+            <Styled.AccountSettingsOption>
+              <Styled.ProviderLabel>
+                Deactivate your account
+              </Styled.ProviderLabel>
+              <Styled.DeactivateAccountButton
+                onClick={() => setDeactivateAccountOpen(true)}
+              >
+                Deactivate
+              </Styled.DeactivateAccountButton>
+              {deactivateAccountOpen && (
+                <SpringModal
+                  onClose={() => setDeactivateAccountOpen(false)}
+                  width={700}
+                  height={450}
+                  title="Deactivate your account?"
+                  headerHeight={40}
+                  titleSize="1.2rem"
+                >
+                  <div style={{ width: '100%', backgroundColor: 'blue' }}>
+                    <div>
+                      All of your personal data will be deleted.This cannot be
+                      undone.
+                    </div>
+                    <div>
+                      Are you sure you want to <span>permantely delete</span>{' '}
+                      your account?
+                    </div>
+                    <button onClick={deactivateAccount}>Yes, delete it</button>
+                    <button onClick={() => setDeactivateAccountOpen(false)}>
+                      Cancel
+                    </button>
+                  </div>
+                </SpringModal>
+              )}
+            </Styled.AccountSettingsOption>
+            <Styled.DividerLine />
+          </Styled.LoginSettingsContainer>
         </Styled.AccountSettingsContainer>
       </Styled.AccountSettingsWrapper>
+      {requiresLoginOpen && (
+        <SpringModal
+          onClose={() => setRequiresLoginOpen(false)}
+          width={500}
+          height={150}
+        >
+          <div>
+            <div>
+              This operation is sensitive and requires you to log in again.
+              Press continue to sign out.
+            </div>
+            <button
+              onClick={async () => {
+                localStorage.removeItem('token')
+                await auth.signOut()
+                window.location.reload()
+              }}
+            >
+              Continue
+            </button>
+            <button onClick={() => setRequiresLoginOpen(false)}>Cancel</button>
+          </div>
+        </SpringModal>
+      )}
       <Snackbar
         open={!!errorMessage}
         TransitionComponent={(props) => <Slide {...props} direction="up" />}

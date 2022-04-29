@@ -177,6 +177,7 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
         <SpringModal
           title={modalOpenMode === 'SignIn' ? 'Log In' : 'Sign Up'}
           onClose={() => setModalOpenMode(null)}
+          width={568}
         >
           {modalOpenMode === 'SignIn' ? (
             <SignIn

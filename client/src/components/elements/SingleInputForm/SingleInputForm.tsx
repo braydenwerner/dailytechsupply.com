@@ -1,30 +1,39 @@
-import { FormEvent, MutableRefObject, useRef, useState } from 'react'
+import { FormEvent, MutableRefObject, useRef } from 'react'
+
+import * as Styled from './SingleInputForm.styled'
 
 interface SingleInputFormProps {
   onSubmit?: (inputRef: MutableRefObject<HTMLInputElement | null>) => void
   inputType?: string
-  inputPlaceholder?: string
+  inputTitle?: string
   formError?: string
+  submitTitle?: string
 }
 
 export const SingleInputForm: React.FC<SingleInputFormProps> = ({
   onSubmit,
   inputType,
-  inputPlaceholder,
+  inputTitle,
   formError,
+  submitTitle,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   return (
-    <form
+    <Styled.Form
       onSubmit={(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (onSubmit) onSubmit(inputRef)
       }}
     >
-      <input type={inputType} placeholder={inputPlaceholder} ref={inputRef} />
-      {formError && <div>{formError}</div>}
-      <button type="submit">Submit</button>
-    </form>
+      <Styled.Title>{inputTitle}</Styled.Title>
+      <Styled.Input type={inputType} ref={inputRef} />
+      {formError && <Styled.Error>{formError}</Styled.Error>}
+      <Styled.Submit type="submit">
+        <Styled.SubmitText>
+          {submitTitle ? submitTitle : 'Submit'}
+        </Styled.SubmitText>
+      </Styled.Submit>
+    </Styled.Form>
   )
 }

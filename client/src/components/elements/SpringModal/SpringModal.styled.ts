@@ -1,36 +1,35 @@
 import styled from 'styled-components'
 
-export const ModalStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 578,
-  height: 720,
-  bgcolor: 'background.paper',
-  borderRadius: '13px',
+interface ModalContainerProps {
+  width?: number
 }
 
-export const SignInContainer = styled.div`
+export const ModalContainer = styled.div<ModalContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 568px;
+  min-width: ${(props) => (props.width ? props.width - 10 : 568)}px;
 `
 
-export const SignInHeader = styled.div`
+interface ModalHeaderProps {
+  headerHeight?: number
+}
+
+export const ModalHeader = styled.div<ModalHeaderProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: ${(props) => (props.headerHeight ? props.headerHeight : 70)}px;
   width: 100%;
   border-bottom: 1px solid rgb(0 0 0 / 8%);
 `
 
-export const SignInTitle = styled.div`
-  font-size: 1.7rem;
+interface ModalTitleProps {
+  titleSize?: string
+}
+
+export const ModalTitle = styled.div<ModalTitleProps>`
+  font-size: ${(props) => (props.titleSize ? props.titleSize : '1.7rem')};
   font-weight: 700;
   margin-left: 35px;
 `

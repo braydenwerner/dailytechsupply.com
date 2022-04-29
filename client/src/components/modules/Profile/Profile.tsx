@@ -58,6 +58,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
           {isOwner && (
             <Styled.EditProfileButton
               onClick={() => setEditorOpen((oldEditorOpen) => !oldEditorOpen)}
+              open={editorOpen}
             >
               Edit Profile
             </Styled.EditProfileButton>

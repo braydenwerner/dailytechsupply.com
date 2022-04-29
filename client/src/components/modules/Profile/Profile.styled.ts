@@ -28,8 +28,8 @@ interface ProfilePictureProps {
 
 export const ProfilePicture = styled.img<ProfilePictureProps>`
   display: inline-block;
-  width: 115px;
-  height: 115px;
+  width: 155px;
+  height: 155px;
   background: ${(props) => props.url && `url(${props.url})`};
   background-position: 50% 50%;
   background-size: cover;
@@ -63,9 +63,10 @@ export const InfoContainer = styled.div`
 `
 
 export const Name = styled.div`
+  margin: 5px 0px 10px 0px;
   font-size: 2rem;
   font-weight: 700;
-  margin: 5px 0px 10px 0px;
+  color: rgb(72, 72, 72);
 `
 
 export const JoinedDate = styled.div`
@@ -75,22 +76,34 @@ export const JoinedDate = styled.div`
 
 export const EditProfileForm = styled.form``
 
-export const EditProfileButton = styled.div`
-  font-size: 0.8rem;
-  text-decoration: underline;
-  cursor: pointer;
+interface EditProfileButton {
+  open?: boolean
+}
+
+export const EditProfileButton = styled.div<EditProfileButton>`
   margin: 10px 0px 10px 0px;
+  color: #008489;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: ${(props) => props.open && 'underline'};
+
+  :hover {
+    text-decoration: underline;
+  }
 `
 
 export const AboutHeader = styled.div`
-  font-weight: 400;
   margin-top: 40px;
   font-size: 1.5rem;
+  margin: 50px 0px 25px 0px;
+  font-weight: 700;
+  color: rgb(72, 72, 72);
 `
 
 export const AboutContainer = styled.div`
   font-size: 1rem;
-  margin-top: 20px;
 `
 
 export const EditorFieldTitle = styled.div`
@@ -125,10 +138,15 @@ export const ButtonContainer = styled.div`
 `
 
 export const CancelButton = styled.div`
+  user-select: none;
+  color: #008489;
   font-weight: 700;
-  margin-top: 10px;
-  text-decoration: underline;
+  font-size: 1rem;
   cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `
 
 interface SaveButtonProps {
@@ -144,7 +162,7 @@ export const SaveButton = styled.button<SaveButtonProps>`
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: black;
+  background-color: rgb(0, 132, 137);
   cursor: pointer;
   animation-fill-mode: forwards;
   animation-duration: 0.2s;
