@@ -14,7 +14,7 @@ import { bucket } from '..'
 import { __prod__ } from '../constants/constants'
 import { MyContext } from '../types'
 import { FieldError } from './FieldError'
-import { User } from '../Entities/index'
+import { User, Review } from '../Entities/index'
 import { UpdateUserInput } from './UpdateUserInput'
 import { CreateUserInput } from './CreateUserInput'
 import { createToken, getUserId } from '../utils'
@@ -75,6 +75,20 @@ export class UserResolver {
         ...input,
       }
     )
+
+    return true
+  }
+
+  @Mutation(() => Boolean)
+  async deleteUser(@Ctx() ctx: MyContext) {
+    const uid = getUserId(ctx)
+
+    User.delete({ uid })
+
+    const user = await User.findOne({ uid })
+    if (!user) return false
+
+    Review.delete({ user_id: user })
 
     return true
   }

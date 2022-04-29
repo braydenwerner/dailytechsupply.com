@@ -4,10 +4,7 @@ TODO
 -Script to run a migration to create random users and comments
 -Comment limit
 -404 page
--Account settings page
--User profile page
 -Create logo
 -Update meta tags for each page
--Add account linking to account-settings page (if a user signs up with google, let them link their facebook account)
--Media Queries
+-Media Queries, mobile mode navbar and pages
 -Remove logs

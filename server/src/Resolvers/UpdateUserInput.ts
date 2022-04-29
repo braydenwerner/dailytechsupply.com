@@ -19,4 +19,7 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   last_logged_in?: Date
+
+  @Field({ nullable: true })
+  last_updated_password?: Date
 }

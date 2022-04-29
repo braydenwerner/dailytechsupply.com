@@ -40,8 +40,12 @@ export class User extends BaseEntity {
   reputation: number
 
   @Field(() => String, { nullable: true })
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: true })
   last_logged_in: Date
+
+  @Field(() => String, { nullable: true })
+  @CreateDateColumn({ nullable: true })
+  last_updated_password: Date
 
   @Field(() => String)
   @CreateDateColumn()
