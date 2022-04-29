@@ -1,25 +1,18 @@
 import Head from 'next/head'
-import { useState } from 'react'
 import { NextPage } from 'next'
 
-import { auth } from '../config/config'
+import { ForgotPassword, Navbar } from '../components/modules'
 
 const ForgotPasswordPage: NextPage = () => {
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(false)
-  const handleResetPassword = (email: string) => {
-    const res = auth.sendPasswordResetEmail(email)
-  }
   return (
     <>
       <Head>
-        <title>Forgot Password - DailyTechSupply</title>
+        <title>Reset Password - DailyTechSupply</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <div>Reset your password</div>
-      </div>
+      <Navbar small />
+      <ForgotPassword />
     </>
   )
 }

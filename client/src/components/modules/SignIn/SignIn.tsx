@@ -136,9 +136,12 @@ export const SignIn: React.FC<SignInProps> = ({
               component={CustomTextField}
               required={true}
             />
-            <ForgotPasswordText onClick={() => router.push('/forgot-password')}>
-              Forgot your password?
-            </ForgotPasswordText>
+            <a
+              href="/forgot-password"
+              style={{ alignSelf: 'start', textAlign: 'start' }}
+            >
+              <ForgotPasswordText>Forgot your password?</ForgotPasswordText>
+            </a>
             <Styled.LoginSubmit
               type="submit"
               disabled={isSubmitting || !values.email || !values.password}
