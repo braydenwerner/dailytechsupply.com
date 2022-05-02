@@ -1,3 +1,0 @@
-mutation createReview($item_uuid: String!, $text: String!) {
-  createReview(item_uuid: $item_uuid, text: $text)
-}

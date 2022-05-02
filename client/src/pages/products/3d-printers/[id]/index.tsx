@@ -9,7 +9,7 @@ import {
 
 import { client } from '../../../../utils/createApolloClient'
 import { ItemView, Navbar } from '../../../../components/modules'
-import { ItemReviews } from '../../../../components/elements'
+import { ItemComments } from '../../../../components/elements'
 import { ItemProperties } from '../../../../types'
 import { TokenContext } from '../../../../providers'
 
@@ -82,7 +82,7 @@ const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
       </Head>
       <Navbar />
       <ItemView item={printer} properties={getProperties()} />
-      <ItemReviews itemUUID={uuid} signedIn={!!userData} />
+      <ItemComments itemUUID={uuid} signedIn={!!userData} />
     </>
   )
 }

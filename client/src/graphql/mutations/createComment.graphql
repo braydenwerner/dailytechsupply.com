@@ -1,0 +1,3 @@
+mutation createComment($item_uuid: String!, $text: String!) {
+  createComment(item_uuid: $item_uuid, text: $text)
+}

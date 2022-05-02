@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { Printer3d } from '../../../generated/graphql'
 
@@ -7,8 +6,6 @@ interface ItemPreviewProps {
 }
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
-  const router = useRouter()
-
   const renderTags = () => {
     const tags: ReactJSXElement[] = []
 

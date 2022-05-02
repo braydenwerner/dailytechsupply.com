@@ -20,18 +20,18 @@ const PrivacyPage: NextPage = () => {
           <List>
             <ListElement>Email</ListElement>
             <ListElement>Name</ListElement>
-            <ListElement>Reviews</ListElement>
+            <ListElement>Comments</ListElement>
           </List>
           <Header>How do we collect your data?</Header>
           <List>
             <ListElement>Create an account</ListElement>
-            <ListElement>Write a review</ListElement>
+            <ListElement>Write a comment</ListElement>
           </List>
           <Header>How do we use your data?</Header>
           <List>
             <ListElement>Save your settings</ListElement>
             <ListElement>Display profile</ListElement>
-            <ListElement>Display reviews</ListElement>
+            <ListElement>Display comments</ListElement>
           </List>
           <Header>How do we store your data?</Header>
           <StandardText>
