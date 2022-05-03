@@ -22,10 +22,18 @@ export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
   user_id: User;
+  parent_id?: Maybe<Comment>;
   item_uuid: Scalars['String'];
   text: Scalars['String'];
   rating?: Maybe<Scalars['Float']>;
+  is_deleted?: Maybe<Scalars['Boolean']>;
   created_at: Scalars['String'];
+};
+
+export type CreateCommentInput = {
+  item_uuid: Scalars['String'];
+  parent_id?: Maybe<Scalars['Float']>;
+  text: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -115,8 +123,7 @@ export type MutationUploadProfilePictureArgs = {
 
 
 export type MutationCreateCommentArgs = {
-  item_uuid: Scalars['String'];
-  text: Scalars['String'];
+  input: CreateCommentInput;
 };
 
 export type Printer3d = {
@@ -202,8 +209,7 @@ export type UserResponse = {
 };
 
 export type CreateCommentMutationVariables = Exact<{
-  item_uuid: Scalars['String'];
-  text: Scalars['String'];
+  input: CreateCommentInput;
 }>;
 
 
@@ -330,11 +336,14 @@ export type GetCommentsQuery = (
   { __typename?: 'Query' }
   & { getComments: Array<(
     { __typename?: 'Comment' }
-    & Pick<Comment, 'text'>
+    & Pick<Comment, 'id' | 'text' | 'is_deleted'>
     & { user_id: (
       { __typename?: 'User' }
       & Pick<User, 'uid' | 'display_name' | 'profile_picture_url'>
-    ) }
+    ), parent_id?: Maybe<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'id'>
+    )> }
   )> }
 );
 
@@ -375,8 +384,8 @@ export type GetUserIdsQuery = (
 
 
 export const CreateCommentDocument = gql`
-    mutation createComment($item_uuid: String!, $text: String!) {
-  createComment(item_uuid: $item_uuid, text: $text)
+    mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input)
 }
     `;
 export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
@@ -394,8 +403,7 @@ export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutat
  * @example
  * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
  *   variables: {
- *      item_uuid: // value for 'item_uuid'
- *      text: // value for 'text'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -728,7 +736,12 @@ export const GetCommentsDocument = gql`
       display_name
       profile_picture_url
     }
+    parent_id {
+      id
+    }
+    id
     text
+    is_deleted
   }
 }
     `;

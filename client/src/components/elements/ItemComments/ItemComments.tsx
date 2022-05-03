@@ -1,8 +1,11 @@
-import { useRef, FormEvent, useEffect } from 'react'
+import { useRef, FormEvent, useEffect, useState } from 'react'
 import {
+  GetCommentsQuery,
   useCreateCommentMutation,
   useGetCommentsLazyQuery,
 } from '../../../generated/graphql'
+import { generateCommentsGraph } from '../../../utils/utils'
+import { CommentReplyForm } from '../CommentReplyForm/CommentReplyForm'
 
 import * as Styled from './ItemComments.styled'
 
@@ -15,12 +18,12 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
   itemUUID,
   signedIn,
 }) => {
+  const [openReplies, setOpenReplies] = useState<number[]>([])
+
   const [getComments, { data }] = useGetCommentsLazyQuery({
     variables: { item_uuid: itemUUID },
   })
   const commentsData = data && data.getComments
-
-  const [createCommentMutation] = useCreateCommentMutation()
 
   useEffect(() => {
     getComments()
@@ -28,22 +31,57 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
 
   const textRef = useRef<HTMLTextAreaElement>(null)
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const generateCommentStructure = () => {
+    if (!data) return null
 
-    if (
-      itemUUID &&
-      textRef &&
-      textRef.current &&
-      textRef.current.value.length < 50
-    ) {
-      const res = await createCommentMutation({
-        variables: { item_uuid: itemUUID, text: textRef.current.value },
-      })
-      await getComments()
-
-      textRef.current.value = ''
+    const comments = []
+    const adjList = generateCommentsGraph(data)
+    if (adjList && adjList.get(undefined)) {
+      for (const id of adjList.get(undefined)!)
+        comments.push(
+          <div key={id}>{generateCommentJSX(adjList, id, data)}</div>
+        )
     }
+
+    return comments
+  }
+
+  const generateCommentJSX = (
+    adjList: Map<number | undefined, number[]>,
+    id: number,
+    data: GetCommentsQuery
+  ) => {
+    const comment = data.getComments.filter((comment) => comment.id === id)[0]
+    if (!comment) return
+
+    return (
+      <div style={{ marginTop: '30px' }}>
+        <div>{comment.user_id.display_name}</div>
+        <div>{comment.text}</div>
+        <div
+          onClick={() => {
+            setOpenReplies((oldOpenReplies) => {
+              if (oldOpenReplies.includes(id))
+                return oldOpenReplies.filter((num) => num !== id)
+
+              return [...oldOpenReplies, id]
+            })
+          }}
+        >
+          reply
+        </div>
+        {openReplies.includes(id) && (
+          <CommentReplyForm itemUUID={itemUUID} parentId={id} />
+        )}
+        <div style={{ position: 'relative', left: '30px' }}>
+          {adjList.get(id)?.map((childId) => (
+            <div key={childId}>
+              {generateCommentJSX(adjList, childId, data)}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -51,25 +89,12 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
       <Styled.CommentsContainer>
         <div>
           {signedIn ? (
-            <div>
-              <form onSubmit={handleSubmit}>
-                <textarea ref={textRef} placeholder="Enter Comment"></textarea>
-                <button type="submit">Submit</button>
-              </form>
-            </div>
+            <CommentReplyForm itemUUID={itemUUID} parentId={undefined} />
           ) : (
             "You are not signed in so you can't make a comment"
           )}
         </div>
-        <div>
-          {commentsData &&
-            commentsData.map((comment, i) => (
-              <div key={i}>
-                <div>{comment.user_id.display_name}</div>
-                <div>{comment.text}</div>
-              </div>
-            ))}
-        </div>
+        {commentsData && generateCommentStructure()}
       </Styled.CommentsContainer>
     </Styled.CommentsWrapper>
   )

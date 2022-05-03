@@ -5,6 +5,11 @@ query getComments($item_uuid: String!) {
       display_name
       profile_picture_url
     }
+    parent_id {
+      id
+    }
+    id
     text
+    is_deleted
   }
 }

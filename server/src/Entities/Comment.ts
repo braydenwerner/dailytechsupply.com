@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, InputType, ObjectType } from 'type-graphql'
 import {
   BaseEntity,
   Column,
@@ -22,6 +22,11 @@ export class Comment extends BaseEntity {
   @JoinColumn({ name: 'user_id' })
   user_id!: User
 
+  @Field(() => Comment, { nullable: true })
+  @ManyToOne(() => Comment, (comment) => comment.id, { nullable: true })
+  @JoinColumn({ name: 'parent_id' })
+  parent_id!: Comment
+
   @Field()
   @Column()
   item_uuid!: string
@@ -33,6 +38,10 @@ export class Comment extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   rating: number
+
+  @Field({ defaultValue: false })
+  @Column({ default: false })
+  is_deleted: boolean
 
   @Field(() => String)
   @CreateDateColumn()

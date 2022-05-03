@@ -14,7 +14,7 @@ import { bucket } from '..'
 import { __prod__ } from '../constants/constants'
 import { MyContext } from '../types'
 import { FieldError } from './FieldError'
-import { User } from '../Entities/index'
+import { User, Comment } from '../Entities/index'
 import { UpdateUserInput } from './UpdateUserInput'
 import { CreateUserInput } from './CreateUserInput'
 import { createToken, getUserId } from '../utils'
@@ -88,7 +88,7 @@ export class UserResolver {
     const user = await User.findOne({ uid })
     if (!user) return false
 
-    // Comment.delete({ user_id: user })
+    Comment.update({ user_id: user }, { is_deleted: true })
 
     return true
   }
