@@ -1,5 +1,6 @@
 query getUser {
   getUser {
+    id
     uid
     display_name
     email

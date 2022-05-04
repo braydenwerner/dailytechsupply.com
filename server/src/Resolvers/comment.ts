@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 
 import { MyContext } from '../types'
 import { getUserId } from '../utils'
-import { User, Comment } from '../Entities'
+import { User, Comment, CommentUpvote } from '../Entities'
 import { CreateCommentInput } from './CreateCommentInput'
 
 @Resolver()
@@ -11,7 +11,12 @@ export class CommentResolver {
   getComments(@Arg('item_uuid') item_uuid: string) {
     return Comment.find({
       where: { item_uuid },
-      relations: ['user_id', 'parent_id'],
+      relations: [
+        'user_id',
+        'parent_id',
+        'comment_upvote_ids',
+        'comment_upvote_ids.user_id',
+      ],
     })
   }
 
@@ -34,6 +39,27 @@ export class CommentResolver {
       text: input.text,
     })
     if (!comment) return false
+
+    return true
+  }
+
+  @Mutation(() => Boolean)
+  async deleteComment(
+    @Ctx() ctx: MyContext,
+    @Arg('comment_id') comment_id: number
+  ) {
+    const uid = getUserId(ctx)
+
+    const user = await User.findOne({ uid })
+    if (!user) return false
+
+    const comment = await Comment.findOne({ id: comment_id, user_id: user })
+    if (!comment) return false
+
+    await Comment.update(
+      { id: comment_id, user_id: user },
+      { is_deleted: true }
+    )
 
     return true
   }

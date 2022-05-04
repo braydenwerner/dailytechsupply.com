@@ -6,26 +6,34 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { User } from '.'
+import { CommentUpvote } from './Comment_Upvote'
 
 @ObjectType()
 @Entity()
 export class Comment extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  id!: number
+  id: number
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
-  user_id!: User
+  user_id: User
 
   @Field(() => Comment, { nullable: true })
-  @ManyToOne(() => Comment, (comment) => comment.id, { nullable: true })
+  @ManyToOne(() => Comment, (comment) => comment.id, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'parent_id' })
-  parent_id!: Comment
+  parent_id: Comment
+
+  @Field(() => [CommentUpvote])
+  @OneToMany(() => CommentUpvote, (commentUpvote) => commentUpvote.comment_id)
+  comment_upvote_ids: CommentUpvote[]
 
   @Field()
   @Column()
@@ -34,10 +42,6 @@ export class Comment extends BaseEntity {
   @Field()
   @Column('text')
   text: string
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  rating: number
 
   @Field({ defaultValue: false })
   @Column({ default: false })

@@ -1,12 +1,18 @@
 query getComments($item_uuid: String!) {
   getComments(item_uuid: $item_uuid) {
     user_id {
+      id
       uid
       display_name
       profile_picture_url
     }
     parent_id {
       id
+    }
+    comment_upvote_ids {
+      user_id {
+        id
+      }
     }
     id
     text

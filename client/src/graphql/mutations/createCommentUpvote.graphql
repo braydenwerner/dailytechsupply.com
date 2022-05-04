@@ -1,0 +1,3 @@
+mutation createCommentUpvote($comment_id: Float!) {
+  createCommentUpvote(comment_id: $comment_id)
+}

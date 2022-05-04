@@ -13,7 +13,7 @@ import {
 export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  id!: number
+  id: number
 
   @Field()
   @Column({ unique: true })

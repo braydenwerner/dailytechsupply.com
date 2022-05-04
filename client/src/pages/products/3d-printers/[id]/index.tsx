@@ -82,7 +82,7 @@ const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
       </Head>
       <Navbar />
       <ItemView item={printer} properties={getProperties()} />
-      <ItemComments itemUUID={uuid} signedIn={!!userData} />
+      <ItemComments itemUUID={uuid} userData={userData} />
     </>
   )
 }

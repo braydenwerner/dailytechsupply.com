@@ -1,0 +1,3 @@
+mutation deleteCommentUpvote($comment_id: Float!) {
+  deleteCommentUpvote(comment_id: $comment_id)
+}
