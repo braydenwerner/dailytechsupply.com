@@ -17,5 +17,6 @@ query getComments($item_uuid: String!) {
     id
     text
     is_deleted
+    created_at
   }
 }

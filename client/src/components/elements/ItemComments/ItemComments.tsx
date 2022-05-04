@@ -81,7 +81,29 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
       <div style={{ marginTop: '30px' }}>
         {!comment.is_deleted ? (
           <div>
-            <div>{comment.user_id.display_name}</div>
+            <Styled.ImageNameTimeContainer>
+              {comment.user_id.profile_picture_url ? (
+                <Styled.ProfilePictureWrapper>
+                  <Styled.ProfilePicture
+                    url={comment.user_id.profile_picture_url}
+                  />
+                </Styled.ProfilePictureWrapper>
+              ) : (
+                <Styled.ProfileSvgWrapper>
+                  <Styled.PersonSvg
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    role="presentation"
+                    focusable="false"
+                  >
+                    <path d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z"></path>
+                  </Styled.PersonSvg>
+                </Styled.ProfileSvgWrapper>
+              )}
+              <div>{comment.user_id.display_name}</div>
+              <div>{comment.created_at}</div>
+            </Styled.ImageNameTimeContainer>
             <div>{comment.text}</div>
             <div>{comment.comment_upvote_ids.length}</div>
             {userData &&
@@ -172,7 +194,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
           {userData ? (
             <CommentReplyForm itemUUID={itemUUID} parentId={undefined} />
           ) : (
-            "You are not signed in so you can't make a comment"
+            'Log in or sign up to write a comment.'
           )}
         </div>
         {commentsData && generateCommentStructure()}

@@ -405,7 +405,10 @@ export type GetCommentsQueryVariables = Exact<{
 
 export type GetCommentsQuery = { __typename?: 'Query' } & {
   getComments: Array<
-    { __typename?: 'Comment' } & Pick<Comment, 'id' | 'text' | 'is_deleted'> & {
+    { __typename?: 'Comment' } & Pick<
+      Comment,
+      'id' | 'text' | 'is_deleted' | 'created_at'
+    > & {
         user_id: { __typename?: 'User' } & Pick<
           User,
           'id' | 'uid' | 'display_name' | 'profile_picture_url'
@@ -1138,6 +1141,7 @@ export const GetCommentsDocument = gql`
       id
       text
       is_deleted
+      created_at
     }
   }
 `
