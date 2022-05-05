@@ -12,15 +12,30 @@ export const CommentsContainer = styled.div`
   width: 700px;
 `
 
-export const ImageNameTimeContainer = styled.div`
+export const CommentContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  border-left: 3px solid blue;
+`
+
+export const CommentBody = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ImageNameTimeContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  right: 13px;
 `
 
 export const ProfilePictureWrapper = styled.div`
   height: 30px;
   width: 30px;
   z-index: 1;
-  margin-left: 12px;
   overflow: hidden;
 `
 
@@ -43,7 +58,6 @@ export const ProfileSvgWrapper = styled.div`
   height: 30px;
   width: 30px;
   z-index: 1;
-  margin-left: 12px;
   overflow: hidden;
   color: rgb(113, 113, 113);
 `
