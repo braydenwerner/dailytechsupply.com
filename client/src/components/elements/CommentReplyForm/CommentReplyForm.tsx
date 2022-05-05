@@ -20,7 +20,7 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
     text: string | undefined,
     parentId: number | undefined
   ) => {
-    if (itemUUID && text && text.length < 50) {
+    if (itemUUID && text && text.length < 200) {
       await createCommentMutation({
         variables: {
           input: { item_uuid: itemUUID, text, parent_id: parentId },

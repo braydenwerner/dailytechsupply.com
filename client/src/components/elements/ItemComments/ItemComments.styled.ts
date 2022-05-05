@@ -1,3 +1,4 @@
+import { BiLike } from 'react-icons/bi'
 import styled from 'styled-components'
 
 export const CommentsWrapper = styled.div`
@@ -12,19 +13,7 @@ export const CommentsContainer = styled.div`
   width: 700px;
 `
 
-export const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 10px;
-  border-left: 3px solid blue;
-`
-
-export const CommentBody = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-export const ImageNameTimeContainer = styled.div`
+export const HeaderContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -32,11 +21,21 @@ export const ImageNameTimeContainer = styled.div`
   right: 13px;
 `
 
+export const NameText = styled.div`
+  margin-right: 8px;
+
+  :hover {
+    text-decoration: underline;
+  }
+`
+
 export const ProfilePictureWrapper = styled.div`
   height: 30px;
   width: 30px;
   z-index: 1;
+  margin-right: 8px;
   overflow: hidden;
+  cursor: pointer;
 `
 
 interface ProfilePictureProps {
@@ -58,8 +57,10 @@ export const ProfileSvgWrapper = styled.div`
   height: 30px;
   width: 30px;
   z-index: 1;
+  margin-right: 8px;
   overflow: hidden;
   color: rgb(113, 113, 113);
+  cursor: pointer;
 `
 
 export const PersonSvg = styled.svg`
@@ -67,4 +68,31 @@ export const PersonSvg = styled.svg`
   height: 100%;
   width: 100%;
   fill: currentcolor;
+`
+
+export const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  border-left: 1px solid rgb(0 0 0 / 8%);
+`
+
+export const CommentText = styled.div`
+  font-size: 1rem;
+  margin: 10px 0px 10px 0px;
+`
+
+export const CommentOptionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const UpvoteIcon = styled(BiLike)`
+  cursor: pointer;
+  margin-right: 5px;
+`
+
+export const NumberUpvotesText = styled.div`
+  font-weight: 700;
+  margin-right: 10px;
 `
