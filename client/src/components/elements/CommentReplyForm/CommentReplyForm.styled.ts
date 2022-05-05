@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 
 export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
   width: 700px;
+  margin: 0;
 `
 
 export const TextArea = styled.textarea`
@@ -15,24 +18,43 @@ export const TextArea = styled.textarea`
   background-color: rgba(221, 221, 221, 0.2);
   font-size: 1rem;
   padding: 10px;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   font-family: inherit;
 `
 
 export const SubmitContainer = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(221, 221, 221, 0.3);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px 0px 10px 0px;
+`
+
+export const CancelButton = styled.div`
+  user-select: none;
+  color: #008489;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-left: 10px;
+
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `
 
 export const SubmitButton = styled.button`
   color: white;
+  margin-right: 10px;
   font-weight: 700;
   font-size: 1rem;
-  width: 130px;
+  width: 120px;
   height: 37px;
   border-radius: 5px;
-  margin-top: 15px;
   background-color: rgb(0, 132, 137);
   border: none;
   outline: none;

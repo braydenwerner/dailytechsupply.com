@@ -1,5 +1,24 @@
-import { BiLike } from 'react-icons/bi'
+import { FiChevronDown, FiChevronRight } from 'react-icons/fi'
+import { BiLike, BiMessage, BiTrashAlt } from 'react-icons/bi'
 import styled from 'styled-components'
+
+export const CommentSelectContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 35px;
+`
+
+export const SelectTitle = styled.div`
+  font-size: 1rem;
+`
+
+export const CommentSelect = styled.select`
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  cursor: pointer;
+`
 
 export const CommentsWrapper = styled.div`
   display: flex;
@@ -18,7 +37,8 @@ export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 30px;
-  right: 13px;
+  position: relative;
+  right: 35px;
 `
 
 export const NameText = styled.div`
@@ -77,9 +97,20 @@ export const CommentContainer = styled.div`
   border-left: 1px solid rgb(0 0 0 / 8%);
 `
 
+export const HideRepliesContainer = styled.div`
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  right: 5px;
+`
+
+export const HideRepliesIcon = styled(FiChevronDown)``
+
+export const UnhideRepliesIcon = styled(FiChevronRight)``
+
 export const CommentText = styled.div`
   font-size: 1rem;
-  margin: 10px 0px 10px 0px;
+  margin: 15px 0px 15px 0px;
 `
 
 export const CommentOptionsContainer = styled.div`
@@ -87,12 +118,47 @@ export const CommentOptionsContainer = styled.div`
   align-items: center;
 `
 
-export const UpvoteIcon = styled(BiLike)`
+export const HeaderSubcontainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0px 5px 0px 5px;
   cursor: pointer;
+  padding: 5px;
+  user-select: none;
+
+  :hover {
+    background-color: rgba(221, 221, 221, 0.2);
+  }
+`
+
+export const UpvoteIcon = styled(BiLike)``
+
+export const NumberUpvotesText = styled.div`
+  font-size: 1rem;
+  font-weight: 700;
+  margin-right: 10px;
+`
+
+export const DeleteIcon = styled(BiTrashAlt)`
   margin-right: 5px;
 `
 
-export const NumberUpvotesText = styled.div`
-  font-weight: 700;
-  margin-right: 10px;
+export const DeleteComment = styled.div`
+  font-size: 1rem;
+`
+
+export const ReplyCommentIcon = styled(BiMessage)`
+  margin-right: 5px;
+`
+
+export const ReplyComment = styled.div`
+  font-size: 1rem;
+`
+
+export const ReplyFormContainer = styled.div`
+  position: relative;
+  left: 45px;
+  padding-left: 10px;
+  border-left: 1px solid rgb(0 0 0 / 8%);
+  margin-top: 30px;
 `

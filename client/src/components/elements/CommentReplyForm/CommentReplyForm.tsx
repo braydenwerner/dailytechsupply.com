@@ -6,11 +6,15 @@ import * as Styled from './CommentReplyForm.styled'
 interface CommentReplyForm {
   itemUUID: string
   parentId: number | undefined
+  onSubmit?: () => void
+  hideCancel?: boolean
 }
 
 export const CommentReplyForm: React.FC<CommentReplyForm> = ({
   itemUUID,
   parentId,
+  onSubmit,
+  hideCancel,
 }) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
 
@@ -28,6 +32,8 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
         refetchQueries: ['getComments'],
       })
     }
+
+    if (onSubmit) onSubmit()
   }
 
   return (
@@ -35,10 +41,16 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
       onSubmit={(e) => {
         e.preventDefault()
         handleSubmit(textRef.current?.value, parentId)
+        if (textRef.current) textRef.current.value = ''
       }}
     >
       <Styled.TextArea ref={textRef} placeholder="What are your thoughts?" />
       <Styled.SubmitContainer>
+        {!hideCancel ? (
+          <Styled.CancelButton onClick={onSubmit}>Cancel</Styled.CancelButton>
+        ) : (
+          <Styled.CancelButton />
+        )}
         <Styled.SubmitButton type="submit">Submit</Styled.SubmitButton>
       </Styled.SubmitContainer>
     </Styled.Form>
