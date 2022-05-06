@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SpringModal } from '..'
+import { SpringModal } from '../../elements'
 import {
   GetCommentsQuery,
   useCreateCommentUpvoteMutation,
@@ -8,8 +8,8 @@ import {
   useGetCommentsQuery,
 } from '../../../generated/graphql'
 import { generateCommentsGraph } from '../../../utils/utils'
-import { SignIn, SignUp } from '../../modules'
-import { CommentReplyForm } from '../CommentReplyForm/CommentReplyForm'
+import { SignIn, SignUp } from '..'
+import { CommentReplyForm } from '../../elements/CommentReplyForm/CommentReplyForm'
 
 import * as Styled from './ItemComments.styled'
 

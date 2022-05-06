@@ -1,0 +1,3 @@
+mutation createItemRecommend($item_id: Float!) {
+  createItemRecommend(item_id: $item_id)
+}

@@ -1,6 +1,7 @@
 query get3dPrinters($input: GetPrinter3dInput) {
   get3dPrinters(input: $input) {
     item_id {
+      id
       title
       description
       price

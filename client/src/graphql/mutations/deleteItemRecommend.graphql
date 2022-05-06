@@ -1,0 +1,3 @@
+mutation deleteItemRecommend($item_id: Float!) {
+  deleteItemRecommend(item_id: $item_id)
+}

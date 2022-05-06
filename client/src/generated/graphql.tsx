@@ -115,6 +115,8 @@ export type Mutation = {
   deleteComment: Scalars['Boolean']
   createCommentUpvote: Scalars['Boolean']
   deleteCommentUpvote: Scalars['Boolean']
+  createItemRecommend: Scalars['Boolean']
+  deleteItemRecommend: Scalars['Boolean']
 }
 
 export type MutationCreateUserArgs = {
@@ -147,6 +149,14 @@ export type MutationCreateCommentUpvoteArgs = {
 
 export type MutationDeleteCommentUpvoteArgs = {
   comment_id: Scalars['Float']
+}
+
+export type MutationCreateItemRecommendArgs = {
+  item_id: Scalars['Float']
+}
+
+export type MutationDeleteItemRecommendArgs = {
+  item_id: Scalars['Float']
 }
 
 export type Printer3d = {
@@ -244,6 +254,15 @@ export type CreateCommentUpvoteMutation = { __typename?: 'Mutation' } & Pick<
   'createCommentUpvote'
 >
 
+export type CreateItemRecommendMutationVariables = Exact<{
+  item_id: Scalars['Float']
+}>
+
+export type CreateItemRecommendMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'createItemRecommend'
+>
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput
 }>
@@ -274,6 +293,15 @@ export type DeleteCommentUpvoteMutationVariables = Exact<{
 export type DeleteCommentUpvoteMutation = { __typename?: 'Mutation' } & Pick<
   Mutation,
   'deleteCommentUpvote'
+>
+
+export type DeleteItemRecommendMutationVariables = Exact<{
+  item_id: Scalars['Float']
+}>
+
+export type DeleteItemRecommendMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'deleteItemRecommend'
 >
 
 export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>
@@ -336,6 +364,7 @@ export type Get3dPrinterByIdQuery = { __typename?: 'Query' } & {
     > & {
         item_id: { __typename?: 'Item' } & Pick<
           Item,
+          | 'id'
           | 'title'
           | 'description'
           | 'price'
@@ -384,6 +413,7 @@ export type Get3dPrintersQuery = { __typename?: 'Query' } & {
       > & {
           item_id: { __typename?: 'Item' } & Pick<
             Item,
+            | 'id'
             | 'title'
             | 'description'
             | 'price'
@@ -563,6 +593,54 @@ export type CreateCommentUpvoteMutationOptions = Apollo.BaseMutationOptions<
   CreateCommentUpvoteMutation,
   CreateCommentUpvoteMutationVariables
 >
+export const CreateItemRecommendDocument = gql`
+  mutation createItemRecommend($item_id: Float!) {
+    createItemRecommend(item_id: $item_id)
+  }
+`
+export type CreateItemRecommendMutationFn = Apollo.MutationFunction<
+  CreateItemRecommendMutation,
+  CreateItemRecommendMutationVariables
+>
+
+/**
+ * __useCreateItemRecommendMutation__
+ *
+ * To run a mutation, you first call `useCreateItemRecommendMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemRecommendMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createItemRecommendMutation, { data, loading, error }] = useCreateItemRecommendMutation({
+ *   variables: {
+ *      item_id: // value for 'item_id'
+ *   },
+ * });
+ */
+export function useCreateItemRecommendMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateItemRecommendMutation,
+    CreateItemRecommendMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateItemRecommendMutation,
+    CreateItemRecommendMutationVariables
+  >(CreateItemRecommendDocument, options)
+}
+export type CreateItemRecommendMutationHookResult = ReturnType<
+  typeof useCreateItemRecommendMutation
+>
+export type CreateItemRecommendMutationResult =
+  Apollo.MutationResult<CreateItemRecommendMutation>
+export type CreateItemRecommendMutationOptions = Apollo.BaseMutationOptions<
+  CreateItemRecommendMutation,
+  CreateItemRecommendMutationVariables
+>
 export const CreateUserDocument = gql`
   mutation createUser($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -711,6 +789,54 @@ export type DeleteCommentUpvoteMutationResult =
 export type DeleteCommentUpvoteMutationOptions = Apollo.BaseMutationOptions<
   DeleteCommentUpvoteMutation,
   DeleteCommentUpvoteMutationVariables
+>
+export const DeleteItemRecommendDocument = gql`
+  mutation deleteItemRecommend($item_id: Float!) {
+    deleteItemRecommend(item_id: $item_id)
+  }
+`
+export type DeleteItemRecommendMutationFn = Apollo.MutationFunction<
+  DeleteItemRecommendMutation,
+  DeleteItemRecommendMutationVariables
+>
+
+/**
+ * __useDeleteItemRecommendMutation__
+ *
+ * To run a mutation, you first call `useDeleteItemRecommendMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteItemRecommendMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteItemRecommendMutation, { data, loading, error }] = useDeleteItemRecommendMutation({
+ *   variables: {
+ *      item_id: // value for 'item_id'
+ *   },
+ * });
+ */
+export function useDeleteItemRecommendMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteItemRecommendMutation,
+    DeleteItemRecommendMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    DeleteItemRecommendMutation,
+    DeleteItemRecommendMutationVariables
+  >(DeleteItemRecommendDocument, options)
+}
+export type DeleteItemRecommendMutationHookResult = ReturnType<
+  typeof useDeleteItemRecommendMutation
+>
+export type DeleteItemRecommendMutationResult =
+  Apollo.MutationResult<DeleteItemRecommendMutation>
+export type DeleteItemRecommendMutationOptions = Apollo.BaseMutationOptions<
+  DeleteItemRecommendMutation,
+  DeleteItemRecommendMutationVariables
 >
 export const DeleteUserDocument = gql`
   mutation deleteUser {
@@ -907,6 +1033,7 @@ export const Get3dPrinterByIdDocument = gql`
   query get3dPrinterById($uuid: String!) {
     get3dPrinterByUUID(uuid: $uuid) {
       item_id {
+        id
         title
         description
         price
@@ -1045,6 +1172,7 @@ export const Get3dPrintersDocument = gql`
   query get3dPrinters($input: GetPrinter3dInput) {
     get3dPrinters(input: $input) {
       item_id {
+        id
         title
         description
         price

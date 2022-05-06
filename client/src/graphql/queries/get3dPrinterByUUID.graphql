@@ -1,6 +1,7 @@
 query get3dPrinterById($uuid: String!) {
   get3dPrinterByUUID(uuid: $uuid) {
     item_id {
+      id
       title
       description
       price

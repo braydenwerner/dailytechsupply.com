@@ -8,8 +8,7 @@ import {
 } from '../../../../generated/graphql'
 
 import { client } from '../../../../utils/createApolloClient'
-import { ItemView, Navbar } from '../../../../components/modules'
-import { ItemComments } from '../../../../components/elements'
+import { ItemView, Navbar, ItemComments } from '../../../../components/modules'
 import { ItemProperties } from '../../../../types'
 import { TokenContext } from '../../../../providers'
 
