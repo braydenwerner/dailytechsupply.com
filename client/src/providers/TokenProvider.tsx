@@ -15,7 +15,7 @@ export const TokenContext = createContext({
 })
 
 export const TokenProvider: React.FC = ({ children }) => {
-  const [getUser, { data, loading }] = useGetUserLazyQuery()
+  const [getUser, { data, loading, called }] = useGetUserLazyQuery()
   const userData = data && data.getUser
 
   const [isMounted, setIsMounted] = useState(false)
@@ -47,11 +47,20 @@ export const TokenProvider: React.FC = ({ children }) => {
       user,
       isMounted,
       tokenAttached,
+      called,
       loading,
       userData,
       setTokenAttached,
     }),
-    [user, isMounted, tokenAttached, loading, userData, setTokenAttached]
+    [
+      user,
+      isMounted,
+      tokenAttached,
+      called,
+      loading,
+      userData,
+      setTokenAttached,
+    ]
   )
 
   return (

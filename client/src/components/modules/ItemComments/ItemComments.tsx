@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { SpringModal } from '../../elements'
 import {
   GetCommentsQuery,
@@ -10,7 +11,6 @@ import {
 import { generateCommentsGraph } from '../../../utils/utils'
 import { SignIn, SignUp } from '..'
 import { CommentReplyForm } from '../../elements/CommentReplyForm/CommentReplyForm'
-
 import * as Styled from './ItemComments.styled'
 
 interface ItemCommentsProps {
@@ -303,6 +303,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
     )
   }
 
+  console.log(userData)
+
   return (
     <>
       <Styled.CommentsWrapper>
@@ -329,7 +331,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
               <option value="mostRecent">Most Recent</option>
             </Styled.CommentSelect>
           </Styled.CommentSelectContainer>
-          {commentsData && generateCommentStructure()}
+          {commentsData ? generateCommentStructure() : <div>Loading</div>}
         </Styled.CommentsContainer>
       </Styled.CommentsWrapper>
       {modalOpenMode && (

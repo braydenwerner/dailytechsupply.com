@@ -24,5 +24,7 @@ query get3dPrinters($input: GetPrinter3dInput) {
     voltage
     wattage
     compatible_material
+    created_at
+    updated_at
   }
 }

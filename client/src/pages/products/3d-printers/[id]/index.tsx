@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext } from 'react'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import {
-  Get3dPrinterByIdDocument,
+  Get3dPrinterDocument,
   Get3dPrinterIdsDocument,
   Printer3d,
 } from '../../../../generated/graphql'
@@ -36,13 +36,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (!params?.id) return { notFound: true }
 
   const res = await client.query({
-    query: Get3dPrinterByIdDocument,
+    query: Get3dPrinterDocument,
     variables: { uuid: params.id },
   })
 
-  if (!res.data?.get3dPrinterByUUID) return { notFound: true }
+  if (!res.data?.get3dPrinter) return { notFound: true }
 
-  return { props: { uuid: params.id, printer: res.data.get3dPrinterByUUID } }
+  return { props: { uuid: params.id, printer: res.data.get3dPrinter } }
 }
 
 interface Printer3dItemProps {
@@ -51,7 +51,7 @@ interface Printer3dItemProps {
 }
 
 const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
-  const { userData } = useContext(TokenContext)
+  const { userData, loading, isMounted } = useContext(TokenContext)
 
   const getProperties = useCallback(() => {
     type key = keyof typeof printer
@@ -81,7 +81,9 @@ const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
       </Head>
       <Navbar />
       <ItemView item={printer} properties={getProperties()} />
-      <ItemComments itemUUID={uuid} userData={userData} />
+      {isMounted && !loading && (
+        <ItemComments itemUUID={uuid} userData={userData} />
+      )}
     </>
   )
 }

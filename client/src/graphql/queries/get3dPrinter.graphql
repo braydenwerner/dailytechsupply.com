@@ -1,5 +1,5 @@
-query get3dPrinterById($uuid: String!) {
-  get3dPrinterByUUID(uuid: $uuid) {
+query get3dPrinter($uuid: String!) {
+  get3dPrinter(uuid: $uuid) {
     item_id {
       id
       title
@@ -24,5 +24,7 @@ query get3dPrinterById($uuid: String!) {
     voltage
     wattage
     compatible_material
+    created_at
+    updated_at
   }
 }
