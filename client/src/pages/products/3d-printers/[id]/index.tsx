@@ -83,7 +83,7 @@ const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar small />
+      <Navbar width={250} />
       <ItemViewLayout
         item={printer}
         properties={getProperties()}

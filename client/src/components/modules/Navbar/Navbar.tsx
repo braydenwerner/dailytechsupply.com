@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/router'
 import * as Styled from './NavBar.styled'
 
 import { auth } from '../../../config/config'
@@ -8,10 +7,11 @@ import { SignIn, SignUp } from '../../../components/modules'
 import { SpringModal } from '../../elements'
 
 interface NavbarProps {
+  width?: number
   small?: boolean
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ small }) => {
+export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
   const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
@@ -20,8 +20,6 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
 
   const svgContainerRef = useRef<HTMLDivElement>(null)
   const menuContainerRef = useRef<HTMLDivElement>(null)
-
-  const router = useRouter()
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -84,12 +82,13 @@ export const Navbar: React.FC<NavbarProps> = ({ small }) => {
       <Styled.NavContainer>
         <Styled.PaddingDiv />
         <a href="/">
-          <Styled.LogoContainer small={small}>
+          <Styled.LogoContainer width={width} small={small}>
             <Styled.Logo>Daily Tech Supply</Styled.Logo>
           </Styled.LogoContainer>
         </a>
         <Styled.SearchContainer />
         <Styled.ProfileContainer
+          width={width}
           small={small}
           onClick={() => setMenuOpen((oldMenuOpen) => !oldMenuOpen)}
         >

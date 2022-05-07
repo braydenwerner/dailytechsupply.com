@@ -73,7 +73,7 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
             <div>{item.item_id.manufacturer}</div>
             <div>${item.item_id.price}</div>
             <div>{item.item_id.rating}</div>
-            <div>{getNumRecommends()}</div>
+            {itemRecommendData && <div>{getNumRecommends()}</div>}
             <a href={item.item_id.url} target="_blank">
               <div>{item.item_id.sold_by}</div>
             </a>

@@ -18,11 +18,17 @@ export const PaddingDiv = styled.div`
 `
 
 interface LogoContainerProps {
+  width?: number
   small?: boolean
 }
 
 export const LogoContainer = styled.div<LogoContainerProps>`
-  width: ${(props) => (props.small ? '400px' : '560px')};
+  width: ${(props) => {
+    console.log('logo container width ' + props.width)
+    if (props.width) return props.width + 'px'
+    if (props.small) return '400px'
+    return '560px'
+  }};
   cursor: pointer;
 `
 
@@ -35,6 +41,7 @@ export const SearchContainer = styled.div`
 `
 
 interface ProfileContainerProps {
+  width?: number
   small?: boolean
 }
 
@@ -43,7 +50,11 @@ export const ProfileContainer = styled.div<ProfileContainerProps>`
   justify-content: right;
   justify-self: center;
   align-items: center;
-  width: ${(props) => (props.small ? '400px' : '560px')};
+  width: ${(props) => {
+    if (props.width) return props.width + 'px'
+    if (props.small) return '400px'
+    return '560px'
+  }};
   height: 30px;
 `
 
