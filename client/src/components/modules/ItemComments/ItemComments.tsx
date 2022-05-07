@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-
-import { SpringModal } from '../../elements'
 import {
   GetCommentsQuery,
   useCreateCommentUpvoteMutation,
@@ -8,14 +6,17 @@ import {
   useDeleteCommentUpvoteMutation,
   useGetCommentsQuery,
 } from '../../../generated/graphql'
+
+import { SpringModal } from '../../elements'
 import { generateCommentsGraph } from '../../../utils/utils'
+import { UserData } from '../../../types'
 import { SignIn, SignUp } from '..'
 import { CommentReplyForm } from '../../elements/CommentReplyForm/CommentReplyForm'
 import * as Styled from './ItemComments.styled'
 
 interface ItemCommentsProps {
   itemUUID: string
-  userData: any
+  userData: UserData
 }
 
 export const ItemComments: React.FC<ItemCommentsProps> = ({
@@ -263,8 +264,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
             )}
             <div
               style={{
-                position: 'relative',
-                left: '45px',
+                marginLeft: '45px',
               }}
             >
               {commentsData &&
@@ -303,23 +303,21 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
     )
   }
 
-  console.log(userData)
-
   return (
     <>
       <Styled.CommentsWrapper>
         <Styled.CommentsContainer>
-          <div>
-            {userData ? (
-              <CommentReplyForm
-                itemUUID={itemUUID}
-                parentId={undefined}
-                hideCancel={true}
-              />
-            ) : (
-              'Log in or sign up to write a comment.'
-            )}
-          </div>
+          {userData ? (
+            <CommentReplyForm
+              itemUUID={itemUUID}
+              parentId={undefined}
+              hideCancel={true}
+            />
+          ) : (
+            <Styled.LoginOrSignUpContainer>
+              Log in or sign up to write a comment.
+            </Styled.LoginOrSignUpContainer>
+          )}
           <Styled.CommentSelectContainer>
             <Styled.SelectTitle>Sort by:</Styled.SelectTitle>
             <Styled.CommentSelect

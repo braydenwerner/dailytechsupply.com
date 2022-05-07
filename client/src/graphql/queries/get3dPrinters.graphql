@@ -10,6 +10,7 @@ query get3dPrinters($input: GetPrinter3dInput) {
       sold_by
       url
       image_url
+      image_url_large
       is_affiliate
     }
     uuid

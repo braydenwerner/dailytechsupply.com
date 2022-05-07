@@ -1,21 +1,22 @@
 import { createContext, useState, useEffect, useMemo } from 'react'
-import { GetUserQuery, useGetUserLazyQuery } from '../generated/graphql'
+import { useGetUserLazyQuery } from '../generated/graphql'
 
 import { auth, User } from '../config/config'
+import { UserData } from '../types'
 
 export const TokenContext = createContext({
   user: null as User,
   isMounted: false,
   tokenAttached: false,
   loading: false,
-  userData: null as any,
+  userData: null as UserData,
   setTokenAttached: (isAttached: boolean) => {
     return
   },
 })
 
 export const TokenProvider: React.FC = ({ children }) => {
-  const [getUser, { data, loading, called }] = useGetUserLazyQuery()
+  const [getUser, { data, loading }] = useGetUserLazyQuery()
   const userData = data && data.getUser
 
   const [isMounted, setIsMounted] = useState(false)
@@ -23,15 +24,15 @@ export const TokenProvider: React.FC = ({ children }) => {
   const [tokenAttached, setTokenAttached] = useState(false)
 
   useEffect(() => {
+    if (tokenAttached) getUser()
+  }, [tokenAttached])
+
+  useEffect(() => {
     if (typeof window !== 'undefined' && localStorage.getItem('token')) {
       setTokenAttached(true)
     }
     setIsMounted(true)
   }, [])
-
-  useEffect(() => {
-    if (tokenAttached) getUser()
-  }, [tokenAttached])
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -47,20 +48,11 @@ export const TokenProvider: React.FC = ({ children }) => {
       user,
       isMounted,
       tokenAttached,
-      called,
       loading,
       userData,
       setTokenAttached,
     }),
-    [
-      user,
-      isMounted,
-      tokenAttached,
-      called,
-      loading,
-      userData,
-      setTokenAttached,
-    ]
+    [user, isMounted, tokenAttached, loading, userData, setTokenAttached]
   )
 
   return (

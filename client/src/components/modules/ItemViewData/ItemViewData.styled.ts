@@ -7,15 +7,25 @@ export const Wrapper = styled.div`
 `
 export const Container = styled.div`
   display: flex;
-  width: 1000px;
+  width: 100%;
   margin: 25px 0px 50px 0px;
-  background-color: blue;
 `
 
 export const ImageContainer = styled.div`
-  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  background-color: blue;
+`
+
+export const Image = styled.img`
+  min-width: 400px;
 `
 
 export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 80%;
 `

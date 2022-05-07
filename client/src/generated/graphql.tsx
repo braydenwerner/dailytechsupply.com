@@ -95,6 +95,7 @@ export type Item = {
   sold_by: Scalars['String'];
   url: Scalars['String'];
   image_url: Scalars['String'];
+  image_url_large?: Maybe<Scalars['String']>;
   is_affiliate?: Maybe<Scalars['Boolean']>;
 };
 
@@ -395,7 +396,7 @@ export type Get3dPrinterQuery = (
     & Pick<Printer3d, 'uuid' | 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material' | 'created_at' | 'updated_at'>
     & { item_id: (
       { __typename?: 'Item' }
-      & Pick<Item, 'id' | 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'is_affiliate'>
+      & Pick<Item, 'id' | 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'image_url_large' | 'is_affiliate'>
     ) }
   )> }
 );
@@ -425,7 +426,7 @@ export type Get3dPrintersQuery = (
     & Pick<Printer3d, 'uuid' | 'x_axis' | 'y_axis' | 'z_axis' | 'auto_leveling' | 'resume_printing' | 'removeable_build_surface' | 'material' | 'weight' | 'voltage' | 'wattage' | 'compatible_material' | 'created_at' | 'updated_at'>
     & { item_id: (
       { __typename?: 'Item' }
-      & Pick<Item, 'id' | 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'is_affiliate'>
+      & Pick<Item, 'id' | 'title' | 'description' | 'price' | 'rating' | 'manufacturer' | 'sold_by' | 'url' | 'image_url' | 'image_url_large' | 'is_affiliate'>
     ) }
   )>> }
 );
@@ -872,6 +873,7 @@ export const Get3dPrinterDocument = gql`
       sold_by
       url
       image_url
+      image_url_large
       is_affiliate
     }
     uuid
@@ -967,6 +969,7 @@ export const Get3dPrintersDocument = gql`
       sold_by
       url
       image_url
+      image_url_large
       is_affiliate
     }
     uuid

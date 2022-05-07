@@ -10,6 +10,7 @@ query get3dPrinter($uuid: String!) {
       sold_by
       url
       image_url
+      image_url_large
       is_affiliate
     }
     uuid

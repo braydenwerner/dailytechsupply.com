@@ -10,14 +10,14 @@ import { TokenContext } from '../../../providers'
 import { ItemProperties } from '../../../types'
 import { SignUp, SignIn } from '..'
 import { SpringModal } from '../../elements'
-import * as Styled from './ItemView.styled'
+import * as Styled from './ItemViewData.styled'
 
 interface ItemProps {
   item: Printer3d
   properties: ItemProperties
 }
 
-export const ItemView: React.FC<ItemProps> = ({ item, properties }) => {
+export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
   const [userRecommended, setUserRecommended] = useState(false)
   const [loadingRecommends, setLoadingRecommends] = useState(true)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
@@ -41,7 +41,7 @@ export const ItemView: React.FC<ItemProps> = ({ item, properties }) => {
 
   const checkUserRecommended = () => {
     for (const recommend of itemRecommendData!) {
-      if (recommend.user_id.id === userData.id) return true
+      if (recommend.user_id.id === userData!.id) return true
     }
     return false
   }
@@ -59,8 +59,13 @@ export const ItemView: React.FC<ItemProps> = ({ item, properties }) => {
       <Styled.Wrapper>
         <Styled.Container>
           <Styled.ImageContainer>
-            <img src={item.item_id.image_url} />
-            {itemRecommendData && <div>{getNumRecommends()}</div>}
+            <Styled.Image
+              src={
+                item.item_id.image_url_large
+                  ? item.item_id.image_url_large
+                  : item.item_id.image_url
+              }
+            />
           </Styled.ImageContainer>
           <Styled.InfoContainer>
             <div>{item.item_id.title}</div>
@@ -68,8 +73,10 @@ export const ItemView: React.FC<ItemProps> = ({ item, properties }) => {
             <div>{item.item_id.manufacturer}</div>
             <div>${item.item_id.price}</div>
             <div>{item.item_id.rating}</div>
-            <div>{item.item_id.sold_by}</div>
-            <div>{item.item_id.url}</div>
+            <div>{getNumRecommends()}</div>
+            <a href={item.item_id.url} target="_blank">
+              <div>{item.item_id.sold_by}</div>
+            </a>
             {Object.keys(properties).map((key, i) => (
               <div key={i}>
                 {key}: {properties[key as keyof typeof properties]?.toString()}

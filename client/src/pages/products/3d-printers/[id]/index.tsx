@@ -8,7 +8,11 @@ import {
 } from '../../../../generated/graphql'
 
 import { client } from '../../../../utils/createApolloClient'
-import { ItemView, Navbar, ItemComments } from '../../../../components/modules'
+import {
+  ItemViewLayout,
+  Navbar,
+  ItemComments,
+} from '../../../../components/modules'
 import { ItemProperties } from '../../../../types'
 import { TokenContext } from '../../../../providers'
 
@@ -51,7 +55,7 @@ interface Printer3dItemProps {
 }
 
 const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
-  const { userData, loading, isMounted } = useContext(TokenContext)
+  const { userData } = useContext(TokenContext)
 
   const getProperties = useCallback(() => {
     type key = keyof typeof printer
@@ -79,11 +83,13 @@ const Printer3dItemPage: NextPage<Printer3dItemProps> = ({ uuid, printer }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <ItemView item={printer} properties={getProperties()} />
-      {isMounted && !loading && (
-        <ItemComments itemUUID={uuid} userData={userData} />
-      )}
+      <Navbar small />
+      <ItemViewLayout
+        item={printer}
+        properties={getProperties()}
+        uuid={uuid}
+        userData={userData}
+      />
     </>
   )
 }

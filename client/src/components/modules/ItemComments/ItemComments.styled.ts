@@ -2,6 +2,27 @@ import { FiChevronDown, FiChevronRight } from 'react-icons/fi'
 import { BiLike, BiMessage, BiTrashAlt } from 'react-icons/bi'
 import styled from 'styled-components'
 
+export const CommentsWrapper = styled.div`
+  display: flex;
+  max-width: 100%;
+  justify-content: center;
+`
+
+export const CommentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+export const LoginOrSignUpContainer = styled.div`
+  display: flex;
+  font-size: 1.2rem;
+  border: 1px solid rgb(0 0 0 / 8%);
+  font-weight: 700;
+  color: rgb(72, 72, 72);
+  padding: 25px 20px 25px 20px;
+`
+
 export const CommentSelectContainer = styled.div`
   display: flex;
   align-items: center;
@@ -18,18 +39,6 @@ export const CommentSelect = styled.select`
   outline: none;
   margin-left: 5px;
   cursor: pointer;
-`
-
-export const CommentsWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-`
-
-export const CommentsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 700px;
 `
 
 export const HeaderContainer = styled.div`
@@ -95,6 +104,7 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   padding-left: 10px;
   border-left: 1px solid rgb(0 0 0 / 8%);
+  word-wrap: break-word;
 `
 
 export const HideRepliesContainer = styled.div`
@@ -157,8 +167,7 @@ export const ReplyComment = styled.div`
 
 export const ReplyFormContainer = styled.div`
   position: relative;
-  left: 45px;
   padding-left: 10px;
   border-left: 1px solid rgb(0 0 0 / 8%);
-  margin-top: 30px;
+  margin: 30px 0px 0px 45px;
 `

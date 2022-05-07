@@ -3,12 +3,12 @@ import styled from 'styled-components'
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 700px;
+  width: 100%;
   margin: 0;
 `
 
 export const TextArea = styled.textarea`
-  width: 700px;
+  width: 100%;
   height: 130px;
   max-height: 130px;
   border: none;
