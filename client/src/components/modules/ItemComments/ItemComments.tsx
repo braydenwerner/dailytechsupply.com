@@ -56,6 +56,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
     if (!commentsQuery.data) return null
 
     const comments = []
+    let commentDepth = 0
     const adjList = generateCommentsGraph(commentsQuery.data)
     if (adjList && adjList.get(undefined) && commentsData) {
       for (const id of adjList.get(undefined)?.sort((id1, id2) => {
@@ -74,7 +75,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
       })!)
         comments.push(
           <div key={id}>
-            {generateCommentJSX(adjList, id, commentsQuery.data)}
+            {generateCommentJSX(adjList, id, commentsQuery.data, commentDepth)}
           </div>
         )
     }
@@ -85,7 +86,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
   const generateCommentJSX = (
     adjList: Map<number | undefined, number[]>,
     id: number,
-    data: GetCommentsQuery
+    data: GetCommentsQuery,
+    commentDepth: number
   ) => {
     const comment = data.getComments.filter((comment) => comment.id === id)[0]
     if (!comment) return
@@ -214,23 +216,26 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                   <Styled.NumberUpvotesText>
                     {comment.comment_upvote_ids.length}
                   </Styled.NumberUpvotesText>
-                  <Styled.HeaderSubcontainer
-                    onClick={() => {
-                      if (userData) {
-                        setOpenReplies((oldOpenReplies) => {
-                          if (oldOpenReplies.includes(id))
-                            return oldOpenReplies.filter((num) => num !== id)
+                  {/* Do not allow replies beyond 10 levels */}
+                  {commentDepth < 10 && (
+                    <Styled.HeaderSubcontainer
+                      onClick={() => {
+                        if (userData) {
+                          setOpenReplies((oldOpenReplies) => {
+                            if (oldOpenReplies.includes(id))
+                              return oldOpenReplies.filter((num) => num !== id)
 
-                          return [...oldOpenReplies, id]
-                        })
-                      } else {
-                        setModalOpenMode('signUp')
-                      }
-                    }}
-                  >
-                    <Styled.ReplyCommentIcon size={22} />
-                    <Styled.ReplyComment>Reply</Styled.ReplyComment>
-                  </Styled.HeaderSubcontainer>
+                            return [...oldOpenReplies, id]
+                          })
+                        } else {
+                          setModalOpenMode('signUp')
+                        }
+                      }}
+                    >
+                      <Styled.ReplyCommentIcon size={22} />
+                      <Styled.ReplyComment>Reply</Styled.ReplyComment>
+                    </Styled.HeaderSubcontainer>
+                  )}
                   {userData && userData.id === comment.user_id.id && (
                     <Styled.HeaderSubcontainer
                       onClick={() => {
@@ -293,7 +298,12 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                   })
                   .map((childId) => (
                     <div key={childId}>
-                      {generateCommentJSX(adjList, childId, data)}
+                      {generateCommentJSX(
+                        adjList,
+                        childId,
+                        data,
+                        commentDepth + 1
+                      )}
                     </div>
                   ))}
             </div>
@@ -315,7 +325,15 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
             />
           ) : (
             <Styled.LoginOrSignUpContainer>
-              Log in or sign up to write a comment.
+              <div>Log in or sign up to write a comment.</div>
+              <Styled.LoginButtonContainer>
+                <Styled.LoginButton onClick={() => setModalOpenMode('SignIn')}>
+                  Log in
+                </Styled.LoginButton>
+                <Styled.SignUpButton onClick={() => setModalOpenMode('SignUp')}>
+                  Sign up
+                </Styled.SignUpButton>
+              </Styled.LoginButtonContainer>
             </Styled.LoginOrSignUpContainer>
           )}
           <Styled.CommentSelectContainer>

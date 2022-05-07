@@ -16,11 +16,46 @@ export const CommentsContainer = styled.div`
 
 export const LoginOrSignUpContainer = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 1.2rem;
   border: 1px solid rgb(0 0 0 / 8%);
   font-weight: 700;
   color: rgb(72, 72, 72);
   padding: 25px 20px 25px 20px;
+`
+
+export const LoginButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const LoginButton = styled.div`
+  padding: 8px 13px 8px 13px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  :hover {
+    background-color: rgba(221, 221, 221, 0.2);
+  }
+`
+
+export const SignUpButton = styled.div`
+  padding: 8px 13px 8px 13px;
+  color: white;
+  margin-right: 10px;
+  font-weight: 700;
+  border-radius: 5px;
+  background-color: rgb(0, 132, 137);
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  :hover {
+    background-color: rgb(0, 142, 147);
+  }
 `
 
 export const CommentSelectContainer = styled.div`
