@@ -17,6 +17,7 @@ export type UserData =
         | 'about'
         | 'profile_picture_url'
         | 'last_updated_password'
+        | 'updated_at'
         | 'created_at'
       >
     >

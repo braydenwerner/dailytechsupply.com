@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react'
+import { Rating } from '@mui/material'
 import {
   Printer3d,
   useCreateItemRecommendMutation,
@@ -59,67 +60,94 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
       <Styled.Wrapper>
         <Styled.Container>
           <Styled.ImageContainer>
-            <Styled.Image
-              src={
-                item.item_id.image_url_large
-                  ? item.item_id.image_url_large
-                  : item.item_id.image_url
-              }
-            />
+            <a href={item.item_id.url} target="_blank">
+              <Styled.Image
+                src={
+                  item.item_id.image_url_large
+                    ? item.item_id.image_url_large
+                    : item.item_id.image_url
+                }
+              />
+            </a>
           </Styled.ImageContainer>
           <Styled.InfoContainer>
-            <div>{item.item_id.title}</div>
-            <div>{item.item_id.description}</div>
-            <div>{item.item_id.manufacturer}</div>
-            <div>${item.item_id.price}</div>
-            <div>{item.item_id.rating}</div>
-            {itemRecommendData && <div>{getNumRecommends()}</div>}
+            <Styled.Title>{item.item_id.title}</Styled.Title>
+            {/* <Styled.Description>{item.item_id.description}</Styled.Description> */}
+            <Styled.Manufacturer>
+              Sold by {item.item_id.manufacturer}
+            </Styled.Manufacturer>
+            <Rating
+              name="read-only"
+              value={item.item_id.rating}
+              precision={0.5}
+              readOnly
+              style={{ marginTop: '10px' }}
+            />
+            <Styled.Price>${item.item_id.price}</Styled.Price>
             <a href={item.item_id.url} target="_blank">
-              <div>{item.item_id.sold_by}</div>
+              <Styled.ItemLinkButton>
+                View on {item.item_id.sold_by}
+              </Styled.ItemLinkButton>
             </a>
-            {Object.keys(properties).map((key, i) => (
+            {/* {Object.keys(properties).map((key, i) => (
               <div key={i}>
                 {key}: {properties[key as keyof typeof properties]?.toString()}
               </div>
-            ))}
+            ))} */}
             {!loadingRecommends && (
-              <div>
+              <Styled.RecommendContainer>
                 {!userRecommended ? (
-                  <button
-                    disabled={loadingRecommends}
-                    onClick={() => {
-                      if (userData) {
-                        setLoadingRecommends(true)
-                        createItemRecommend({
-                          variables: { item_id: item.item_id.id },
-                          refetchQueries: ['getItemRecommends'],
-                        })
-                      } else {
-                        setModalOpenMode('signUp')
-                      }
-                    }}
-                  >
-                    Recommend
-                  </button>
+                  <Styled.RecommendIconContainer>
+                    <Styled.RecommendIcon
+                      size={36}
+                      recommended={userRecommended}
+                      onClick={() => {
+                        if (loadingRecommends) return
+
+                        if (userData) {
+                          setLoadingRecommends(true)
+                          createItemRecommend({
+                            variables: { item_id: item.item_id.id },
+                            refetchQueries: ['getItemRecommends'],
+                          })
+                        } else {
+                          setModalOpenMode('signUp')
+                        }
+                      }}
+                    >
+                      Recommend
+                    </Styled.RecommendIcon>
+                  </Styled.RecommendIconContainer>
                 ) : (
-                  <button
-                    disabled={loadingRecommends}
-                    onClick={() => {
-                      if (userData) {
-                        setLoadingRecommends(true)
-                        deleteItemRecommend({
-                          variables: { item_id: item.item_id.id },
-                          refetchQueries: ['getItemRecommends'],
-                        })
-                      } else {
-                        setModalOpenMode('signUp')
-                      }
-                    }}
-                  >
-                    Unrecommend
-                  </button>
+                  <Styled.RecommendIconContainer>
+                    <Styled.RecommendIcon
+                      size={36}
+                      recommended={userRecommended}
+                      onClick={() => {
+                        if (loadingRecommends) return
+
+                        if (userData) {
+                          setLoadingRecommends(true)
+                          deleteItemRecommend({
+                            variables: { item_id: item.item_id.id },
+                            refetchQueries: ['getItemRecommends'],
+                          })
+                        } else {
+                          setModalOpenMode('signUp')
+                        }
+                      }}
+                    >
+                      Unrecommend
+                    </Styled.RecommendIcon>
+                  </Styled.RecommendIconContainer>
                 )}
-              </div>
+                {itemRecommendData && (
+                  <Styled.RecommendNumber>
+                    {getNumRecommends()}{' '}
+                    {getNumRecommends() === 1 ? 'Recommend' : 'Recommends'}
+                  </Styled.RecommendNumber>
+                )}
+              </Styled.RecommendContainer>
             )}
           </Styled.InfoContainer>
         </Styled.Container>

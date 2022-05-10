@@ -347,7 +347,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
               <option value="mostRecent">Most Recent</option>
             </Styled.CommentSelect>
           </Styled.CommentSelectContainer>
-          {commentsData ? generateCommentStructure() : <div>Loading</div>}
+          {commentsData && generateCommentStructure()}
         </Styled.CommentsContainer>
       </Styled.CommentsWrapper>
       {modalOpenMode && (

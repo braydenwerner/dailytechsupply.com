@@ -24,7 +24,6 @@ interface LogoContainerProps {
 
 export const LogoContainer = styled.div<LogoContainerProps>`
   width: ${(props) => {
-    console.log('logo container width ' + props.width)
     if (props.width) return props.width + 'px'
     if (props.small) return '400px'
     return '560px'
