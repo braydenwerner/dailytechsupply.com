@@ -22,6 +22,7 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
   const [userRecommended, setUserRecommended] = useState(false)
   const [loadingRecommends, setLoadingRecommends] = useState(true)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
+  const [URL, setURL] = useState<string | undefined>()
 
   const { data } = useGetItemRecommendsQuery({
     variables: { item_id: item.item_id.id },
@@ -32,6 +33,14 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
   const [deleteItemRecommend] = useDeleteItemRecommendMutation()
 
   const { userData, isMounted, loading } = useContext(TokenContext)
+
+  useEffect(() => {
+    if (window) {
+      setURL(
+        window.location.href.substring(0, window.location.href.lastIndexOf('/'))
+      )
+    }
+  })
 
   useEffect(() => {
     if (userData && itemRecommendData) {
@@ -55,9 +64,58 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
     return set.size
   }
 
+  const parseTags = () => {
+    type key = keyof typeof properties
+    return Object.keys(properties).map((key, i) => {
+      if (key === 'created_at' || key === 'updated_at') return
+      let parsedKey = key
+      let parsedValue = properties[key as key]?.toString()
+      parsedKey = parsedKey.replace(/_/g, ' ')
+      parsedKey = parsedKey
+        .split(' ')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' ')
+
+      if (typeof properties[key as key] === 'boolean') {
+        return (
+          <Styled.Tag key={i}>
+            <Styled.TagText>{parsedKey}</Styled.TagText>
+          </Styled.Tag>
+        )
+      }
+
+      if (parsedValue) {
+        parsedValue = parsedValue
+          .split(' ')
+          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(' ')
+
+        if (key === 'weight') parsedValue += ' pounds'
+        else if (key === 'x_axis' || key === 'y_axis' || key === 'z_axis')
+          parsedValue += ' cm'
+      }
+
+      return (
+        <Styled.Tag key={i}>
+          <Styled.TagText>
+            {parsedKey}: {parsedValue}
+          </Styled.TagText>
+        </Styled.Tag>
+      )
+    })
+  }
+
   return (
     <>
       <Styled.Wrapper>
+        {URL && (
+          <a style={{ width: '100%' }} href={URL}>
+            <Styled.BackButtonContainer>
+              <Styled.BackArrow size={20} />
+              <Styled.BackButtonText>Back to Products</Styled.BackButtonText>
+            </Styled.BackButtonContainer>
+          </a>
+        )}
         <Styled.Container>
           <Styled.ImageContainer>
             <a href={item.item_id.url} target="_blank">
@@ -89,18 +147,13 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
                 View on {item.item_id.sold_by}
               </Styled.ItemLinkButton>
             </a>
-            {/* {Object.keys(properties).map((key, i) => (
-              <div key={i}>
-                {key}: {properties[key as keyof typeof properties]?.toString()}
-              </div>
-            ))} */}
+            <Styled.TagContainer>{parseTags()}</Styled.TagContainer>
             {!loadingRecommends && (
               <Styled.RecommendContainer>
                 {!userRecommended ? (
                   <Styled.RecommendIconContainer>
                     <Styled.RecommendIcon
                       size={36}
-                      recommended={userRecommended}
                       onClick={() => {
                         if (loadingRecommends) return
 
@@ -120,9 +173,8 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
                   </Styled.RecommendIconContainer>
                 ) : (
                   <Styled.RecommendIconContainer>
-                    <Styled.RecommendIcon
+                    <Styled.RecommendIconFill
                       size={36}
-                      recommended={userRecommended}
                       onClick={() => {
                         if (loadingRecommends) return
 
@@ -138,7 +190,7 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
                       }}
                     >
                       Unrecommend
-                    </Styled.RecommendIcon>
+                    </Styled.RecommendIconFill>
                   </Styled.RecommendIconContainer>
                 )}
                 {itemRecommendData && (

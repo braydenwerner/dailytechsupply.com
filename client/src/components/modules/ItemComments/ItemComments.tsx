@@ -80,6 +80,13 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
         )
     }
 
+    if (!comments[0]?.props?.children)
+      return (
+        <Styled.NoCommentsText>
+          There are no comments for this item yet.
+        </Styled.NoCommentsText>
+      )
+
     return comments
   }
 

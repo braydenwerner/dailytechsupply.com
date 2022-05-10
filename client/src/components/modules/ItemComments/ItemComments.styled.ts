@@ -14,6 +14,11 @@ export const CommentsContainer = styled.div`
   width: 100%;
 `
 
+export const NoCommentsText = styled.div`
+  font-size: 1.2rem;
+  margin-top: 25px;
+`
+
 export const LoginOrSignUpContainer = styled.div`
   display: flex;
   align-items: center;

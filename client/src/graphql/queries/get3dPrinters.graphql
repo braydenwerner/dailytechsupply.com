@@ -22,8 +22,6 @@ query get3dPrinters($input: GetPrinter3dInput) {
     removeable_build_surface
     material
     weight
-    voltage
-    wattage
     compatible_material
     created_at
     updated_at
