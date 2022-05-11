@@ -10,12 +10,20 @@ import { createConnection } from 'typeorm'
 import { Storage } from '@google-cloud/storage'
 import { graphqlUploadExpress } from 'graphql-upload'
 
-import { User, Item, Printer3d, Comment, CommentUpvote } from './Entities'
+import {
+  User,
+  Item,
+  Printer3d,
+  Comment,
+  CommentUpvote,
+  ItemRecommend,
+} from './Entities'
 import {
   UserResolver,
   Printer3dResolver,
   CommentResolver,
   CommentUpvoteResolver,
+  ItemRecommendResolver,
 } from './Resolvers'
 
 //  get storage credentials from .env instead of json file
@@ -39,7 +47,7 @@ const main = async () => {
     url: process.env.DATABASE_URL,
     logging: true,
     synchronize: true,
-    entities: [User, Item, Printer3d, Comment, CommentUpvote],
+    entities: [User, Item, Printer3d, Comment, CommentUpvote, ItemRecommend],
     migrations: [path.join(__dirname, './migrations/*')],
     ssl: {
       rejectUnauthorized: false,
@@ -62,6 +70,7 @@ const main = async () => {
         Printer3dResolver,
         CommentResolver,
         CommentUpvoteResolver,
+        ItemRecommendResolver,
       ],
       validate: false,
     }),

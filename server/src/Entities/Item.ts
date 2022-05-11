@@ -1,5 +1,11 @@
 import { Field, Float, ObjectType } from 'type-graphql'
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @ObjectType()
 @Entity()
@@ -7,6 +13,10 @@ export class Item extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number
+
+  // @Field(() => [ItemRecommend])
+  // @OneToMany(() => ItemRecommend, (itemRecommend) => itemRecommend.item_id)
+  // item_recommend_ids: ItemRecommend[]
 
   @Field()
   @Column()
@@ -39,6 +49,10 @@ export class Item extends BaseEntity {
   @Field()
   @Column()
   image_url: string
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  image_url_large: string
 
   @Field({ defaultValue: false })
   @Column({ default: false })

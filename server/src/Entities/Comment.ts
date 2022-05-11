@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from 'type-graphql'
+import { Field, ObjectType } from 'type-graphql'
 import {
   BaseEntity,
   Column,
@@ -9,8 +9,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { User } from '.'
-import { CommentUpvote } from './Comment_Upvote'
+
+import { User, CommentUpvote } from '.'
 
 @ObjectType()
 @Entity()
@@ -19,8 +19,8 @@ export class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.id)
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.id, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   user_id: User
 

@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 
 import { MyContext } from '../types'
 import { getUserId } from '../utils'
-import { User, Comment, CommentUpvote } from '../Entities'
+import { User, Comment } from '../Entities'
 import { CreateCommentInput } from './CreateCommentInput'
 
 @Resolver()
@@ -11,6 +11,24 @@ export class CommentResolver {
   getComments(@Arg('item_uuid') item_uuid: string) {
     return Comment.find({
       where: { item_uuid },
+      relations: [
+        'user_id',
+        'parent_id',
+        'comment_upvote_ids',
+        'comment_upvote_ids.user_id',
+      ],
+    })
+  }
+
+  @Query(() => [Comment])
+  async getCommentsByUser(@Ctx() ctx: MyContext) {
+    const uid = getUserId(ctx)
+
+    const user = await User.findOne({ uid })
+    if (!user) return false
+
+    return Comment.find({
+      where: { user_id: user },
       relations: [
         'user_id',
         'parent_id',

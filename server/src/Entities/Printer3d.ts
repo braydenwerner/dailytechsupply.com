@@ -57,14 +57,6 @@ export class Printer3d extends BaseEntity {
   @Column({ nullable: true, type: 'float' })
   weight: number
 
-  @Field(() => Float, { nullable: true })
-  @Column({ nullable: true, type: 'float' })
-  voltage: number
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  wattage: number
-
   @Field({ nullable: true })
   @Column({ nullable: true })
   compatible_material: string

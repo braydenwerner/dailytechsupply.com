@@ -83,12 +83,24 @@ export class UserResolver {
   async deleteUser(@Ctx() ctx: MyContext) {
     const uid = getUserId(ctx)
 
-    User.delete({ uid })
-
     const user = await User.findOne({ uid })
     if (!user) return false
 
-    Comment.update({ user_id: user }, { is_deleted: true })
+    if (user?.profile_picture_url)
+      await bucket
+        .file(
+          user.profile_picture_url.split(
+            `https://storage.googleapis.com/${process.env.BUCKET}/`
+          )[1]
+        )
+        .delete()
+
+    await Comment.update(
+      { user_id: user },
+      { is_deleted: true, user_id: undefined }
+    )
+
+    await User.delete({ uid })
 
     return true
   }
