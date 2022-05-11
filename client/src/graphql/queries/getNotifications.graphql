@@ -1,0 +1,7 @@
+query getNotifications {
+  getNotifications {
+    text
+    is_read
+    created_at
+  }
+}

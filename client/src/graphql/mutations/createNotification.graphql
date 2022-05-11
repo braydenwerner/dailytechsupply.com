@@ -1,0 +1,3 @@
+mutation createNotification($text: String!) {
+  createNotification(text: $text)
+}

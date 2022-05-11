@@ -124,11 +124,11 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                 <Styled.HideRepliesIcon size={20} />
               )}
             </Styled.HideRepliesContainer>
-            <a href={`/users/${comment.user_id.uid}`}>
-              {comment.user_id.profile_picture_url ? (
+            <a href={`/users/${comment.user_id!.uid}`}>
+              {comment.user_id!.profile_picture_url ? (
                 <Styled.ProfilePictureWrapper>
                   <Styled.ProfilePicture
-                    url={comment.user_id.profile_picture_url}
+                    url={comment.user_id!.profile_picture_url}
                   />
                 </Styled.ProfilePictureWrapper>
               ) : (
@@ -145,8 +145,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                 </Styled.ProfileSvgWrapper>
               )}
             </a>
-            <a href={`/users/${comment.user_id.uid}`}>
-              <Styled.NameText>{comment.user_id.display_name}</Styled.NameText>
+            <a href={`/users/${comment.user_id!.uid}`}>
+              <Styled.NameText>{comment.user_id!.display_name}</Styled.NameText>
             </a>
             <div>
               {new Date(parseInt(comment.created_at)).toLocaleDateString(
@@ -246,7 +246,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                       <Styled.ReplyComment>Reply</Styled.ReplyComment>
                     </Styled.HeaderSubcontainer>
                   )}
-                  {userData && userData.id === comment.user_id.id && (
+                  {userData && userData.id === comment.user_id!.id && (
                     <Styled.HeaderSubcontainer
                       onClick={() => {
                         deleteComment({

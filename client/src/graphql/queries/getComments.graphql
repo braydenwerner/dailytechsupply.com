@@ -8,6 +8,9 @@ query getComments($item_uuid: String!) {
     }
     parent_id {
       id
+      user_id {
+        id
+      }
     }
     comment_upvote_ids {
       user_id {

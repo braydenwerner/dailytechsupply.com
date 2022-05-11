@@ -122,6 +122,8 @@ export type Mutation = {
   deleteCommentUpvote: Scalars['Boolean'];
   createItemRecommend: Scalars['Boolean'];
   deleteItemRecommend: Scalars['Boolean'];
+  createNotification: Scalars['Boolean'];
+  updateNotification: Scalars['Boolean'];
 };
 
 
@@ -174,6 +176,25 @@ export type MutationDeleteItemRecommendArgs = {
   item_id: Scalars['Float'];
 };
 
+
+export type MutationCreateNotificationArgs = {
+  text: Scalars['String'];
+};
+
+
+export type MutationUpdateNotificationArgs = {
+  is_read: Scalars['Boolean'];
+};
+
+export type Notification = {
+  __typename?: 'Notification';
+  id: Scalars['Float'];
+  user_id?: Maybe<User>;
+  text: Scalars['String'];
+  is_read?: Maybe<Scalars['Boolean']>;
+  created_at: Scalars['String'];
+};
+
 export type Printer3d = {
   __typename?: 'Printer3d';
   item_id: Item;
@@ -201,6 +222,7 @@ export type Query = {
   getComments: Array<Comment>;
   getCommentsByUser: Array<Comment>;
   getItemRecommends: Array<ItemRecommend>;
+  getNotifications: Array<Notification>;
 };
 
 
@@ -291,6 +313,16 @@ export type CreateItemRecommendMutation = (
   & Pick<Mutation, 'createItemRecommend'>
 );
 
+export type CreateNotificationMutationVariables = Exact<{
+  text: Scalars['String'];
+}>;
+
+
+export type CreateNotificationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createNotification'>
+);
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -361,6 +393,16 @@ export type LoginMutation = (
       & Pick<FieldError, 'message'>
     )>> }
   ) }
+);
+
+export type UpdateNotificationMutationVariables = Exact<{
+  is_read: Scalars['Boolean'];
+}>;
+
+
+export type UpdateNotificationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateNotification'>
 );
 
 export type UpdateUserMutationVariables = Exact<{
@@ -446,6 +488,10 @@ export type GetCommentsQuery = (
     )>, parent_id?: Maybe<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'id'>
+      & { user_id?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id'>
+      )> }
     )>, comment_upvote_ids: Array<(
       { __typename?: 'CommentUpvote' }
       & { user_id: (
@@ -487,6 +533,17 @@ export type GetItemRecommendsQuery = (
       { __typename?: 'User' }
       & Pick<User, 'id'>
     ) }
+  )> }
+);
+
+export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNotificationsQuery = (
+  { __typename?: 'Query' }
+  & { getNotifications: Array<(
+    { __typename?: 'Notification' }
+    & Pick<Notification, 'text' | 'is_read' | 'created_at'>
   )> }
 );
 
@@ -619,6 +676,37 @@ export function useCreateItemRecommendMutation(baseOptions?: Apollo.MutationHook
 export type CreateItemRecommendMutationHookResult = ReturnType<typeof useCreateItemRecommendMutation>;
 export type CreateItemRecommendMutationResult = Apollo.MutationResult<CreateItemRecommendMutation>;
 export type CreateItemRecommendMutationOptions = Apollo.BaseMutationOptions<CreateItemRecommendMutation, CreateItemRecommendMutationVariables>;
+export const CreateNotificationDocument = gql`
+    mutation createNotification($text: String!) {
+  createNotification(text: $text)
+}
+    `;
+export type CreateNotificationMutationFn = Apollo.MutationFunction<CreateNotificationMutation, CreateNotificationMutationVariables>;
+
+/**
+ * __useCreateNotificationMutation__
+ *
+ * To run a mutation, you first call `useCreateNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNotificationMutation, { data, loading, error }] = useCreateNotificationMutation({
+ *   variables: {
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useCreateNotificationMutation(baseOptions?: Apollo.MutationHookOptions<CreateNotificationMutation, CreateNotificationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNotificationMutation, CreateNotificationMutationVariables>(CreateNotificationDocument, options);
+      }
+export type CreateNotificationMutationHookResult = ReturnType<typeof useCreateNotificationMutation>;
+export type CreateNotificationMutationResult = Apollo.MutationResult<CreateNotificationMutation>;
+export type CreateNotificationMutationOptions = Apollo.BaseMutationOptions<CreateNotificationMutation, CreateNotificationMutationVariables>;
 export const CreateUserDocument = gql`
     mutation createUser($input: CreateUserInput!) {
   createUser(input: $input) {
@@ -815,6 +903,37 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const UpdateNotificationDocument = gql`
+    mutation updateNotification($is_read: Boolean!) {
+  updateNotification(is_read: $is_read)
+}
+    `;
+export type UpdateNotificationMutationFn = Apollo.MutationFunction<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
+
+/**
+ * __useUpdateNotificationMutation__
+ *
+ * To run a mutation, you first call `useUpdateNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateNotificationMutation, { data, loading, error }] = useUpdateNotificationMutation({
+ *   variables: {
+ *      is_read: // value for 'is_read'
+ *   },
+ * });
+ */
+export function useUpdateNotificationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateNotificationMutation, UpdateNotificationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateNotificationMutation, UpdateNotificationMutationVariables>(UpdateNotificationDocument, options);
+      }
+export type UpdateNotificationMutationHookResult = ReturnType<typeof useUpdateNotificationMutation>;
+export type UpdateNotificationMutationResult = Apollo.MutationResult<UpdateNotificationMutation>;
+export type UpdateNotificationMutationOptions = Apollo.BaseMutationOptions<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input)
@@ -1041,6 +1160,9 @@ export const GetCommentsDocument = gql`
     }
     parent_id {
       id
+      user_id {
+        id
+      }
     }
     comment_upvote_ids {
       user_id {
@@ -1160,6 +1282,42 @@ export function useGetItemRecommendsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type GetItemRecommendsQueryHookResult = ReturnType<typeof useGetItemRecommendsQuery>;
 export type GetItemRecommendsLazyQueryHookResult = ReturnType<typeof useGetItemRecommendsLazyQuery>;
 export type GetItemRecommendsQueryResult = Apollo.QueryResult<GetItemRecommendsQuery, GetItemRecommendsQueryVariables>;
+export const GetNotificationsDocument = gql`
+    query getNotifications {
+  getNotifications {
+    text
+    is_read
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetNotificationsQuery(baseOptions?: Apollo.QueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+      }
+export function useGetNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+        }
+export type GetNotificationsQueryHookResult = ReturnType<typeof useGetNotificationsQuery>;
+export type GetNotificationsLazyQueryHookResult = ReturnType<typeof useGetNotificationsLazyQuery>;
+export type GetNotificationsQueryResult = Apollo.QueryResult<GetNotificationsQuery, GetNotificationsQueryVariables>;
 export const GetUserDocument = gql`
     query getUser {
   getUser {
