@@ -80,14 +80,17 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
         )
     }
 
-    if (!comments[0]?.props?.children)
-      return (
-        <Styled.NoCommentsText>
-          There are no comments for this item yet.
-        </Styled.NoCommentsText>
-      )
+    //  if there is a comment on the top level that is not deleted, render comments
+    //  otherwise show the no comments message
+    for (const comment of comments) {
+      if (comment?.props?.children) return comments
+    }
 
-    return comments
+    return (
+      <Styled.NoCommentsText>
+        There are no comments for this item yet.
+      </Styled.NoCommentsText>
+    )
   }
 
   const generateCommentJSX = (

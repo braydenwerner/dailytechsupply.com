@@ -1,4 +1,5 @@
 import { Field } from 'formik'
+import { BiLike } from 'react-icons/bi'
 import styled, { css, keyframes } from 'styled-components'
 
 export const ProfileWrapper = styled.div`
@@ -181,4 +182,21 @@ const ButtonAnimation = keyframes`
   100% {
     transform: scale(1);
   }
+`
+
+export const NumUpvotesContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgb(0 0 0 / 8%);
+  margin-top: 30px;
+  padding-top: 30px;
+`
+
+export const NumUpvotesIcon = styled(BiLike)`
+  margin-right: 8px;
+`
+
+export const NumUpvotesText = styled.div`
+  font-size: 1.3rem;
+  font-weight: 700;
 `

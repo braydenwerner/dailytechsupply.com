@@ -173,8 +173,6 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     setUpdateEmailLoading(false)
   }
 
-  console.log('updateEmailLoading: ' + updateEmailLoading)
-
   const updatePassword = async (
     inputRef: MutableRefObject<HTMLInputElement | null>
   ) => {

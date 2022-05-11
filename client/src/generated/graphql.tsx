@@ -21,7 +21,7 @@ export type Scalars = {
 export type Comment = {
   __typename?: 'Comment';
   id: Scalars['Float'];
-  user_id: User;
+  user_id?: Maybe<User>;
   parent_id?: Maybe<Comment>;
   comment_upvote_ids: Array<CommentUpvote>;
   item_uuid: Scalars['String'];
@@ -199,6 +199,7 @@ export type Query = {
   get3dPrinter?: Maybe<Printer3d>;
   get3dPrinters?: Maybe<Array<Printer3d>>;
   getComments: Array<Comment>;
+  getCommentsByUser: Array<Comment>;
   getItemRecommends: Array<ItemRecommend>;
 };
 
@@ -439,13 +440,31 @@ export type GetCommentsQuery = (
   & { getComments: Array<(
     { __typename?: 'Comment' }
     & Pick<Comment, 'id' | 'text' | 'is_deleted' | 'created_at'>
-    & { user_id: (
+    & { user_id?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'uid' | 'display_name' | 'profile_picture_url'>
-    ), parent_id?: Maybe<(
+    )>, parent_id?: Maybe<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'id'>
     )>, comment_upvote_ids: Array<(
+      { __typename?: 'CommentUpvote' }
+      & { user_id: (
+        { __typename?: 'User' }
+        & Pick<User, 'id'>
+      ) }
+    )> }
+  )> }
+);
+
+export type GetCommentsByUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCommentsByUserQuery = (
+  { __typename?: 'Query' }
+  & { getCommentsByUser: Array<(
+    { __typename?: 'Comment' }
+    & Pick<Comment, 'text' | 'created_at' | 'is_deleted'>
+    & { comment_upvote_ids: Array<(
       { __typename?: 'CommentUpvote' }
       & { user_id: (
         { __typename?: 'User' }
@@ -1063,6 +1082,47 @@ export function useGetCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetCommentsQueryHookResult = ReturnType<typeof useGetCommentsQuery>;
 export type GetCommentsLazyQueryHookResult = ReturnType<typeof useGetCommentsLazyQuery>;
 export type GetCommentsQueryResult = Apollo.QueryResult<GetCommentsQuery, GetCommentsQueryVariables>;
+export const GetCommentsByUserDocument = gql`
+    query getCommentsByUser {
+  getCommentsByUser {
+    text
+    created_at
+    is_deleted
+    comment_upvote_ids {
+      user_id {
+        id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCommentsByUserQuery__
+ *
+ * To run a query within a React component, call `useGetCommentsByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCommentsByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCommentsByUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCommentsByUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCommentsByUserQuery, GetCommentsByUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCommentsByUserQuery, GetCommentsByUserQueryVariables>(GetCommentsByUserDocument, options);
+      }
+export function useGetCommentsByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCommentsByUserQuery, GetCommentsByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCommentsByUserQuery, GetCommentsByUserQueryVariables>(GetCommentsByUserDocument, options);
+        }
+export type GetCommentsByUserQueryHookResult = ReturnType<typeof useGetCommentsByUserQuery>;
+export type GetCommentsByUserLazyQueryHookResult = ReturnType<typeof useGetCommentsByUserLazyQuery>;
+export type GetCommentsByUserQueryResult = Apollo.QueryResult<GetCommentsByUserQuery, GetCommentsByUserQueryVariables>;
 export const GetItemRecommendsDocument = gql`
     query getItemRecommends($item_id: Float!) {
   getItemRecommends(item_id: $item_id) {

@@ -1,0 +1,12 @@
+query getCommentsByUser {
+  getCommentsByUser {
+    text
+    created_at
+    is_deleted
+    comment_upvote_ids {
+      user_id {
+        id
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ export const NavContainer = styled.div`
   left: 0px;
   background-color: white;
   border-bottom: 1px solid rgb(0 0 0 / 8%);
+  z-index: 1;
 `
 
 export const PaddingDiv = styled.div`

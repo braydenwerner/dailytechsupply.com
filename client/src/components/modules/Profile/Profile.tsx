@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { Formik } from 'formik'
-import { User, useUpdateUserMutation } from '../../../generated/graphql'
+import {
+  useGetCommentsByUserQuery,
+  User,
+  useUpdateUserMutation,
+} from '../../../generated/graphql'
 
 import { EditProfilePicture } from '../../elements'
 import * as Styled from './Profile.styled'
@@ -23,7 +27,21 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
   const [editorOpen, setEditorOpen] = useState(false)
   const [animateIn, setAnimateIn] = useState(false)
 
+  const { data } = useGetCommentsByUserQuery()
+  const commentsData = data?.getCommentsByUser
+
   const [updateUser] = useUpdateUserMutation()
+
+  const countUpvotes = () => {
+    if (!commentsData) return 0
+
+    let upvotes = 0
+    for (const comment of commentsData) {
+      upvotes += comment.comment_upvote_ids.length
+    }
+
+    return upvotes
+  }
 
   return (
     <Styled.ProfileWrapper>
@@ -64,10 +82,13 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
             </Styled.EditProfileButton>
           )}
           {!editorOpen ? (
-            <>
-              <Styled.AboutHeader>About</Styled.AboutHeader>
-              <Styled.AboutContainer>{user.about}</Styled.AboutContainer>
-            </>
+            user.about &&
+            user.about.trim().length > 0 && (
+              <>
+                <Styled.AboutHeader>About</Styled.AboutHeader>
+                <Styled.AboutContainer>{user.about}</Styled.AboutContainer>
+              </>
+            )
           ) : (
             <Formik
               validateOnChange={false}
@@ -134,6 +155,12 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
               )}
             </Formik>
           )}
+          <Styled.NumUpvotesContainer>
+            <Styled.NumUpvotesIcon size={28} />
+            <Styled.NumUpvotesText>
+              {countUpvotes()} Likes
+            </Styled.NumUpvotesText>
+          </Styled.NumUpvotesContainer>
         </Styled.InfoContainer>
       </Styled.ProfileContainer>
     </Styled.ProfileWrapper>
