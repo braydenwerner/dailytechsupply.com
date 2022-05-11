@@ -51,17 +51,19 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
 
   const checkUserRecommended = () => {
     for (const recommend of itemRecommendData!) {
-      if (recommend.user_id.id === userData!.id) return true
+      if (recommend.user_id?.id === userData!.id) return true
     }
     return false
   }
 
   const getNumRecommends = () => {
     const set = new Set()
+    let deletedAccountRecommends = 0
     for (const recommend of itemRecommendData!) {
-      set.add(recommend.user_id.id)
+      if (recommend.user_id) set.add(recommend.user_id.id)
+      else deletedAccountRecommends++
     }
-    return set.size
+    return set.size + deletedAccountRecommends
   }
 
   const parseTags = () => {

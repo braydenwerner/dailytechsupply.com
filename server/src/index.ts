@@ -17,6 +17,7 @@ import {
   Comment,
   CommentUpvote,
   ItemRecommend,
+  Notification,
 } from './Entities'
 import {
   UserResolver,
@@ -24,6 +25,7 @@ import {
   CommentResolver,
   CommentUpvoteResolver,
   ItemRecommendResolver,
+  NotificationResolver,
 } from './Resolvers'
 
 //  get storage credentials from .env instead of json file
@@ -47,7 +49,15 @@ const main = async () => {
     url: process.env.DATABASE_URL,
     logging: true,
     synchronize: true,
-    entities: [User, Item, Printer3d, Comment, CommentUpvote, ItemRecommend],
+    entities: [
+      User,
+      Item,
+      Printer3d,
+      Comment,
+      CommentUpvote,
+      ItemRecommend,
+      Notification,
+    ],
     migrations: [path.join(__dirname, './migrations/*')],
     ssl: {
       rejectUnauthorized: false,
@@ -71,6 +81,7 @@ const main = async () => {
         CommentResolver,
         CommentUpvoteResolver,
         ItemRecommendResolver,
+        NotificationResolver,
       ],
       validate: false,
     }),

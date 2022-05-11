@@ -14,7 +14,13 @@ import { bucket } from '..'
 import { __prod__ } from '../constants/constants'
 import { MyContext } from '../types'
 import { FieldError } from './FieldError'
-import { User, Comment } from '../Entities/index'
+import {
+  User,
+  Comment,
+  Notification,
+  CommentUpvote,
+  ItemRecommend,
+} from '../Entities/index'
 import { UpdateUserInput } from './UpdateUserInput'
 import { CreateUserInput } from './CreateUserInput'
 import { createToken, getUserId } from '../utils'
@@ -99,7 +105,10 @@ export class UserResolver {
       { user_id: user },
       { is_deleted: true, user_id: undefined }
     )
+    await CommentUpvote.update({ user_id: user }, { user_id: undefined })
+    await ItemRecommend.update({ user_id: user }, { user_id: undefined })
 
+    await Notification.delete({ user_id: user })
     await User.delete({ uid })
 
     return true

@@ -6,30 +6,31 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { User, Item } from '.'
+
+import { User } from '.'
 
 @ObjectType()
 @Entity()
-export class ItemRecommend extends BaseEntity {
+export class Notification extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number
-
-  @Field()
-  @Column()
-  item_id: number
-
-  @Field(() => Item)
-  @ManyToOne(() => Item, (item) => item.id)
-  @JoinColumn({ name: 'item_id' })
-  item: Item
 
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.id, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   user_id: User
+
+  @Field()
+  @Column('text')
+  text: string
+
+  @Field({ defaultValue: false })
+  @Column({ default: false })
+  is_read: boolean
 
   @Field(() => String)
   @CreateDateColumn()

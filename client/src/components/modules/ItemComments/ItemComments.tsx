@@ -44,7 +44,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
 
       for (const comment of commentsData) {
         for (const commentUpvote of comment.comment_upvote_ids) {
-          if (commentUpvote.user_id.id === userData.id)
+          if (commentUpvote.user_id?.id === userData.id)
             tempLikedComments.push(comment.id)
         }
       }
@@ -262,7 +262,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
                 </Styled.CommentOptionsContainer>
               </>
             ) : (
-              <div>This comment has been deleted</div>
+              <div>This comment has been deleted.</div>
             )}
             {openReplies.includes(id) && (
               <Styled.ReplyFormContainer>

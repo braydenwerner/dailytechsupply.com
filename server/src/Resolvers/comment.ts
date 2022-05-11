@@ -14,6 +14,7 @@ export class CommentResolver {
       relations: [
         'user_id',
         'parent_id',
+        'parent_id.user_id',
         'comment_upvote_ids',
         'comment_upvote_ids.user_id',
       ],
@@ -32,6 +33,7 @@ export class CommentResolver {
       relations: [
         'user_id',
         'parent_id',
+        'parent_id.user_id',
         'comment_upvote_ids',
         'comment_upvote_ids.user_id',
       ],

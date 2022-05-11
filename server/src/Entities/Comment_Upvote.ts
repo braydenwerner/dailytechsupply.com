@@ -21,8 +21,8 @@ export class CommentUpvote extends BaseEntity {
   @JoinColumn({ name: 'comment_id' })
   comment_id: Comment
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.id)
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.id, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   user_id: User
 
