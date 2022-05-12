@@ -8,7 +8,7 @@ import {
 } from '../../../generated/graphql'
 
 import { SpringModal } from '../../elements'
-import { generateCommentsGraph } from '../../../utils/utils'
+import { createDateString, generateCommentsGraph } from '../../../utils/utils'
 import { UserData } from '../../../types'
 import { SignIn, SignUp } from '..'
 import { CommentReplyForm } from '../../elements/CommentReplyForm/CommentReplyForm'
@@ -148,11 +148,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
             <a href={`/users/${comment.user_id!.uid}`}>
               <Styled.NameText>{comment.user_id!.display_name}</Styled.NameText>
             </a>
-            <div>
-              {new Date(parseInt(comment.created_at)).toLocaleDateString(
-                'en-US'
-              )}
-            </div>
+            <div>{createDateString(comment.created_at)}</div>
           </Styled.HeaderContainer>
         ) : (
           <Styled.HeaderContainer style={{ marginBottom: '15px' }}>
@@ -267,6 +263,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
             {openReplies.includes(id) && (
               <Styled.ReplyFormContainer>
                 <CommentReplyForm
+                  userData={userData}
+                  parent={comment}
                   itemUUID={itemUUID}
                   parentId={id}
                   onSubmit={() => {
@@ -329,6 +327,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
         <Styled.CommentsContainer>
           {userData ? (
             <CommentReplyForm
+              userData={userData}
+              parent={undefined}
               itemUUID={itemUUID}
               parentId={undefined}
               hideCancel={true}

@@ -6,6 +6,7 @@ import {
   useUpdateUserMutation,
 } from '../../../generated/graphql'
 
+import { createDateString } from '../../../utils/utils'
 import { EditProfilePicture } from '../../elements'
 import * as Styled from './Profile.styled'
 
@@ -70,8 +71,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
         <Styled.InfoContainer>
           <Styled.Name>{user.display_name}</Styled.Name>
           <Styled.JoinedDate>
-            Member since{' '}
-            {new Date(parseInt(user.created_at)).toLocaleDateString('en-US')}
+            Member since {createDateString(user.created_at)}
           </Styled.JoinedDate>
           {isOwner && (
             <Styled.EditProfileButton

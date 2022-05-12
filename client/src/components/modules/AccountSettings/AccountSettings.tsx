@@ -1,5 +1,6 @@
 import { MutableRefObject, useEffect, useState } from 'react'
 import { Alert, Slide, Snackbar } from '@mui/material'
+
 import {
   auth,
   emailAuthProvider,
@@ -13,6 +14,7 @@ import {
   useUpdateUserMutation,
 } from '../../../generated/graphql'
 import { SingleInputForm, SpringModal } from '../../elements'
+import { createDateString } from '../../../utils/utils'
 import { useRouter } from 'next/router'
 import firebase from 'firebase/app'
 
@@ -303,9 +305,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
                 {user.last_updated_password && (
                   <Styled.ProviderLabel>
                     Last updated on{' '}
-                    {new Date(
-                      parseInt(user.last_updated_password)
-                    ).toLocaleDateString('en-US')}
+                    {createDateString(user.last_updated_password)}
                   </Styled.ProviderLabel>
                 )}
               </Styled.AccountLabelContainer>

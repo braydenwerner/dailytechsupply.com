@@ -88,9 +88,12 @@ export const HeaderContainer = styled.div`
   margin-top: 30px;
   position: relative;
   right: 35px;
+  color: rgb(72, 72, 72);
 `
 
 export const NameText = styled.div`
+  font-size: 1rem;
+  font-weight: 700;
   margin-right: 8px;
 
   :hover {

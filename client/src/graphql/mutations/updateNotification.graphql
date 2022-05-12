@@ -1,3 +1,0 @@
-mutation updateNotification($is_read: Boolean!) {
-  updateNotification(is_read: $is_read)
-}

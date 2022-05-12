@@ -34,7 +34,7 @@ export type CommentUpvote = {
   __typename?: 'CommentUpvote';
   id: Scalars['Float'];
   comment_id: Comment;
-  user_id: User;
+  user_id?: Maybe<User>;
   created_at: Scalars['String'];
 };
 
@@ -104,7 +104,7 @@ export type ItemRecommend = {
   id: Scalars['Float'];
   item_id: Scalars['Float'];
   item: Item;
-  user_id: User;
+  user_id?: Maybe<User>;
   created_at: Scalars['String'];
 };
 
@@ -123,7 +123,7 @@ export type Mutation = {
   createItemRecommend: Scalars['Boolean'];
   deleteItemRecommend: Scalars['Boolean'];
   createNotification: Scalars['Boolean'];
-  updateNotification: Scalars['Boolean'];
+  setRead: Scalars['Boolean'];
 };
 
 
@@ -178,12 +178,9 @@ export type MutationDeleteItemRecommendArgs = {
 
 
 export type MutationCreateNotificationArgs = {
+  item_link: Scalars['String'];
   text: Scalars['String'];
-};
-
-
-export type MutationUpdateNotificationArgs = {
-  is_read: Scalars['Boolean'];
+  user_id: Scalars['Float'];
 };
 
 export type Notification = {
@@ -191,6 +188,7 @@ export type Notification = {
   id: Scalars['Float'];
   user_id?: Maybe<User>;
   text: Scalars['String'];
+  item_link: Scalars['String'];
   is_read?: Maybe<Scalars['Boolean']>;
   created_at: Scalars['String'];
 };
@@ -314,7 +312,9 @@ export type CreateItemRecommendMutation = (
 );
 
 export type CreateNotificationMutationVariables = Exact<{
+  user_id: Scalars['Float'];
   text: Scalars['String'];
+  item_link: Scalars['String'];
 }>;
 
 
@@ -395,14 +395,12 @@ export type LoginMutation = (
   ) }
 );
 
-export type UpdateNotificationMutationVariables = Exact<{
-  is_read: Scalars['Boolean'];
-}>;
+export type SetReadMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpdateNotificationMutation = (
+export type SetReadMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateNotification'>
+  & Pick<Mutation, 'setRead'>
 );
 
 export type UpdateUserMutationVariables = Exact<{
@@ -488,16 +486,12 @@ export type GetCommentsQuery = (
     )>, parent_id?: Maybe<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'id'>
+    )>, comment_upvote_ids: Array<(
+      { __typename?: 'CommentUpvote' }
       & { user_id?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id'>
       )> }
-    )>, comment_upvote_ids: Array<(
-      { __typename?: 'CommentUpvote' }
-      & { user_id: (
-        { __typename?: 'User' }
-        & Pick<User, 'id'>
-      ) }
     )> }
   )> }
 );
@@ -512,10 +506,10 @@ export type GetCommentsByUserQuery = (
     & Pick<Comment, 'text' | 'created_at' | 'is_deleted'>
     & { comment_upvote_ids: Array<(
       { __typename?: 'CommentUpvote' }
-      & { user_id: (
+      & { user_id?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id'>
-      ) }
+      )> }
     )> }
   )> }
 );
@@ -529,10 +523,10 @@ export type GetItemRecommendsQuery = (
   { __typename?: 'Query' }
   & { getItemRecommends: Array<(
     { __typename?: 'ItemRecommend' }
-    & { user_id: (
+    & { user_id?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id'>
-    ) }
+    )> }
   )> }
 );
 
@@ -677,8 +671,8 @@ export type CreateItemRecommendMutationHookResult = ReturnType<typeof useCreateI
 export type CreateItemRecommendMutationResult = Apollo.MutationResult<CreateItemRecommendMutation>;
 export type CreateItemRecommendMutationOptions = Apollo.BaseMutationOptions<CreateItemRecommendMutation, CreateItemRecommendMutationVariables>;
 export const CreateNotificationDocument = gql`
-    mutation createNotification($text: String!) {
-  createNotification(text: $text)
+    mutation createNotification($user_id: Float!, $text: String!, $item_link: String!) {
+  createNotification(user_id: $user_id, text: $text, item_link: $item_link)
 }
     `;
 export type CreateNotificationMutationFn = Apollo.MutationFunction<CreateNotificationMutation, CreateNotificationMutationVariables>;
@@ -696,7 +690,9 @@ export type CreateNotificationMutationFn = Apollo.MutationFunction<CreateNotific
  * @example
  * const [createNotificationMutation, { data, loading, error }] = useCreateNotificationMutation({
  *   variables: {
+ *      user_id: // value for 'user_id'
  *      text: // value for 'text'
+ *      item_link: // value for 'item_link'
  *   },
  * });
  */
@@ -903,37 +899,36 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const UpdateNotificationDocument = gql`
-    mutation updateNotification($is_read: Boolean!) {
-  updateNotification(is_read: $is_read)
+export const SetReadDocument = gql`
+    mutation setRead {
+  setRead
 }
     `;
-export type UpdateNotificationMutationFn = Apollo.MutationFunction<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
+export type SetReadMutationFn = Apollo.MutationFunction<SetReadMutation, SetReadMutationVariables>;
 
 /**
- * __useUpdateNotificationMutation__
+ * __useSetReadMutation__
  *
- * To run a mutation, you first call `useUpdateNotificationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateNotificationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSetReadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetReadMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateNotificationMutation, { data, loading, error }] = useUpdateNotificationMutation({
+ * const [setReadMutation, { data, loading, error }] = useSetReadMutation({
  *   variables: {
- *      is_read: // value for 'is_read'
  *   },
  * });
  */
-export function useUpdateNotificationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateNotificationMutation, UpdateNotificationMutationVariables>) {
+export function useSetReadMutation(baseOptions?: Apollo.MutationHookOptions<SetReadMutation, SetReadMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateNotificationMutation, UpdateNotificationMutationVariables>(UpdateNotificationDocument, options);
+        return Apollo.useMutation<SetReadMutation, SetReadMutationVariables>(SetReadDocument, options);
       }
-export type UpdateNotificationMutationHookResult = ReturnType<typeof useUpdateNotificationMutation>;
-export type UpdateNotificationMutationResult = Apollo.MutationResult<UpdateNotificationMutation>;
-export type UpdateNotificationMutationOptions = Apollo.BaseMutationOptions<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
+export type SetReadMutationHookResult = ReturnType<typeof useSetReadMutation>;
+export type SetReadMutationResult = Apollo.MutationResult<SetReadMutation>;
+export type SetReadMutationOptions = Apollo.BaseMutationOptions<SetReadMutation, SetReadMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation updateUser($input: UpdateUserInput!) {
   updateUser(input: $input)
@@ -1160,9 +1155,6 @@ export const GetCommentsDocument = gql`
     }
     parent_id {
       id
-      user_id {
-        id
-      }
     }
     comment_upvote_ids {
       user_id {

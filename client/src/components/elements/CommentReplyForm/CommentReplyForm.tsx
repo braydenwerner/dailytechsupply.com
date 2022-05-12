@@ -1,9 +1,15 @@
 import { useRef } from 'react'
-import { useCreateCommentMutation } from '../../../generated/graphql'
+import {
+  useCreateCommentMutation,
+  useCreateNotificationMutation,
+} from '../../../generated/graphql'
 
+import { UserData } from '../../../types'
 import * as Styled from './CommentReplyForm.styled'
 
 interface CommentReplyForm {
+  userData: UserData
+  parent: any
   itemUUID: string
   parentId: number | undefined
   onSubmit?: () => void
@@ -11,6 +17,8 @@ interface CommentReplyForm {
 }
 
 export const CommentReplyForm: React.FC<CommentReplyForm> = ({
+  userData,
+  parent,
   itemUUID,
   parentId,
   onSubmit,
@@ -18,19 +26,30 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
 }) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
 
-  const [createCommentMutation] = useCreateCommentMutation()
+  const [createComment] = useCreateCommentMutation()
+  const [createNotification] = useCreateNotificationMutation()
 
   const handleSubmit = async (
     text: string | undefined,
     parentId: number | undefined
   ) => {
-    if (itemUUID && text && text.length < 200) {
-      await createCommentMutation({
+    if (itemUUID && text && text.length <= 2000) {
+      await createComment({
         variables: {
           input: { item_uuid: itemUUID, text, parent_id: parentId },
         },
         refetchQueries: ['getComments'],
       })
+
+      if (parent && window) {
+        await createNotification({
+          variables: {
+            user_id: parent.user_id.id,
+            text: `${userData?.display_name} just replied to your comment.`,
+            item_link: window.location.href,
+          },
+        })
+      }
     }
 
     if (onSubmit) onSubmit()
@@ -44,7 +63,11 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
         if (textRef.current) textRef.current.value = ''
       }}
     >
-      <Styled.TextArea ref={textRef} placeholder="What are your thoughts?" />
+      <Styled.TextArea
+        ref={textRef}
+        placeholder="What are your thoughts?"
+        maxLength={2000}
+      />
       <Styled.SubmitContainer>
         {!hideCancel ? (
           <Styled.CancelButton onClick={onSubmit}>Cancel</Styled.CancelButton>

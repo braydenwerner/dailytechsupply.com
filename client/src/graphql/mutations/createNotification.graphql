@@ -1,3 +1,7 @@
-mutation createNotification($text: String!) {
-  createNotification(text: $text)
+mutation createNotification(
+  $user_id: Float!
+  $text: String!
+  $item_link: String!
+) {
+  createNotification(user_id: $user_id, text: $text, item_link: $item_link)
 }

@@ -48,3 +48,23 @@ export const generateCommentsGraph = (comments: GetCommentsQuery) => {
 
   return adjList
 }
+
+export const createDateString = (timestamp: string) => {
+  const month = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
+  const date = new Date(parseInt(timestamp))
+
+  return `${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+}
