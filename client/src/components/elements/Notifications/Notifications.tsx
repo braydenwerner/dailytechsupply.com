@@ -20,6 +20,8 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
   const [getNotifications, { data }] = useGetNotificationsLazyQuery()
   const notificationData = data && data.getNotifications
 
+  console.log(data?.getNotifications)
+
   useEffect(() => {
     setRead({ refetchQueries: ['getNotifications'] })
   }, [])
@@ -34,9 +36,9 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
         <Styled.Title>Notifications</Styled.Title>
         <Styled.NotificationsContainer>
           {notificationData &&
-            notificationData.map((notification, i) => (
-              <a href={notification.item_link}>
-                <Styled.Notification key={i}>
+            notificationData.notifications.map((notification, i) => (
+              <a href={notification.item_link} key={i}>
+                <Styled.Notification>
                   <Styled.Header>
                     <Styled.NotificationIcon size={28} />
                     <Styled.NotificationTitle>
@@ -53,15 +55,17 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
               </a>
             ))}
         </Styled.NotificationsContainer>
-        <Styled.LoadMoreButton
-          onClick={() =>
-            setNumNotifications(
-              (oldNumNotifications) => oldNumNotifications + 10
-            )
-          }
-        >
-          Load more
-        </Styled.LoadMoreButton>
+        {!notificationData?.gotLastNotification && (
+          <Styled.LoadMoreButton
+            onClick={() =>
+              setNumNotifications(
+                (oldNumNotifications) => oldNumNotifications + 10
+              )
+            }
+          >
+            Load more
+          </Styled.LoadMoreButton>
+        )}
       </Styled.Container>
     </Styled.Wrapper>
   )

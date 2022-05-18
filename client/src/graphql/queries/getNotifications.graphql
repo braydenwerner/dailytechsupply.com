@@ -7,5 +7,6 @@ query getNotifications($num_notifications: Float!) {
       item_link
       created_at
     }
+    gotLastNotification
   }
 }

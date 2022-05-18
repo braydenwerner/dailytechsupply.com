@@ -7,6 +7,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql'
+import { getManager } from 'typeorm'
 
 import { MyContext } from '../types'
 import { getUserId } from '../utils'
@@ -17,6 +18,7 @@ class NotificationResponse {
   @Field(() => [Notification])
   notifications: Notification[]
 
+  @Field()
   gotLastNotification: boolean
 }
 
@@ -32,6 +34,11 @@ export class NotificationResolver {
     const user = await User.findOne({ uid })
     if (!user) return false
 
+    const totalNotifications = await getManager().query(
+      'SELECT COUNT(*) FROM notification WHERE user_id=$1',
+      [user.id]
+    )
+
     const notifications = await Notification.find({
       where: { user_id: user },
       order: { created_at: 'DESC' },
@@ -40,7 +47,7 @@ export class NotificationResolver {
 
     return {
       notifications,
-      gotLastNotification: num_notifications >= notifications.length,
+      gotLastNotification: num_notifications >= totalNotifications[0].count,
     }
   }
 

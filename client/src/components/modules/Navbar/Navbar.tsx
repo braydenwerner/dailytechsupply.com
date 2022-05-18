@@ -89,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
     if (!notificationData) return null
 
     let numNotifications = 0
-    for (const notification of notificationData) {
+    for (const notification of notificationData.notifications) {
       if (!notification.is_read) numNotifications++
     }
     if (numNotifications === 0) return null
