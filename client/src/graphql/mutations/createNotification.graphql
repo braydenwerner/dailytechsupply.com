@@ -1,7 +1,13 @@
 mutation createNotification(
   $user_id: Float!
+  $title: String!
   $text: String!
   $item_link: String!
 ) {
-  createNotification(user_id: $user_id, text: $text, item_link: $item_link)
+  createNotification(
+    user_id: $user_id
+    title: $title
+    text: $text
+    item_link: $item_link
+  )
 }

@@ -5,6 +5,7 @@ import { auth } from '../../../config/config'
 import { TokenContext } from '../../../providers'
 import { SignIn, SignUp } from '../../../components/modules'
 import { SpringModal } from '../../elements'
+import { useGetNotificationsLazyQuery } from '../../../generated/graphql'
 
 interface NavbarProps {
   width?: number
@@ -18,8 +19,15 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
 
   const { userData } = useContext(TokenContext)
 
+  const [getNotifications, { data }] = useGetNotificationsLazyQuery()
+  const notificationData = data && data.getNotifications
+
   const svgContainerRef = useRef<HTMLDivElement>(null)
   const menuContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (userData) getNotifications({ variables: { num_notifications: 10 } })
+  }, [userData])
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -77,6 +85,18 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
     }
   }
 
+  const getNumNotifications = () => {
+    if (!notificationData) return null
+
+    let numNotifications = 0
+    for (const notification of notificationData) {
+      if (!notification.is_read) numNotifications++
+    }
+    if (numNotifications === 0) return null
+
+    return numNotifications <= 9 ? numNotifications.toString() : '9+'
+  }
+
   return (
     <>
       <Styled.NavContainer>
@@ -124,6 +144,13 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
               </Styled.ProfileSvgWrapper>
             )}
           </Styled.SvgContainer>
+          {getNumNotifications() && (
+            <Styled.NotificationsContainer>
+              <Styled.NotificationText>
+                {getNumNotifications()}
+              </Styled.NotificationText>
+            </Styled.NotificationsContainer>
+          )}
         </Styled.ProfileContainer>
         <Styled.PaddingDiv />
       </Styled.NavContainer>
@@ -135,8 +162,18 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
             <a href={`/users/${userData.uid}`}>
               <Styled.MenuButton>Profile</Styled.MenuButton>
             </a>
+            <a href="/notifications">
+              <Styled.MenuButton style={{ display: 'flex' }}>
+                Notifications
+                {notificationData && getNumNotifications() && (
+                  <Styled.NotificationsIcon />
+                )}
+              </Styled.MenuButton>
+            </a>
             <a href="/account-settings">
-              <Styled.MenuButton>Account Settings</Styled.MenuButton>
+              <Styled.MenuButton bottomDivider={true}>
+                Account Settings
+              </Styled.MenuButton>
             </a>
             <Styled.MenuButton
               onClick={async () => {

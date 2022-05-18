@@ -45,7 +45,8 @@ export const CommentReplyForm: React.FC<CommentReplyForm> = ({
         await createNotification({
           variables: {
             user_id: parent.user_id.id,
-            text: `${userData?.display_name} just replied to your comment.`,
+            title: `${userData?.display_name} replied to your comment.`,
+            text,
             item_link: window.location.href,
           },
         })

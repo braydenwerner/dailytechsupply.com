@@ -126,6 +126,26 @@ export const PersonSvg = styled.svg`
   fill: currentcolor;
 `
 
+export const NotificationsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 15px;
+  height: 15px;
+  bottom: 12px;
+  right: 17px;
+  background-color: rgb(255, 53, 91);
+  z-index: 1;
+  border-radius: 50%;
+`
+
+export const NotificationText = styled.div`
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+`
+
 interface MenuProps {
   left: number
 }
@@ -144,6 +164,7 @@ export const Menu = styled.div<MenuProps>`
 
 interface MenuButtonProps {
   fontWeight?: number
+  bottomDivider?: boolean
 }
 
 export const MenuButton = styled.div<MenuButtonProps>`
@@ -151,6 +172,8 @@ export const MenuButton = styled.div<MenuButtonProps>`
   padding: 15px 0px 15px 10px;
   cursor: pointer;
   font-weight: ${(props) => props.fontWeight};
+  border-bottom: ${(props) =>
+    props.bottomDivider && '1px solid rgb(0 0 0 / 8%);'};
 
   :hover {
     background-color: rgba(221, 221, 221, 0.2);
@@ -159,4 +182,15 @@ export const MenuButton = styled.div<MenuButtonProps>`
 
 export const SpaceDiv = styled.div`
   height: 100px;
+`
+
+export const NotificationsIcon = styled.div`
+  display: flex;
+  position: relative;
+  margin-left: 3px;
+  width: 6px;
+  height: 6px;
+  background-color: rgb(255, 53, 91);
+  z-index: 1;
+  border-radius: 50%;
 `

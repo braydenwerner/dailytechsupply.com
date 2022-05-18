@@ -1,10 +1,22 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
+import type { NextPage } from 'next'
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 import { Navbar } from '../components/modules'
-import { Error404 } from '../components/elements'
+import { TokenContext } from '../providers'
+import { Notifications } from '../components/elements'
 
 const ErrorPage: NextPage = () => {
+  const { isMounted, tokenAttached, userData } = useContext(TokenContext)
+
+  const router = useRouter()
+
+  //  if the user tries to access this page without being logged in,
+  //  take them to the login page, pass this url as a query
+  if (isMounted && !tokenAttached) {
+    router.push('/login?redirect_url=notifications')
+  }
   return (
     <>
       <Head>
@@ -12,7 +24,8 @@ const ErrorPage: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <Navbar small />
+      {userData && <Notifications user={userData} />}
     </>
   )
 }

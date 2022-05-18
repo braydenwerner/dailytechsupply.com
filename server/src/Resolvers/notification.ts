@@ -1,32 +1,64 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import {
+  Arg,
+  Ctx,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from 'type-graphql'
 
 import { MyContext } from '../types'
 import { getUserId } from '../utils'
 import { User, Notification } from '../Entities'
 
+@ObjectType()
+class NotificationResponse {
+  @Field(() => [Notification])
+  notifications: Notification[]
+
+  gotLastNotification: boolean
+}
+
 @Resolver()
 export class NotificationResolver {
-  @Query(() => [Notification])
-  async getNotifications(@Ctx() ctx: MyContext) {
+  @Query(() => NotificationResponse)
+  async getNotifications(
+    @Ctx() ctx: MyContext,
+    @Arg('num_notifications') num_notifications: number
+  ) {
     const uid = getUserId(ctx)
 
     const user = await User.findOne({ uid })
     if (!user) return false
 
-    return Notification.find({ user_id: user })
+    const notifications = await Notification.find({
+      where: { user_id: user },
+      order: { created_at: 'DESC' },
+      take: num_notifications,
+    })
+
+    return {
+      notifications,
+      gotLastNotification: num_notifications >= notifications.length,
+    }
   }
 
   @Mutation(() => Boolean)
   async createNotification(
     @Arg('user_id') userId: number,
-    @Arg('text') text: string
+    @Arg('title') title: string,
+    @Arg('text') text: string,
+    @Arg('item_link') item_link: string
   ) {
     const user = await User.findOne({ id: userId })
     if (!user) return false
 
     const notification = await Notification.insert({
       user_id: user,
+      title,
       text,
+      item_link,
     })
     if (!notification) return false
 
@@ -34,16 +66,13 @@ export class NotificationResolver {
   }
 
   @Mutation(() => Boolean)
-  async updateNotification(
-    @Ctx() ctx: MyContext,
-    @Arg('is_read') is_read: boolean
-  ) {
+  async setRead(@Ctx() ctx: MyContext) {
     const uid = getUserId(ctx)
 
     const user = await User.findOne({ uid })
     if (!user) return false
 
-    await Notification.update({ user_id: user }, { is_read })
+    await Notification.update({ user_id: user }, { is_read: true })
 
     return true
   }

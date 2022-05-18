@@ -1,7 +1,11 @@
-query getNotifications {
-  getNotifications {
-    text
-    is_read
-    created_at
+query getNotifications($num_notifications: Float!) {
+  getNotifications(num_notifications: $num_notifications) {
+    notifications {
+      title
+      text
+      is_read
+      item_link
+      created_at
+    }
   }
 }

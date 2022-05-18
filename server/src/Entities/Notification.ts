@@ -25,8 +25,16 @@ export class Notification extends BaseEntity {
   user_id: User
 
   @Field()
+  @Column()
+  title: string
+
+  @Field()
   @Column('text')
   text: string
+
+  @Field()
+  @Column()
+  item_link: string
 
   @Field({ defaultValue: false })
   @Column({ default: false })
