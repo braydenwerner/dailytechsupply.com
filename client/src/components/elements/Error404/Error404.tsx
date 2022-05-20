@@ -1,8 +1,9 @@
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './Error404.styled'
 
 export const Error404: React.FC = ({}) => {
   return (
-    <Styled.Wrapper>
+    <Wrapper>
       <Styled.ErrorContainer>
         <Styled.TitleContainer>
           <Styled.TitleText>Oops!</Styled.TitleText>
@@ -14,6 +15,6 @@ export const Error404: React.FC = ({}) => {
           </a>
         </Styled.TitleContainer>
       </Styled.ErrorContainer>
-    </Styled.Wrapper>
+    </Wrapper>
   )
 }

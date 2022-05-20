@@ -8,11 +8,7 @@ import {
 } from '../../../../generated/graphql'
 
 import { client } from '../../../../utils/createApolloClient'
-import {
-  ItemViewLayout,
-  Navbar,
-  ItemComments,
-} from '../../../../components/modules'
+import { ItemViewLayout, Navbar } from '../../../../components/modules'
 import { ItemProperties } from '../../../../types'
 import { TokenContext } from '../../../../providers'
 

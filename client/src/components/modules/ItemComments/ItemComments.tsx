@@ -12,6 +12,7 @@ import { createDateString, generateCommentsGraph } from '../../../utils/utils'
 import { UserData } from '../../../types'
 import { SignIn, SignUp } from '..'
 import { CommentReplyForm } from '../../elements/CommentReplyForm/CommentReplyForm'
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './ItemComments.styled'
 
 interface ItemCommentsProps {
@@ -323,7 +324,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
 
   return (
     <>
-      <Styled.CommentsWrapper>
+      <Wrapper>
         <Styled.CommentsContainer>
           {userData ? (
             <CommentReplyForm
@@ -359,7 +360,7 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
           </Styled.CommentSelectContainer>
           {commentsData && generateCommentStructure()}
         </Styled.CommentsContainer>
-      </Styled.CommentsWrapper>
+      </Wrapper>
       {modalOpenMode && (
         <SpringModal
           title={modalOpenMode === 'SignIn' ? 'Log In' : 'Sign Up'}

@@ -4,6 +4,7 @@ import { Printer3d } from '../../../generated/graphql'
 import { ItemProperties, UserData } from '../../../types'
 import { TokenContext } from '../../../providers'
 import { ItemViewData, ItemComments } from '..'
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './ItemViewLayout.styled'
 
 interface ItemProps {
@@ -22,13 +23,13 @@ export const ItemViewLayout: React.FC<ItemProps> = ({
   const { isMounted, loading } = useContext(TokenContext)
 
   return (
-    <Styled.Wrapper>
+    <Wrapper>
       <Styled.Container>
         <ItemViewData item={item} properties={properties} />
         {isMounted && !loading && (
           <ItemComments itemUUID={uuid} userData={userData} />
         )}
       </Styled.Container>
-    </Styled.Wrapper>
+    </Wrapper>
   )
 }

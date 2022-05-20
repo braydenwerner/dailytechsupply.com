@@ -6,6 +6,7 @@ import {
 } from '../../../generated/graphql'
 
 import { createDateString } from '../../../utils/utils'
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './Notifications.styled'
 
 interface NotificationModalProps {
@@ -13,6 +14,7 @@ interface NotificationModalProps {
 }
 
 export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
+  const [scrollToBottom, setScrollToBottom] = useState(false)
   const [numNotifications, setNumNotifications] = useState(10)
 
   const [setRead] = useSetReadMutation()
@@ -31,12 +33,12 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
   }, [numNotifications])
 
   useEffect(() => {
-    if (scrollDivRef.current)
+    if (scrollDivRef.current && scrollToBottom)
       scrollDivRef.current.scrollIntoView({ behavior: 'smooth' })
   }, [notificationData])
 
   return (
-    <Styled.Wrapper>
+    <Wrapper>
       <Styled.Container>
         <Styled.Title>Notifications</Styled.Title>
         <Styled.NotificationsContainer>
@@ -66,6 +68,7 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
               setNumNotifications(
                 (oldNumNotifications) => oldNumNotifications + 10
               )
+              setScrollToBottom(true)
             }}
           >
             Load more
@@ -73,6 +76,6 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
         )}
         <div ref={scrollDivRef} />
       </Styled.Container>
-    </Styled.Wrapper>
+    </Wrapper>
   )
 }

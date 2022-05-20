@@ -18,6 +18,7 @@ import { createDateString } from '../../../utils/utils'
 import { useRouter } from 'next/router'
 import firebase from 'firebase/app'
 
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './AccountSettings.styled'
 
 interface AccountSettingsProps {
@@ -255,7 +256,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
 
   return (
     <>
-      <Styled.AccountSettingsWrapper>
+      <Wrapper>
         <Styled.AccountSettingsContainer>
           <Styled.AccountSettingsTitle>
             Account Settings
@@ -442,7 +443,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
             <Styled.DividerLine />
           </Styled.LoginSettingsContainer>
         </Styled.AccountSettingsContainer>
-      </Styled.AccountSettingsWrapper>
+      </Wrapper>
       {requiresLoginOpen && (
         <SpringModal
           onClose={() => setRequiresLoginOpen(false)}

@@ -2,12 +2,6 @@ import { Field } from 'formik'
 import { BiLike } from 'react-icons/bi'
 import styled, { css, keyframes } from 'styled-components'
 
-export const ProfileWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`
-
 export const ProfileContainer = styled.div`
   display: flex;
   width: 950px;

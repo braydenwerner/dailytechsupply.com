@@ -2,12 +2,6 @@ import { FiChevronDown, FiChevronRight } from 'react-icons/fi'
 import { BiLike, BiMessage, BiTrashAlt } from 'react-icons/bi'
 import styled from 'styled-components'
 
-export const CommentsWrapper = styled.div`
-  display: flex;
-  max-width: 100%;
-  justify-content: center;
-`
-
 export const CommentsContainer = styled.div`
   display: flex;
   flex-direction: column;

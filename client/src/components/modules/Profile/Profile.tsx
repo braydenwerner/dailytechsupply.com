@@ -8,6 +8,7 @@ import {
 
 import { createDateString } from '../../../utils/utils'
 import { EditProfilePicture } from '../../elements'
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './Profile.styled'
 
 interface ProfileProps {
@@ -45,7 +46,7 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
   }
 
   return (
-    <Styled.ProfileWrapper>
+    <Wrapper>
       <Styled.ProfileContainer>
         <Styled.ProfilePictureContainer>
           <>
@@ -163,6 +164,6 @@ export const Profile: React.FC<ProfileProps> = ({ user, isOwner }) => {
           </Styled.NumUpvotesContainer>
         </Styled.InfoContainer>
       </Styled.ProfileContainer>
-    </Styled.ProfileWrapper>
+    </Wrapper>
   )
 }

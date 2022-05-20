@@ -2,6 +2,7 @@ import { MutableRefObject, useState } from 'react'
 
 import { auth, dev } from '../../../config/config'
 import { SingleInputForm } from '../../elements'
+import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './ForgotPassword.styled'
 
 export const ForgotPassword: React.FC = () => {
@@ -45,7 +46,7 @@ export const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <Styled.ForgotPasswordWrapper>
+    <Wrapper>
       <Styled.ForgotPasswordContainer>
         {!success ? (
           <>
@@ -70,6 +71,6 @@ export const ForgotPassword: React.FC = () => {
           </>
         )}
       </Styled.ForgotPasswordContainer>
-    </Styled.ForgotPasswordWrapper>
+    </Wrapper>
   )
 }

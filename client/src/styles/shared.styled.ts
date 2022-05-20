@@ -1,6 +1,13 @@
 import { Form } from 'formik'
 import styled from 'styled-components'
 
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
+
 export const LoginForm = styled(Form)`
   display: flex;
   flex-direction: column;

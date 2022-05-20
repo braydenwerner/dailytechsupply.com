@@ -1,11 +1,5 @@
 import styled from 'styled-components'
 
-export const ForgotPasswordWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`
-
 export const ForgotPasswordContainer = styled.div`
   display: flex;
   flex-direction: column;
