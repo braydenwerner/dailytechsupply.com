@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import {
   useGetNotificationsLazyQuery,
   User,
@@ -20,7 +20,7 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
   const [getNotifications, { data }] = useGetNotificationsLazyQuery()
   const notificationData = data && data.getNotifications
 
-  console.log(data?.getNotifications)
+  const scrollDivRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setRead({ refetchQueries: ['getNotifications'] })
@@ -29,6 +29,11 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
   useEffect(() => {
     getNotifications({ variables: { num_notifications: numNotifications } })
   }, [numNotifications])
+
+  useEffect(() => {
+    if (scrollDivRef.current)
+      scrollDivRef.current.scrollIntoView({ behavior: 'smooth' })
+  }, [notificationData])
 
   return (
     <Styled.Wrapper>
@@ -57,15 +62,16 @@ export const Notifications: React.FC<NotificationModalProps> = ({ user }) => {
         </Styled.NotificationsContainer>
         {!notificationData?.gotLastNotification && (
           <Styled.LoadMoreButton
-            onClick={() =>
+            onClick={() => {
               setNumNotifications(
                 (oldNumNotifications) => oldNumNotifications + 10
               )
-            }
+            }}
           >
             Load more
           </Styled.LoadMoreButton>
         )}
+        <div ref={scrollDivRef} />
       </Styled.Container>
     </Styled.Wrapper>
   )
