@@ -1,18 +1,19 @@
 import { Printer3d } from '../../../generated/graphql'
 import { ItemPreview } from '../../elements'
 
+import * as Styled from './ItemList.styled'
+
 interface ItemListProps {
   itemsData: Printer3d[]
+  sort: string
 }
 
-export const ItemList: React.FC<ItemListProps> = ({ itemsData }) => {
+export const ItemList: React.FC<ItemListProps> = ({ itemsData, sort }) => {
   return (
-    <div>
+    <Styled.Container>
       {itemsData.map((item: Printer3d, i: number) => (
-        <div key={i} style={{ marginBottom: '50px' }}>
-          <ItemPreview item={item} />
-        </div>
+        <ItemPreview item={item} key={i} />
       ))}
-    </div>
+    </Styled.Container>
   )
 }

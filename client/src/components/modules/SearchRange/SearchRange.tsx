@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import { GetPrinter3dInput } from '../../../generated/graphql'
 
-import { DualRangeSlider, PropertyCheckbox } from '../../elements'
+import { DualRangeSlider } from '../../elements'
+import * as Styled from './SearchRange.styled'
 
 interface SearchProps {
   input: GetPrinter3dInput
@@ -46,7 +47,7 @@ export const SearchRange: React.FC<SearchProps> = ({
 
   if (fieldNames.length === 2) {
     return (
-      <div>
+      <Styled.Container>
         <div>{title}</div>
         <DualRangeSlider
           defaultValue={
@@ -59,7 +60,7 @@ export const SearchRange: React.FC<SearchProps> = ({
           minDistance={minDistance}
           handleRangeSubmit={handleRangeSubmit}
         />
-      </div>
+      </Styled.Container>
     )
   }
 

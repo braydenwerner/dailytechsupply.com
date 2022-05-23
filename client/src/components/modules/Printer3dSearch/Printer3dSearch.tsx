@@ -1,6 +1,7 @@
 import { GetPrinter3dInput } from '../../../generated/graphql'
 
 import { SearchRange, SearchCheckbox } from '../../modules'
+import * as Styled from './Printer3dSearch.styled'
 
 interface Printer3dSearchProps {
   input: GetPrinter3dInput
@@ -8,7 +9,7 @@ interface Printer3dSearchProps {
 
 export const Printer3dSearch: React.FC<Printer3dSearchProps> = ({ input }) => {
   return (
-    <div>
+    <Styled.Container>
       <SearchRange
         input={input}
         title="Price"
@@ -46,6 +47,6 @@ export const Printer3dSearch: React.FC<Printer3dSearchProps> = ({ input }) => {
         fieldName="resumePrinting"
         defaultValue={false}
       />
-    </div>
+    </Styled.Container>
   )
 }

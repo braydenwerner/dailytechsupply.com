@@ -63,15 +63,14 @@ export const CommentSelectContainer = styled.div`
   margin-top: 35px;
 `
 
-export const SelectTitle = styled.div`
-  font-size: 1rem;
-`
-
 export const CommentSelect = styled.select`
   font-size: 1rem;
   border: none;
   outline: none;
   margin-left: 5px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 21px;
+  padding: 8px 10px 8px 10px;
   cursor: pointer;
 `
 

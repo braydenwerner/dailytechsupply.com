@@ -11,7 +11,6 @@ import { TokenContext } from '../../../providers'
 import { ItemProperties } from '../../../types'
 import { SignUp, SignIn } from '..'
 import { SpringModal } from '../../elements'
-import { Wrapper } from '../../../styles/shared.styled'
 import * as Styled from './ItemViewData.styled'
 
 interface ItemProps {
@@ -110,7 +109,7 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
 
   return (
     <>
-      <Wrapper>
+      <Styled.Wrapper>
         {URL && (
           <a style={{ width: '100%' }} href={URL}>
             <Styled.BackButtonContainer>
@@ -206,7 +205,7 @@ export const ItemViewData: React.FC<ItemProps> = ({ item, properties }) => {
             )}
           </Styled.InfoContainer>
         </Styled.Container>
-      </Wrapper>
+      </Styled.Wrapper>
       {modalOpenMode && (
         <SpringModal
           title={modalOpenMode === 'SignIn' ? 'Log In' : 'Sign Up'}

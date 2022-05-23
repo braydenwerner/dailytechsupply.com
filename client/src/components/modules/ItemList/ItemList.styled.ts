@@ -1,3 +1,6 @@
 import styled from 'styled-components'
 
-export {}
+export const Container = styled.div`
+  background-color: blue;
+  width: 80%;
+`

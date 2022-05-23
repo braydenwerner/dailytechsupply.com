@@ -40,7 +40,6 @@ const Printer3dPage: NextPage<Printer3dPageProps> = ({ printers, input }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <div>3D Printer page</div>
       <ItemsPageLayout printers={printers} input={input} />
     </>
   )

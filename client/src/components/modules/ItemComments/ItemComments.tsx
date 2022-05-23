@@ -348,10 +348,8 @@ export const ItemComments: React.FC<ItemCommentsProps> = ({
             </Styled.LoginOrSignUpContainer>
           )}
           <Styled.CommentSelectContainer>
-            <Styled.SelectTitle>Sort by:</Styled.SelectTitle>
             <Styled.CommentSelect
               name="comment-sort-select"
-              id="comment-sort-select"
               onChange={(e) => setSortMode(e.target.value)}
             >
               <option value="mostLikes">Most Likes</option>
