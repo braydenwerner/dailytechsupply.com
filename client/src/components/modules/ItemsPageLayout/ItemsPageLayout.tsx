@@ -15,7 +15,7 @@ export const ItemsPageLayout: React.FC<ItemsPageLayoutProps> = ({
   printers,
   input,
 }) => {
-  const [sort, setSort] = useState('best match')
+  const [sort, setSort] = useState('newest')
 
   return (
     <Wrapper style={{ flexDirection: 'column' }}>
@@ -26,8 +26,10 @@ export const ItemsPageLayout: React.FC<ItemsPageLayoutProps> = ({
             name="comment-sort-select"
             onChange={(e) => setSort(e.target.value)}
           >
-            <option value="mostLikes">Most Likes</option>
-            <option value="mostRecent">Most Recent</option>
+            <option value="newest">Newest</option>
+            <option value="mostLiked">Most Liked</option>
+            <option value="lowestPrice">Lowest Price</option>
+            <option value="highestPrice">Highest Price</option>
           </Styled.ItemSelect>
         </Styled.ItemSelectContainer>
       </Styled.SortContainer>

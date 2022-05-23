@@ -1,11 +1,46 @@
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
-import { Printer3d } from '../../../generated/graphql'
+import { Rating } from '@mui/material'
+import {
+  Printer3d,
+  useGetItemRecommendsQuery,
+} from '../../../generated/graphql'
+
+import * as Styled from './ItemPreview.styled'
+import { TokenContext } from '../../../providers'
 
 interface ItemPreviewProps {
   item: Printer3d
 }
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
+  const { userData } = useContext(TokenContext)
+
+  const { data } = useGetItemRecommendsQuery({
+    variables: { item_id: item.item_id.id },
+  })
+  const itemRecommendData = data?.getItemRecommends
+
+  const checkUserRecommended = () => {
+    if (!userData?.id) return false
+
+    for (const recommend of itemRecommendData!) {
+      if (recommend.user_id?.id === userData.id) return true
+    }
+    return false
+  }
+
+  const getNumRecommends = () => {
+    const set = new Set()
+    let deletedAccountRecommends = 0
+    for (const recommend of itemRecommendData!) {
+      if (recommend.user_id) set.add(recommend.user_id.id)
+      else deletedAccountRecommends++
+    }
+    return set.size + deletedAccountRecommends
+  }
+
   const renderTags = () => {
     const tags: ReactJSXElement[] = []
 
@@ -28,17 +63,42 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
     return tags
   }
 
+  const router = useRouter()
+
   return (
-    <a href={`/products/3d-printers/${item.uuid}`}>
-      <div>{item.item_id.title}</div>
-      <div>{item.item_id.description}</div>
-      <div>{item.item_id.manufacturer}</div>
-      <div>${item.item_id.price}</div>
-      <div>{item.item_id.rating}</div>
-      <div>{item.item_id.sold_by}</div>
-      <div>{item.item_id.url}</div>
-      <img src={item.item_id.image_url} />
-      {renderTags()}
-    </a>
+    <div
+      onClick={() => router.push(`/products/3d-printers/${item.uuid}`)}
+      style={{ cursor: 'pointer' }}
+    >
+      <Styled.Container>
+        <Styled.Image src={item.item_id.image_url} />
+        <Styled.Title>{item.item_id.title}</Styled.Title>
+        <Styled.SoldBy>Sold by {item.item_id.manufacturer}</Styled.SoldBy>
+        <Rating
+          name="read-only"
+          value={item.item_id.rating}
+          precision={0.5}
+          readOnly
+        />
+        <Styled.Price>${item.item_id.price}</Styled.Price>
+        <Styled.BottomContainer>
+          <a href={item.item_id.url} target="_blank">
+            <Styled.ItemLinkButton>
+              View on {item.item_id.sold_by}
+            </Styled.ItemLinkButton>
+          </a>
+          {itemRecommendData && (
+            <Styled.LikeContainer>
+              {checkUserRecommended() ? (
+                <Styled.RecommendIconFill size={28} />
+              ) : (
+                <Styled.RecommendIcon size={28} />
+              )}
+              <Styled.NumRecommends>{getNumRecommends()}</Styled.NumRecommends>
+            </Styled.LikeContainer>
+          )}
+        </Styled.BottomContainer>
+      </Styled.Container>
+    </div>
   )
 }
