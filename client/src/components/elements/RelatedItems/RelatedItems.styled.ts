@@ -8,8 +8,8 @@ export const Container = styled.div`
 export const Title = styled.div`
   font-size: 2rem;
   font-weight: 700;
-  background-color: rgb (72, 72, 72);
-  margin-bottom: 30px;
+  color: rgb(72, 72, 72);
+  margin: 30px 0px 30px 0px;
 `
 
 export const RelatedItemsContainer = styled.div`

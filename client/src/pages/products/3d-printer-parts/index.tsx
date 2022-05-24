@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 
 import { Navbar } from '../../../components/modules'
 
-const Printer3dComponentsPage: NextPage = () => {
+const Printer3dPartsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -17,4 +17,4 @@ const Printer3dComponentsPage: NextPage = () => {
   )
 }
 
-export default Printer3dComponentsPage
+export default Printer3dPartsPage

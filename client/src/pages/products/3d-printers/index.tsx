@@ -44,14 +44,14 @@ const Printer3dPage: NextPage<Printer3dPageProps> = ({ printers, input }) => {
       <RelatedItems
         items={[
           {
-            imageUrl: '',
+            imageUrl: '/images/fillamentImage.jpg',
             route: '/products/3d-printer-fillament',
             title: 'Filament',
           },
           {
-            imageUrl: '',
-            route: '/products/3d-printer-components',
-            title: 'Components',
+            imageUrl: '/images/printerParts.jpg',
+            route: '/products/3d-printer-parts',
+            title: 'Printer Parts',
           },
         ]}
       />
