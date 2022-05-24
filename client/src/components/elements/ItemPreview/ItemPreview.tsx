@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { Rating } from '@mui/material'
@@ -12,15 +12,23 @@ import { TokenContext } from '../../../providers'
 
 interface ItemPreviewProps {
   item: Printer3d
+  setNumLikes: (likes: number) => void
 }
 
-export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
+export const ItemPreview: React.FC<ItemPreviewProps> = ({
+  item,
+  setNumLikes,
+}) => {
   const { userData } = useContext(TokenContext)
 
   const { data } = useGetItemRecommendsQuery({
     variables: { item_id: item.item_id.id },
   })
   const itemRecommendData = data?.getItemRecommends
+
+  useEffect(() => {
+    if (itemRecommendData) setNumLikes(getNumRecommends())
+  }, [itemRecommendData])
 
   const checkUserRecommended = () => {
     if (!userData?.id) return false
@@ -38,6 +46,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({ item }) => {
       if (recommend.user_id) set.add(recommend.user_id.id)
       else deletedAccountRecommends++
     }
+
     return set.size + deletedAccountRecommends
   }
 

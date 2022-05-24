@@ -10,35 +10,40 @@ interface ItemListProps {
 }
 
 export const ItemList: React.FC<ItemListProps> = ({ itemsData, sort }) => {
-  const [sortedData, setSortedData] = useState<Printer3d[]>([...itemsData])
-
-  useEffect(() => {
+  const getSortedData = () => {
     if (sort === 'newest') {
-      setSortedData((oldSortedData: any) => {
-        return oldSortedData.sort(
-          (i1: any, i2: any) => parseInt(i2.createdAt) - parseInt(i1.createdAt)
-        )
-      })
+      return itemsData.sort(
+        (i1: any, i2: any) => parseInt(i2.created_at) - parseInt(i1.created_at)
+      )
+    } else if (sort === 'mostLiked') {
+      return itemsData.sort((i1: any, i2: any) => i2.numLikes - i1.numLikes)
+    } else if (sort === 'lowestPrice') {
+      return itemsData.sort(
+        (i1: any, i2: any) => i1.item_id.price - i2.item_id.price
+      )
+    } else if (sort === 'highestPrice') {
+      return itemsData.sort(
+        (i1: any, i2: any) => i2.item_id.price - i1.item_id.price
+      )
+    } else {
+      return itemsData
     }
-    if (sort === 'lowestPrice') {
-      setSortedData((oldSortedData: any) => {
-        return oldSortedData.sort(
-          (i1: any, i2: any) => i2.item_id.price - i1.item_id.price
-        )
-      })
-    } else if ('highestPrice') {
-      setSortedData((oldSortedData: any) => {
-        return oldSortedData.sort(
-          (i1: any, i2: any) => i1.item_id.price - i2.item_id.price
-        )
-      })
-    }
-  }, [sort])
+  }
+
+  console.log(itemsData)
 
   return (
     <Styled.Container>
-      {sortedData.map((item: Printer3d, i: number) => (
-        <ItemPreview item={item} key={i} />
+      {getSortedData().map((item: Printer3d, i: number) => (
+        <ItemPreview
+          key={i}
+          item={item}
+          setNumLikes={(likes: number) => {
+            const tempData: any = [...getSortedData()]
+            tempData[i].numLikes = likes
+            return tempData
+          }}
+        />
       ))}
     </Styled.Container>
   )
