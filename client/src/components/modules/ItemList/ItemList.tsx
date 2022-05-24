@@ -32,8 +32,6 @@ export const ItemList: React.FC<ItemListProps> = ({ itemsData, sort }) => {
     }
   }
 
-  console.log(itemsData)
-
   return (
     <Styled.Container>
       {getSortedData()?.map((item: Printer3d, i: number) => (

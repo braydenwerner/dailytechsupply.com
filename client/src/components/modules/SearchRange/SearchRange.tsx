@@ -48,7 +48,7 @@ export const SearchRange: React.FC<SearchProps> = ({
   if (fieldNames.length === 2) {
     return (
       <Styled.Container>
-        <div>{title}</div>
+        <Styled.Title>{title}</Styled.Title>
         <DualRangeSlider
           defaultValue={
             input.minPrice && input.maxPrice

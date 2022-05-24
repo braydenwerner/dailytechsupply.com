@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { PropertyCheckbox } from '../../elements'
+import * as Styled from './SearchCheckbox.styled'
 
 interface SearchCheckboxProps {
   title: string
@@ -34,12 +35,12 @@ export const SearchCheckbox: React.FC<SearchCheckboxProps> = ({
   }
 
   return (
-    <div>
-      <div>{title}</div>
+    <Styled.Container>
+      <Styled.Title>{title}</Styled.Title>
       <PropertyCheckbox
         defaultValue={defaultValue}
         handleCheckboxSubmit={handleCheckboxSubmit}
       />
-    </div>
+    </Styled.Container>
   )
 }

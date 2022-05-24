@@ -1,4 +1,3 @@
-import {} from 'react-icons/'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import styled from 'styled-components'
 

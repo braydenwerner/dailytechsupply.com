@@ -80,7 +80,7 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
   }
 
   return (
-    <Box sx={{ width: 200 }}>
+    <Box sx={{ width: 250 }}>
       <AirbnbSlider
         value={value}
         min={minValue}
