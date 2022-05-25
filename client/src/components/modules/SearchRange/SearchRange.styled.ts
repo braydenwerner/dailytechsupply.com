@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  margin-top: 15px;
+  margin: 25px 0px 25px 0px;
 `
 
 export const Title = styled.div`

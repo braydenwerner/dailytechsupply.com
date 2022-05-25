@@ -3,6 +3,7 @@ import { SliderThumb } from '@mui/material/Slider'
 import Box from '@mui/material/Box'
 
 import { AirbnbSlider } from './DualRangeSlider.styled'
+import { Wrapper } from '../../../styles/shared.styled'
 
 const valuetext = (value: number) => `${value}`
 
@@ -21,18 +22,20 @@ function AirbnbThumbComponent(props: AirbnbThumbComponentProps) {
 }
 
 interface DualRangeSliderProps {
-  minDistance: number
   minValue: number
   maxValue: number
+  minDistance: number
   defaultValue: number[]
+  formatValueLabel?: (value: number) => string
   handleRangeSubmit: (values: number[]) => void
 }
 
 export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
-  minDistance,
   minValue,
   maxValue,
+  minDistance,
   defaultValue,
+  formatValueLabel,
   handleRangeSubmit,
 }) => {
   const [value, setValue] = useState<number[]>(defaultValue)
@@ -81,18 +84,24 @@ export const DualRangeSlider: React.FC<DualRangeSliderProps> = ({
 
   return (
     <Box sx={{ width: 250 }}>
-      <AirbnbSlider
-        value={value}
-        min={minValue}
-        max={maxValue}
-        onChange={handleChange}
-        onMouseDown={handleMouseDown}
-        components={{ Thumb: AirbnbThumbComponent }}
-        getAriaLabel={() => 'Minimum distance shift'}
-        valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
-        disableSwap
-      />
+      <Wrapper>
+        <AirbnbSlider
+          value={value}
+          min={minValue}
+          max={maxValue}
+          onChange={handleChange}
+          onMouseDown={handleMouseDown}
+          components={{ Thumb: AirbnbThumbComponent }}
+          getAriaLabel={() => 'Minimum distance shift'}
+          valueLabelDisplay="on"
+          valueLabelFormat={(value) => {
+            if (!formatValueLabel) return value
+            return formatValueLabel(value)
+          }}
+          getAriaValueText={valuetext}
+          disableSwap
+        />
+      </Wrapper>
     </Box>
   )
 }

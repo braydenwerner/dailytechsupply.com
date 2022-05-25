@@ -13,7 +13,9 @@ export const RelatedItems: React.FC<RelatedItemsProps> = ({ items }) => {
   return (
     <Wrapper>
       <Styled.Container>
-        <Styled.Title>Related Items</Styled.Title>
+        <Styled.Title style={{ marginBottom: '30px', paddingTop: '15px' }}>
+          Related Items
+        </Styled.Title>
         <Styled.RelatedItemsContainer>
           {items.map((item, i) => (
             <a href={item.route}>

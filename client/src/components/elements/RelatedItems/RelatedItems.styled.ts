@@ -9,11 +9,12 @@ export const Title = styled.div`
   font-size: 2rem;
   font-weight: 700;
   color: rgb(72, 72, 72);
-  margin: 30px 0px 30px 0px;
+  padding-top: 30px;
 `
 
 export const RelatedItemsContainer = styled.div`
   display: flex;
+  margin-bottom: 10px;
 `
 
 export const RelatedItem = styled.div`

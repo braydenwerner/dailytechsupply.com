@@ -11,6 +11,7 @@ interface SearchProps {
   minValue: number
   maxValue: number
   minDistance: number
+  formatValueLabel?: (value: number) => string
 }
 
 export const SearchRange: React.FC<SearchProps> = ({
@@ -20,6 +21,7 @@ export const SearchRange: React.FC<SearchProps> = ({
   minValue,
   maxValue,
   minDistance,
+  formatValueLabel,
 }) => {
   const router = useRouter()
 
@@ -58,6 +60,7 @@ export const SearchRange: React.FC<SearchProps> = ({
           minValue={minValue}
           maxValue={maxValue}
           minDistance={minDistance}
+          formatValueLabel={formatValueLabel}
           handleRangeSubmit={handleRangeSubmit}
         />
       </Styled.Container>

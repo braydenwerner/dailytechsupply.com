@@ -4,7 +4,9 @@ import Slider from '@mui/material/Slider'
 export const AirbnbSlider = styled(Slider)(({ theme }) => ({
   color: '#3a8589',
   height: 3,
-  padding: '13px 0',
+  padding: '15px 0',
+  width: '90%',
+
   '& .MuiSlider-thumb': {
     height: 24,
     width: 24,
@@ -31,19 +33,21 @@ export const AirbnbSlider = styled(Slider)(({ theme }) => ({
   },
   '& .MuiSlider-valueLabel': {
     lineHeight: 1.2,
-    fontSize: 11,
+    fontSize: 12,
     userSelect: 'none',
     background: 'unset',
     padding: 0,
     width: 25,
     height: 25,
+    fontWeight: 700,
     borderRadius: '50% 50% 50% 0',
-    backgroundColor: '#3a8589',
+    color: '#000000',
+    // backgroundColor: '#3a8589',
     transformOrigin: 'bottom left',
     transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
-    '&:before': { display: 'none' },
+    // '&:before': { display: 'none' },
     '&.MuiSlider-valueLabelOpen': {
-      transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+      transform: 'translate(50%, 150%) rotate(-45deg) scale(1)',
     },
     '& > *': {
       transform: 'rotate(45deg)',
