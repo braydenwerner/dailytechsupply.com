@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from 'react'
+import { useContext, useEffect, useState, useRef, ReactNode } from 'react'
 import * as Styled from './NavBar.styled'
 
 import { auth } from '../../../config/config'
@@ -8,11 +8,12 @@ import { SpringModal } from '../../elements'
 import { useGetNotificationsLazyQuery } from '../../../generated/graphql'
 
 interface NavbarProps {
+  search?: () => ReactNode
   width?: number
   small?: boolean
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
+export const Navbar: React.FC<NavbarProps> = ({ search, width, small }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [modalOpenMode, setModalOpenMode] = useState<string | null>(null)
   const [svgContainerOffsetLeft, setSvgContainerOffsetLeft] = useState(0)
@@ -106,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({ width, small }) => {
             <Styled.Logo>Daily Tech Supply</Styled.Logo>
           </Styled.LogoContainer>
         </a>
-        <Styled.SearchContainer />
+        <Styled.SearchContainer>{search && search()}</Styled.SearchContainer>
         <Styled.ProfileContainer
           width={width}
           small={small}

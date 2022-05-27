@@ -10,7 +10,7 @@ import { client } from '../../../utils/createApolloClient'
 import { printer3dProperties } from '../../../constants/constants'
 import { validateQueryParams } from '../../../utils/utils'
 import { ItemsPageLayout, Navbar } from '../../../components/modules'
-import { RelatedItems } from '../../../components/elements'
+import { ItemSearch, RelatedItems } from '../../../components/elements'
 
 //  Data is not changing very much, will be best to use getStaticProps with a revalidation
 //  However, we can't use getStaticProps because we need to have access to query string in URL to filter data
@@ -40,7 +40,9 @@ const Printer3dPage: NextPage<Printer3dPageProps> = ({ printers, input }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Navbar
+        search={() => <ItemSearch placeholder="Search for 3d Printers" />}
+      />
       <RelatedItems
         items={[
           {
